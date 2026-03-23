@@ -1,0 +1,2313 @@
+{
+    "version": "1.0.0",
+    "phases": [
+        "define",
+        "measure",
+        "analyze",
+        "improve",
+        "control"
+    ],
+    "diagnostic": {
+        "questions": [
+            {
+                "id": "q1_problem_type",
+                "title": "문제 유형은 무엇입니까?",
+                "subtitle": "해당하는 모든 유형을 선택하세요",
+                "type": "multi",
+                "options": [
+                    {
+                        "id": "quality_defects",
+                        "label": "품질/불량",
+                        "description": "제품·서비스 결함, 재작업, 스크랩, 변동성·산포",
+                        "icon": "🎯",
+                        "industries": [
+                            "manufacturing",
+                            "service_office",
+                            "healthcare"
+                        ],
+                        "subTypes": {
+                            "manufacturing": [
+                                {
+                                    "id": "dimensional_defect",
+                                    "label": "치수/규격 불량",
+                                    "description": "도면 스펙 미달, 공차 이탈"
+                                },
+                                {
+                                    "id": "surface_defect",
+                                    "label": "외관/표면 결함",
+                                    "description": "스크래치, 변색, 찍힘, 버(Burr)"
+                                },
+                                {
+                                    "id": "functional_defect",
+                                    "label": "기능/성능 이상",
+                                    "description": "작동 불량, 성능 미달"
+                                },
+                                {
+                                    "id": "material_defect",
+                                    "label": "재료 결함",
+                                    "description": "재질 불량, 경도 부족"
+                                }
+                            ],
+                            "service_office": [
+                                {
+                                    "id": "document_error",
+                                    "label": "문서/데이터 오류",
+                                    "description": "입력 실수, 정보 누락"
+                                },
+                                {
+                                    "id": "service_quality",
+                                    "label": "서비스 품질 저하",
+                                    "description": "응대 불만, 처리 미흡"
+                                },
+                                {
+                                    "id": "process_error",
+                                    "label": "업무 처리 오류",
+                                    "description": "절차 미준수, 실수"
+                                }
+                            ],
+                            "healthcare": [
+                                {
+                                    "id": "medical_error",
+                                    "label": "진료/처치 오류",
+                                    "description": "수술 실수, 처치 미흡"
+                                },
+                                {
+                                    "id": "medication_error",
+                                    "label": "약물 오류",
+                                    "description": "투약 오류, 용량 착오"
+                                },
+                                {
+                                    "id": "diagnostic_error",
+                                    "label": "검사/진단 오류",
+                                    "description": "검사 누락, 오진"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "id": "accuracy_errors",
+                        "label": "정확도/오류",
+                        "description": "데이터·정보 오류, 입력 실수, 계산 오차, 주문 오류",
+                        "icon": "✏️",
+                        "industries": [
+                            "service_office",
+                            "it_ops",
+                            "logistics",
+                            "healthcare"
+                        ],
+                        "subTypes": {
+                            "service_office": [
+                                {
+                                    "id": "data_entry_error",
+                                    "label": "데이터 입력 오류",
+                                    "description": "수작업 입력 실수, 전산 오류"
+                                },
+                                {
+                                    "id": "calculation_error",
+                                    "label": "계산/집계 오류",
+                                    "description": "수식 오류, 집계 착오"
+                                },
+                                {
+                                    "id": "reporting_error",
+                                    "label": "보고서/문서 오류",
+                                    "description": "보고 내용 부정확, 누락"
+                                }
+                            ],
+                            "it_ops": [
+                                {
+                                    "id": "data_integrity",
+                                    "label": "데이터 무결성 오류",
+                                    "description": "동기화 실패, 데이터 불일치"
+                                },
+                                {
+                                    "id": "config_error",
+                                    "label": "설정/구성 오류",
+                                    "description": "잘못된 설정, 파라미터 오류"
+                                },
+                                {
+                                    "id": "logic_error",
+                                    "label": "로직/비즈니스 규칙 오류",
+                                    "description": "알고리즘 오류, 규칙 위반"
+                                }
+                            ],
+                            "logistics": [
+                                {
+                                    "id": "picking_error",
+                                    "label": "피킹/집품 오류",
+                                    "description": "잘못된 상품 선택"
+                                },
+                                {
+                                    "id": "address_error",
+                                    "label": "주소/라벨 오류",
+                                    "description": "배송지 오류, 라벨 부착 실수"
+                                },
+                                {
+                                    "id": "inventory_error",
+                                    "label": "재고 오류",
+                                    "description": "수량 불일치, 위치 오류"
+                                }
+                            ],
+                            "healthcare": [
+                                {
+                                    "id": "patient_id_error",
+                                    "label": "환자 식별 오류",
+                                    "description": "환자 혼동, ID 착오"
+                                },
+                                {
+                                    "id": "record_error",
+                                    "label": "기록/차트 오류",
+                                    "description": "차팅 실수, 기록 누락"
+                                },
+                                {
+                                    "id": "lab_error",
+                                    "label": "검사실 오류",
+                                    "description": "검체 라벨 오류, 결과 오기재"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "id": "yield_productivity",
+                        "label": "수율/생산성",
+                        "description": "생산 효율, First Pass Yield 저하",
+                        "icon": "📈",
+                        "industries": [
+                            "manufacturing"
+                        ],
+                        "subTypes": {
+                            "manufacturing": [
+                                {
+                                    "id": "ftt_yield",
+                                    "label": "직행율 저하",
+                                    "description": "First Time Through 지표 하락"
+                                },
+                                {
+                                    "id": "scrap_rate",
+                                    "label": "스크랩 발생",
+                                    "description": "폐기물 과다 발생"
+                                },
+                                {
+                                    "id": "rework_rate",
+                                    "label": "재작업률",
+                                    "description": "재처리/수리 작업 과다"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "id": "throughput_bottleneck",
+                        "label": "처리량/병목",
+                        "description": "용량 부족, 병목 구간, 낮은 처리율",
+                        "icon": "🚧",
+                        "industries": [
+                            "manufacturing",
+                            "service_office",
+                            "it_ops"
+                        ],
+                        "subTypes": {
+                            "manufacturing": [
+                                {
+                                    "id": "machine_capacity",
+                                    "label": "설비 용량 부족",
+                                    "description": "Capacitiy 초과"
+                                },
+                                {
+                                    "id": "line_balance",
+                                    "label": "라인 밸런싱",
+                                    "description": "공정 간 부하 불균형"
+                                },
+                                {
+                                    "id": "wip_accumulation",
+                                    "label": "재공품 적체",
+                                    "description": "공정 내 WIP 과다"
+                                }
+                            ],
+                            "service_office": [
+                                {
+                                    "id": "backlog",
+                                    "label": "업무 적체",
+                                    "description": "미처리 건수 증가"
+                                },
+                                {
+                                    "id": "staff_shortage",
+                                    "label": "인력 부족",
+                                    "description": "담당자 부재/부족"
+                                },
+                                {
+                                    "id": "system_slowness",
+                                    "label": "시스템 속도",
+                                    "description": "업무 시스템 지연"
+                                }
+                            ],
+                            "it_ops": [
+                                {
+                                    "id": "server_capacity",
+                                    "label": "서버 용량",
+                                    "description": "CPU/Memory 부족"
+                                },
+                                {
+                                    "id": "network_bandwidth",
+                                    "label": "네트워크 대역폭",
+                                    "description": "트래픽 초과"
+                                },
+                                {
+                                    "id": "transaction_limit",
+                                    "label": "트랜잭션 처리량",
+                                    "description": "TPS 한계 도달"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "id": "leadtime_waiting",
+                        "label": "리드타임/대기",
+                        "description": "처리 시간, 대기, 지연, 사이클 타임",
+                        "icon": "⏱️",
+                        "industries": [
+                            "manufacturing",
+                            "service_office",
+                            "it_ops",
+                            "logistics",
+                            "healthcare"
+                        ],
+                        "subTypes": {
+                            "manufacturing": [
+                                {
+                                    "id": "setup_changeover",
+                                    "label": "준비/교체 시간",
+                                    "description": "셋업, 금형 교체 시간"
+                                },
+                                {
+                                    "id": "waiting_delay",
+                                    "label": "대기 시간",
+                                    "description": "공정 간 대기, 자재 대기"
+                                },
+                                {
+                                    "id": "processing_time",
+                                    "label": "가공/처리 시간",
+                                    "description": "실 작업 시간 과다"
+                                }
+                            ],
+                            "service_office": [
+                                {
+                                    "id": "approval_delay",
+                                    "label": "승인/결재 지연",
+                                    "description": "결재 대기, 승인 지연"
+                                },
+                                {
+                                    "id": "queue_waiting",
+                                    "label": "대기열/처리 대기",
+                                    "description": "업무 적체, 순번 대기"
+                                },
+                                {
+                                    "id": "response_delay",
+                                    "label": "응답/피드백 지연",
+                                    "description": "회신 지연, 답변 늦음"
+                                }
+                            ],
+                            "it_ops": [
+                                {
+                                    "id": "deployment_delay",
+                                    "label": "배포/릴리스 지연",
+                                    "description": "출시 지연, 배포 시간 과다"
+                                },
+                                {
+                                    "id": "build_time",
+                                    "label": "빌드/컴파일 시간",
+                                    "description": "빌드 속도 느림"
+                                },
+                                {
+                                    "id": "response_time",
+                                    "label": "시스템 응답 시간",
+                                    "description": "API 느림, 쿼리 지연"
+                                }
+                            ],
+                            "logistics": [
+                                {
+                                    "id": "loading_delay",
+                                    "label": "적재/하역 지연",
+                                    "description": "상하차 시간 과다"
+                                },
+                                {
+                                    "id": "transit_delay",
+                                    "label": "운송/이동 지연",
+                                    "description": "배송 지연, 운송 시간"
+                                },
+                                {
+                                    "id": "customs_delay",
+                                    "label": "통관/검수 지연",
+                                    "description": "통관 대기, 검수 시간"
+                                }
+                            ],
+                            "healthcare": [
+                                {
+                                    "id": "patient_waiting",
+                                    "label": "환자 대기 시간",
+                                    "description": "진료 대기, 수술 대기"
+                                },
+                                {
+                                    "id": "test_turnaround",
+                                    "label": "검사 결과 대기",
+                                    "description": "검사 결과 지연"
+                                },
+                                {
+                                    "id": "admission_delay",
+                                    "label": "입원/전원 지연",
+                                    "description": "병상 대기, 전원 지연"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "id": "handoff_transfer",
+                        "label": "핸드오프/전달",
+                        "description": "부서 간 인계, 커뮤니케이션 지연",
+                        "icon": "🔄",
+                        "industries": [
+                            "service_office",
+                            "healthcare"
+                        ],
+                        "subTypes": {
+                            "service_office": [
+                                {
+                                    "id": "information_loss",
+                                    "label": "정보 누락/손실",
+                                    "description": "전달 과정서 정보 유실"
+                                },
+                                {
+                                    "id": "responsibility_unclear",
+                                    "label": "R&R 불명확",
+                                    "description": "책임 소재 모호"
+                                },
+                                {
+                                    "id": "manual_handover",
+                                    "label": "수동 전달 비효율",
+                                    "description": "엑셀/메일 전달 남발"
+                                }
+                            ],
+                            "healthcare": [
+                                {
+                                    "id": "shift_change",
+                                    "label": "교대조 인계",
+                                    "description": "근무 교대 시 정보 누락"
+                                },
+                                {
+                                    "id": "patient_transfer",
+                                    "label": "부서간 환자 이송",
+                                    "description": "병동/수술실 이동 지연"
+                                },
+                                {
+                                    "id": "info_sharing",
+                                    "label": "의료정보 공유",
+                                    "description": "협진 시 정보 공유 미흡"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "id": "cost_overspending",
+                        "label": "비용/과다지출",
+                        "description": "운영비, 재료비 증가",
+                        "icon": "💰",
+                        "industries": [
+                            "manufacturing",
+                            "service_office",
+                            "it_ops",
+                            "logistics"
+                        ],
+                        "subTypes": {
+                            "manufacturing": [
+                                {
+                                    "id": "material_cost",
+                                    "label": "원자재비 과다",
+                                    "description": "재료비/부자재비 증가"
+                                },
+                                {
+                                    "id": "energy_cost",
+                                    "label": "에너지 비용",
+                                    "description": "전력/가스/용수 비용"
+                                },
+                                {
+                                    "id": "maintenance_cost",
+                                    "label": "유지보수비",
+                                    "description": "수리비/부품비용"
+                                }
+                            ],
+                            "service_office": [
+                                {
+                                    "id": "labor_cost",
+                                    "label": "인건비",
+                                    "description": "초과근무, 인력 운영비"
+                                },
+                                {
+                                    "id": "overhead_cost",
+                                    "label": "일반관리비",
+                                    "description": "사무용품, 임차료 등"
+                                },
+                                {
+                                    "id": "outsourcing_cost",
+                                    "label": "외주 비용",
+                                    "description": "용역/도급 비용 증가"
+                                }
+                            ],
+                            "it_ops": [
+                                {
+                                    "id": "cloud_cost",
+                                    "label": "클라우드 비용",
+                                    "description": "AWS/Azure 비용 최적화"
+                                },
+                                {
+                                    "id": "license_cost",
+                                    "label": "라이선스 비용",
+                                    "description": "SW 사용료 관리"
+                                },
+                                {
+                                    "id": "infrastructure_cost",
+                                    "label": "인프라 비용",
+                                    "description": "장비 도입/운영비"
+                                }
+                            ],
+                            "logistics": [
+                                {
+                                    "id": "fuel_cost",
+                                    "label": "유류비/연료비",
+                                    "description": "운송 유류비 증가"
+                                },
+                                {
+                                    "id": "vehicle_maintenance",
+                                    "label": "차량 유지비",
+                                    "description": "정비/보험료"
+                                },
+                                {
+                                    "id": "packaging_cost",
+                                    "label": "포장재 비용",
+                                    "description": "박스/완충재 비용"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "id": "waste_muda",
+                        "label": "낭비/Muda",
+                        "description": "8대 낭비 (과잉생산, 대기, 운반, 재고, 동작, 과잉처리, 결함, 미활용 인재)",
+                        "icon": "🗑️",
+                        "industries": [
+                            "manufacturing",
+                            "service_office",
+                            "logistics"
+                        ],
+                        "subTypes": {
+                            "manufacturing": [
+                                {
+                                    "id": "overproduction",
+                                    "label": "과잉 생산",
+                                    "description": "필요 이상 생산, 재고 증가"
+                                },
+                                {
+                                    "id": "transportation",
+                                    "label": "운반/이동 낭비",
+                                    "description": "불필요한 운반, 동선 낭비"
+                                },
+                                {
+                                    "id": "motion_waste",
+                                    "label": "동작 낭비",
+                                    "description": "비효율적 작업 동작"
+                                },
+                                {
+                                    "id": "overprocessing",
+                                    "label": "과잉 처리",
+                                    "description": "불필요한 공정, 과도한 검사"
+                                }
+                            ],
+                            "service_office": [
+                                {
+                                    "id": "redundant_work",
+                                    "label": "중복 작업",
+                                    "description": "같은 일 중복 수행"
+                                },
+                                {
+                                    "id": "unnecessary_approval",
+                                    "label": "불필요한 승인",
+                                    "description": "과도한 결재 단계"
+                                },
+                                {
+                                    "id": "meeting_waste",
+                                    "label": "회의 낭비",
+                                    "description": "비생산적 회의, 과다 회의"
+                                },
+                                {
+                                    "id": "searching_time",
+                                    "label": "탐색/찾기 시간",
+                                    "description": "자료 찾기, 정보 검색 시간"
+                                }
+                            ],
+                            "logistics": [
+                                {
+                                    "id": "empty_transport",
+                                    "label": "공차/빈 운송",
+                                    "description": "빈 차량 운행"
+                                },
+                                {
+                                    "id": "rehandling",
+                                    "label": "재작업/재운반",
+                                    "description": "반복 적재, 재포장"
+                                },
+                                {
+                                    "id": "route_inefficiency",
+                                    "label": "비효율적 경로",
+                                    "description": "우회 배송, 경로 최적화 실패"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "id": "inventory_assets",
+                        "label": "재고/자산 관리",
+                        "description": "과잉 재고, 자재 부족, 재고 정확도",
+                        "icon": "📦",
+                        "industries": [
+                            "manufacturing",
+                            "logistics"
+                        ],
+                        "subTypes": {
+                            "manufacturing": [
+                                {
+                                    "id": "raw_material_stock",
+                                    "label": "원자재 재고",
+                                    "description": "원자재/부자재 재고 과다"
+                                },
+                                {
+                                    "id": "finished_goods",
+                                    "label": "완제품 재고",
+                                    "description": "출하 대기 물량"
+                                },
+                                {
+                                    "id": "spare_parts",
+                                    "label": "예비품 관리",
+                                    "description": "설비 부품/소모품 재고"
+                                }
+                            ],
+                            "logistics": [
+                                {
+                                    "id": "warehouse_space",
+                                    "label": "창고 공간",
+                                    "description": "보관 공간 부족/효율"
+                                },
+                                {
+                                    "id": "stock_accuracy",
+                                    "label": "재고 정확도",
+                                    "description": "전산 재고와 실물 차이"
+                                },
+                                {
+                                    "id": "obsolete_stock",
+                                    "label": "악성 재고",
+                                    "description": "장기 체화 재고"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "id": "customer_complaints",
+                        "label": "고객불만/VOC",
+                        "description": "클레임, CS 이슈, 불만 증가",
+                        "icon": "📢",
+                        "industries": [
+                            "manufacturing",
+                            "service_office",
+                            "logistics",
+                            "healthcare"
+                        ],
+                        "subTypes": {
+                            "manufacturing": [
+                                {
+                                    "id": "product_complaint",
+                                    "label": "제품 품질 불만",
+                                    "description": "불량 클레임, 성능 불만"
+                                },
+                                {
+                                    "id": "delivery_complaint",
+                                    "label": "납기 지연 불만",
+                                    "description": "납기 미준수, 늦은 배송"
+                                },
+                                {
+                                    "id": "specification_mismatch",
+                                    "label": "사양/스펙 불일치",
+                                    "description": "주문 사양과 다름"
+                                }
+                            ],
+                            "service_office": [
+                                {
+                                    "id": "service_attitude",
+                                    "label": "서비스 태도 불만",
+                                    "description": "응대 불만, 무성의"
+                                },
+                                {
+                                    "id": "resolution_delay",
+                                    "label": "문제 해결 지연",
+                                    "description": "처리 늦음, 미해결"
+                                },
+                                {
+                                    "id": "communication_issue",
+                                    "label": "소통 문제",
+                                    "description": "연락 두절, 답변 없음"
+                                }
+                            ],
+                            "logistics": [
+                                {
+                                    "id": "late_delivery",
+                                    "label": "배송 지연",
+                                    "description": "약속 시간 미준수"
+                                },
+                                {
+                                    "id": "damaged_goods",
+                                    "label": "상품 파손",
+                                    "description": "배송 중 파손, 포장 불량"
+                                },
+                                {
+                                    "id": "wrong_delivery",
+                                    "label": "오배송",
+                                    "description": "잘못된 상품, 잘못된 주소"
+                                }
+                            ],
+                            "healthcare": [
+                                {
+                                    "id": "waiting_complaint",
+                                    "label": "대기 시간 불만",
+                                    "description": "과도한 대기, 예약 지연"
+                                },
+                                {
+                                    "id": "treatment_complaint",
+                                    "label": "진료/치료 불만",
+                                    "description": "치료 결과 불만족"
+                                },
+                                {
+                                    "id": "staff_complaint",
+                                    "label": "직원 응대 불만",
+                                    "description": "불친절, 설명 부족"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "id": "delivery_logistics",
+                        "label": "배송/물류",
+                        "description": "정시 배송률, 파손, 분실, 오배송",
+                        "icon": "🚚",
+                        "industries": [
+                            "logistics"
+                        ],
+                        "subTypes": {
+                            "logistics": [
+                                {
+                                    "id": "on_time_delivery",
+                                    "label": "정시 배송률",
+                                    "description": "납기 준수율 저하"
+                                },
+                                {
+                                    "id": "last_mile",
+                                    "label": "라스트마일 이슈",
+                                    "description": "최종 전달 단계 문제"
+                                },
+                                {
+                                    "id": "routing",
+                                    "label": "배차/경로",
+                                    "description": "배차 계획 비효율"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "id": "safety_accidents",
+                        "label": "안전/재해",
+                        "description": "산재, 안전사고, 위험 작업",
+                        "icon": "⚠️",
+                        "industries": [
+                            "manufacturing",
+                            "logistics",
+                            "healthcare"
+                        ],
+                        "subTypes": {
+                            "manufacturing": [
+                                {
+                                    "id": "industrial_accident",
+                                    "label": "산재 사고",
+                                    "description": "작업장 안전사고"
+                                },
+                                {
+                                    "id": "near_miss",
+                                    "label": "아차 사고",
+                                    "description": "사고 징후/위험"
+                                },
+                                {
+                                    "id": "hazardous_material",
+                                    "label": "유해물질",
+                                    "description": "화학물질 관리 소홀"
+                                }
+                            ],
+                            "logistics": [
+                                {
+                                    "id": "traffic_accident",
+                                    "label": "교통 사고",
+                                    "description": "운송 중 사고"
+                                },
+                                {
+                                    "id": "loading_accident",
+                                    "label": "상하차 사고",
+                                    "description": "작업 중 부상"
+                                }
+                            ],
+                            "healthcare": [
+                                {
+                                    "id": "infection_control",
+                                    "label": "감염 관리",
+                                    "description": "병원균 감염 위험"
+                                },
+                                {
+                                    "id": "patient_fall",
+                                    "label": "낙상 사고",
+                                    "description": "환자 이동 중 낙상"
+                                },
+                                {
+                                    "id": "sharp_injury",
+                                    "label": "주사침 자상",
+                                    "description": "의료기구 찔림 사고"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "id": "compliance_regulations",
+                        "label": "규정/컴플라이언스",
+                        "description": "법규 미준수, 인증 실패",
+                        "icon": "📋",
+                        "industries": [
+                            "manufacturing",
+                            "service_office",
+                            "healthcare"
+                        ],
+                        "subTypes": {
+                            "manufacturing": [
+                                {
+                                    "id": "environmental",
+                                    "label": "환경 규제",
+                                    "description": "폐수/대기 배출 기준"
+                                },
+                                {
+                                    "id": "safety_cert",
+                                    "label": "안전 인증",
+                                    "description": "KC/CE 등 인증 관리"
+                                },
+                                {
+                                    "id": "audit_finding",
+                                    "label": "감사 지적",
+                                    "description": "내외부 감사 지적사항"
+                                }
+                            ],
+                            "service_office": [
+                                {
+                                    "id": "financial_reg",
+                                    "label": "금융/회계 규제",
+                                    "description": "회계 기준 준수"
+                                },
+                                {
+                                    "id": "privacy_law",
+                                    "label": "개인정보보호법",
+                                    "description": "법적 의무사항 위반"
+                                },
+                                {
+                                    "id": "internal_audit",
+                                    "label": "내부 감사",
+                                    "description": "사규/절차 위반"
+                                }
+                            ],
+                            "healthcare": [
+                                {
+                                    "id": "accreditation",
+                                    "label": "인증 평가",
+                                    "description": "의료기관 인증"
+                                },
+                                {
+                                    "id": "medical_law",
+                                    "label": "의료법 준수",
+                                    "description": "법적 기준 위반"
+                                },
+                                {
+                                    "id": "insurance_claim",
+                                    "label": "보험 청구",
+                                    "description": "삭감/부당 청구 관리"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "id": "security_breach",
+                        "label": "보안/정보유출",
+                        "description": "정보보안, 개인정보 유출, 데이터 무결성",
+                        "icon": "🔒",
+                        "industries": [
+                            "service_office",
+                            "it_ops",
+                            "healthcare"
+                        ],
+                        "subTypes": {
+                            "service_office": [
+                                {
+                                    "id": "info_leak",
+                                    "label": "정보 유출",
+                                    "description": "기밀 문서 유출"
+                                },
+                                {
+                                    "id": "access_control",
+                                    "label": "접근 통제",
+                                    "description": "무단 출입/접속"
+                                },
+                                {
+                                    "id": "phishing",
+                                    "label": "피싱/사기",
+                                    "description": "금융 사기 피해"
+                                }
+                            ],
+                            "it_ops": [
+                                {
+                                    "id": "hacking_attempt",
+                                    "label": "해킹 시도",
+                                    "description": "외부 침입 시도"
+                                },
+                                {
+                                    "id": "vulnerability",
+                                    "label": "보안 취약점",
+                                    "description": "시스템/코드 약점"
+                                },
+                                {
+                                    "id": "ransomware",
+                                    "label": "랜섬웨어",
+                                    "description": "악성코드 감염"
+                                }
+                            ],
+                            "healthcare": [
+                                {
+                                    "id": "patient_privacy",
+                                    "label": "환자 정보 보호",
+                                    "description": "민감 정보 노출"
+                                },
+                                {
+                                    "id": "system_access",
+                                    "label": "시스템 접근 권한",
+                                    "description": "EMR 권한 관리"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "id": "equipment_failure",
+                        "label": "장비/시스템 고장",
+                        "description": "다운타임, MTTR, MTBF, 설비 고장",
+                        "icon": "🔧",
+                        "industries": [
+                            "manufacturing",
+                            "it_ops",
+                            "logistics"
+                        ],
+                        "subTypes": {
+                            "manufacturing": [
+                                {
+                                    "id": "breakdown",
+                                    "label": "설비 고장",
+                                    "description": "돌발 고장, 라인 정지"
+                                },
+                                {
+                                    "id": "stop_loss",
+                                    "label": "정지 손실",
+                                    "description": "초코정지, 가동률 저하"
+                                },
+                                {
+                                    "id": "aging_equipment",
+                                    "label": "노후 설비",
+                                    "description": "노후화로 인한 성능 저하"
+                                }
+                            ],
+                            "it_ops": [
+                                {
+                                    "id": "server_down",
+                                    "label": "서버 다운",
+                                    "description": "서버 응답 없음"
+                                },
+                                {
+                                    "id": "network_failure",
+                                    "label": "네트워크 장애",
+                                    "description": "통신 단절, 패킷 손실"
+                                },
+                                {
+                                    "id": "hw_failure",
+                                    "label": "하드웨어 고장",
+                                    "description": "디스크/메모리 불량"
+                                }
+                            ],
+                            "logistics": [
+                                {
+                                    "id": "vehicle_breakdown",
+                                    "label": "차량 고장",
+                                    "description": "운송 차량 고장"
+                                },
+                                {
+                                    "id": "conveyor_issue",
+                                    "label": "컨베이어 장애",
+                                    "description": "자동화 설비 멈춤"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "id": "availability_stability",
+                        "label": "가용성/안정성",
+                        "description": "서비스 중단, 인시던트 발생률, 배포 실패",
+                        "icon": "⚡",
+                        "industries": [
+                            "service_office",
+                            "it_ops"
+                        ],
+                        "subTypes": {
+                            "service_office": [
+                                {
+                                    "id": "system_uptime",
+                                    "label": "시스템 가동시간",
+                                    "description": "업무 시간 내 가동률"
+                                },
+                                {
+                                    "id": "service_interruption",
+                                    "label": "서비스 중단",
+                                    "description": "업무 마비, 접속 불가"
+                                }
+                            ],
+                            "it_ops": [
+                                {
+                                    "id": "sla_breach",
+                                    "label": "SLA 위반",
+                                    "description": "가동률 목표 미달"
+                                },
+                                {
+                                    "id": "error_rate",
+                                    "label": "서비스 에러율",
+                                    "description": "5xx 에러, 실패율 증가"
+                                },
+                                {
+                                    "id": "latency",
+                                    "label": "지연 시간",
+                                    "description": "응답 속도 저하"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "id": "standardization_consistency",
+                        "label": "표준화/일관성",
+                        "description": "프로세스 미정립, 업무 편차",
+                        "icon": "📐",
+                        "industries": [
+                            "manufacturing",
+                            "service_office",
+                            "it_ops",
+                            "logistics",
+                            "healthcare"
+                        ],
+                        "subTypes": {
+                            "manufacturing": [
+                                {
+                                    "id": "process_variation",
+                                    "label": "프로세스 편차",
+                                    "description": "작업자/설비간 편차"
+                                },
+                                {
+                                    "id": "sop_missing",
+                                    "label": "표준서 부재",
+                                    "description": "작업 표준 없음"
+                                },
+                                {
+                                    "id": "manual_deviation",
+                                    "label": "작업 이탈",
+                                    "description": "표준 미준수"
+                                }
+                            ],
+                            "service_office": [
+                                {
+                                    "id": "form_variation",
+                                    "label": "양식 편차",
+                                    "description": "문서 양식 제각각"
+                                },
+                                {
+                                    "id": "rule_ambiguity",
+                                    "label": "규정 모호성",
+                                    "description": "해석의 차이 발생"
+                                }
+                            ],
+                            "it_ops": [
+                                {
+                                    "id": "coding_standard",
+                                    "label": "코딩 표준 미준수",
+                                    "description": "코드 스타일 불일치"
+                                },
+                                {
+                                    "id": "config_drift",
+                                    "label": "설정 드리프트",
+                                    "description": "환경설정 불일치"
+                                }
+                            ],
+                            "logistics": [
+                                {
+                                    "id": "packing_standard",
+                                    "label": "포장 표준 미준수",
+                                    "description": "포장 방법 상이"
+                                },
+                                {
+                                    "id": "label_standard",
+                                    "label": "라벨 표준 미준수",
+                                    "description": "라벨 위치/내용 상이"
+                                }
+                            ],
+                            "healthcare": [
+                                {
+                                    "id": "clinical_pathway",
+                                    "label": "CP 미준수",
+                                    "description": "표준 진료 지침 이탈"
+                                },
+                                {
+                                    "id": "protocol_variation",
+                                    "label": "프로토콜 편차",
+                                    "description": "처치 방법의 차이"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "id": "skills_training",
+                        "label": "역량/교육",
+                        "description": "숙련도 부족, 교육 필요, 인재 미활용",
+                        "icon": "👥",
+                        "industries": [
+                            "manufacturing",
+                            "service_office",
+                            "healthcare"
+                        ],
+                        "subTypes": {
+                            "manufacturing": [
+                                {
+                                    "id": "skill_gap",
+                                    "label": "역량 부족",
+                                    "description": "필요 스킬 미보유"
+                                },
+                                {
+                                    "id": "training_effectiveness",
+                                    "label": "교육 효과성",
+                                    "description": "교육 후 성과 미비"
+                                },
+                                {
+                                    "id": "turnover",
+                                    "label": "이직/퇴사",
+                                    "description": "숙련공 이탈"
+                                }
+                            ],
+                            "service_office": [
+                                {
+                                    "id": "digital_literacy",
+                                    "label": "디지털 역량 부족",
+                                    "description": "툴 활용 능력 저하"
+                                },
+                                {
+                                    "id": "job_competency",
+                                    "label": "직무 역량 부족",
+                                    "description": "전문성 결여"
+                                }
+                            ],
+                            "healthcare": [
+                                {
+                                    "id": "clinical_skill",
+                                    "label": "임상 술기 부족",
+                                    "description": "시술/처치 미숙"
+                                },
+                                {
+                                    "id": "bCLS_certification",
+                                    "label": "필수 교육 미이수",
+                                    "description": "보수교육/인증 만료"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "id": "communication_collaboration",
+                        "label": "커뮤니케이션/협업",
+                        "description": "정보 단절, 부서 간 협업 부족",
+                        "icon": "💬",
+                        "industries": [
+                            "service_office",
+                            "it_ops",
+                            "healthcare"
+                        ],
+                        "subTypes": {
+                            "service_office": [
+                                {
+                                    "id": "silo_effect",
+                                    "label": "부서 이기주의",
+                                    "description": "협조 거부, 정보 은폐"
+                                },
+                                {
+                                    "id": "feedback_loop",
+                                    "label": "피드백 부재",
+                                    "description": "개선 의견 묵살"
+                                },
+                                {
+                                    "id": "meeting_culture",
+                                    "label": "회의 문화",
+                                    "description": "비효율적 소통"
+                                }
+                            ],
+                            "it_ops": [
+                                {
+                                    "id": "devops_culture",
+                                    "label": "DevOps 문화 부재",
+                                    "description": "개발/운영 간 벽"
+                                },
+                                {
+                                    "id": "documentation",
+                                    "label": "문서화 부족",
+                                    "description": "지식 공유 미흡"
+                                }
+                            ],
+                            "healthcare": [
+                                {
+                                    "id": "multidisciplinary",
+                                    "label": "다학제 협진 부족",
+                                    "description": "과별 소통 부재"
+                                },
+                                {
+                                    "id": "handover_comm",
+                                    "label": "인계 커뮤니케이션",
+                                    "description": "환자 정보 전달 미흡"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "q2_data_type",
+                "title": "주로 다루는 데이터 유형은?",
+                "subtitle": "여러 문제를 선택한 경우, 가장 먼저 개선하려는 주요 문제의 데이터 유형을 선택하세요",
+                "type": "single",
+                "options": [
+                    {
+                        "id": "continuous",
+                        "label": "연속형 (시간, 길이, 금액 등)"
+                    },
+                    {
+                        "id": "discrete",
+                        "label": "이산형 (불량률, 건수 등)"
+                    },
+                    {
+                        "id": "none",
+                        "label": "아직 없음 (정성적 분석 위주)"
+                    }
+                ]
+            },
+            {
+                "id": "q3_sample_size",
+                "title": "확보 가능한 데이터 양은?",
+                "type": "single",
+                "options": [
+                    {
+                        "id": "lt30",
+                        "label": "30개 미만"
+                    },
+                    {
+                        "id": "30to100",
+                        "label": "30~100개"
+                    },
+                    {
+                        "id": "gt100",
+                        "label": "100개 이상"
+                    }
+                ]
+            },
+            {
+                "id": "q4_process_maturity",
+                "title": "프로세스 표준화 수준은?",
+                "type": "single",
+                "options": [
+                    {
+                        "id": "standard",
+                        "label": "표준화됨 (문서화된 절차 존재)"
+                    },
+                    {
+                        "id": "partial",
+                        "label": "부분 표준화 (일부만 문서화)"
+                    },
+                    {
+                        "id": "ad_hoc",
+                        "label": "비정형 (정의되지 않음)"
+                    }
+                ]
+            },
+            {
+                "id": "q5_scope",
+                "title": "개선 범위는?",
+                "type": "single",
+                "options": [
+                    {
+                        "id": "single_team",
+                        "label": "현장/단일팀"
+                    },
+                    {
+                        "id": "cross_function",
+                        "label": "여러 부서 협업"
+                    },
+                    {
+                        "id": "enterprise",
+                        "label": "시스템/전사 수준"
+                    }
+                ]
+            },
+            {
+                "id": "q6_project_nature",
+                "title": "프로젝트 성격은 무엇입니까?",
+                "subtitle": "가장 가까운 것을 선택하세요",
+                "type": "single",
+                "options": [
+                    {
+                        "id": "existing_improve",
+                        "label": "기존 프로세스/제품 개선",
+                        "icon": "🔧",
+                        "dmaic_score": 50,
+                        "dfss_score": 0
+                    },
+                    {
+                        "id": "new_design",
+                        "label": "신규 프로세스/제품 설계",
+                        "icon": "✨",
+                        "dmaic_score": 0,
+                        "dfss_score": 50
+                    },
+                    {
+                        "id": "major_redesign",
+                        "label": "기존 것의 전면 재설계",
+                        "icon": "🔄",
+                        "dmaic_score": 10,
+                        "dfss_score": 40
+                    }
+                ]
+            },
+            {
+                "id": "q7_problem_clarity",
+                "title": "문제 또는 요구사항이 얼마나 명확합니까?",
+                "type": "single",
+                "options": [
+                    {
+                        "id": "problem_clear",
+                        "label": "문제가 명확함 (예: 불량률 3% → 1%)",
+                        "icon": "🎯",
+                        "dmaic_score": 30,
+                        "dfss_score": 0
+                    },
+                    {
+                        "id": "needs_analysis",
+                        "label": "요구사항부터 분석해야 함",
+                        "icon": "🔍",
+                        "dmaic_score": 0,
+                        "dfss_score": 30
+                    },
+                    {
+                        "id": "symptoms_only",
+                        "label": "증상만 있고 근본 원인 불명",
+                        "icon": "❓",
+                        "dmaic_score": 20,
+                        "dfss_score": 5
+                    }
+                ]
+            },
+            {
+                "id": "q8_baseline_data",
+                "title": "현재 성능 데이터가 있습니까?",
+                "type": "single",
+                "options": [
+                    {
+                        "id": "data_exists",
+                        "label": "있음 (현재 성능 측정 가능)",
+                        "icon": "📊",
+                        "dmaic_score": 30,
+                        "dfss_score": 0
+                    },
+                    {
+                        "id": "no_baseline",
+                        "label": "없음 (신규이므로 베이스라인 없음)",
+                        "icon": "🆕",
+                        "dmaic_score": 0,
+                        "dfss_score": 30
+                    },
+                    {
+                        "id": "partial_data",
+                        "label": "일부만 있음",
+                        "icon": "📈",
+                        "dmaic_score": 15,
+                        "dfss_score": 10
+                    }
+                ]
+            },
+            {
+                "id": "q9_goal_type",
+                "title": "목표는 무엇입니까?",
+                "subtitle": "해당하는 것을 모두 선택하세요",
+                "type": "multi",
+                "options": [
+                    {
+                        "id": "reduce_defects",
+                        "label": "불량/오류 감소",
+                        "icon": "⬇️",
+                        "dmaic_score": 10,
+                        "dfss_score": 0
+                    },
+                    {
+                        "id": "improve_speed",
+                        "label": "속도/효율 향상",
+                        "icon": "⚡",
+                        "dmaic_score": 10,
+                        "dfss_score": 5
+                    },
+                    {
+                        "id": "cost_reduction",
+                        "label": "비용 절감",
+                        "icon": "💰",
+                        "dmaic_score": 10,
+                        "dfss_score": 0
+                    },
+                    {
+                        "id": "innovation",
+                        "label": "혁신적 변화",
+                        "icon": "🚀",
+                        "dmaic_score": 0,
+                        "dfss_score": 15
+                    },
+                    {
+                        "id": "new_capability",
+                        "label": "새로운 기능/역량 추가",
+                        "icon": "✨",
+                        "dmaic_score": 0,
+                        "dfss_score": 15
+                    },
+                    {
+                        "id": "meet_requirements",
+                        "label": "고객 요구사항 충족",
+                        "icon": "🎯",
+                        "dmaic_score": 5,
+                        "dfss_score": 10
+                    }
+                ]
+            }
+        ]
+    },
+    "industries": [
+        {
+            "id": "manufacturing",
+            "name": "제조",
+            "icon": "🏭",
+            "description": "공정/설비/검사 중심",
+            "default_kpis": [
+                "불량률",
+                "수율",
+                "폐기 비용",
+                "사이클 타임",
+                "Cpk"
+            ],
+            "preferred_tools": [
+                "project_charter",
+                "sipoc",
+                "process_map",
+                "voc_ctq",
+                "msa_grr",
+                "capability_analysis",
+                "spc_control_chart",
+                "fishbone",
+                "pareto",
+                "hypothesis_test",
+                "anova",
+                "regression",
+                "fmea",
+                "doe",
+                "poka_yoke",
+                "control_plan",
+                "standard_work"
+            ],
+            "template_hints": {
+                "charter": [
+                    "라인명",
+                    "설비명",
+                    "LOT 정보",
+                    "규격(USL/LSL)",
+                    "검사/측정방법"
+                ],
+                "control_plan": [
+                    "공정단계",
+                    "관리특성",
+                    "측정방법",
+                    "관리한계",
+                    "반응계획"
+                ]
+            }
+        },
+        {
+            "id": "service_office",
+            "name": "서비스/사무",
+            "icon": "💼",
+            "description": "대기/핸드오프/오류·재작업 중심",
+            "default_kpis": [
+                "리드타임",
+                "일회 처리율",
+                "재작업률",
+                "고객 불만",
+                "건당 비용"
+            ],
+            "preferred_tools": [
+                "project_charter",
+                "sipoc",
+                "swimlane_map",
+                "voc_ctq",
+                "check_sheet",
+                "pareto",
+                "value_stream_map",
+                "cause_effect_matrix",
+                "hypothesis_test",
+                "regression",
+                "piloting",
+                "kaizen_event",
+                "standard_work",
+                "control_plan",
+                "spc_control_chart"
+            ],
+            "template_hints": {
+                "data_plan": [
+                    "접수채널",
+                    "케이스 유형",
+                    "핸드오프 포인트",
+                    "대기/처리시간",
+                    "재작업 사유"
+                ]
+            }
+        },
+        {
+            "id": "it_ops",
+            "name": "IT (개발·운영)",
+            "icon": "💻",
+            "description": "장애/배포/변경/로그·지표 중심",
+            "default_kpis": [
+                "MTTR",
+                "변경 실패율",
+                "배포 빈도",
+                "가용성",
+                "장애 발생률"
+            ],
+            "preferred_tools": [
+                "project_charter",
+                "sipoc",
+                "process_map",
+                "voc_ctq",
+                "operational_definition",
+                "data_collection_plan",
+                "run_chart",
+                "control_chart_time_series",
+                "pareto",
+                "fishbone",
+                "5whys",
+                "regression",
+                "correlation",
+                "hypothesis_test",
+                "fmea",
+                "mistake_proofing",
+                "control_plan",
+                "standard_work",
+                "visual_management"
+            ],
+            "template_hints": {
+                "charter": [
+                    "서비스명",
+                    "SLO/SLA",
+                    "장애 정의",
+                    "로그/지표 소스",
+                    "배포/변경 범위"
+                ]
+            }
+        },
+        {
+            "id": "logistics",
+            "name": "물류",
+            "icon": "📦",
+            "description": "리드타임/오배송/피킹·패킹 정확도 중심",
+            "default_kpis": [
+                "정시 배송률",
+                "주문 정확도",
+                "사이클 타임",
+                "파손률",
+                "건당 배송 비용"
+            ],
+            "preferred_tools": [
+                "project_charter",
+                "sipoc",
+                "value_stream_map",
+                "process_map",
+                "check_sheet",
+                "pareto",
+                "spaghetti_diagram",
+                "time_study",
+                "fishbone",
+                "hypothesis_test",
+                "anova",
+                "regression",
+                "fmea",
+                "piloting",
+                "poka_yoke",
+                "control_plan",
+                "standard_work",
+                "spc_control_chart"
+            ],
+            "template_hints": {
+                "control_plan": [
+                    "구간",
+                    "스캔 포인트",
+                    "오류 유형",
+                    "검출 방법",
+                    "반응 계획"
+                ]
+            }
+        },
+        {
+            "id": "healthcare",
+            "name": "병원/의료",
+            "icon": "🏥",
+            "description": "환자안전/대기/오류(투약 등)/감염 등",
+            "default_kpis": [
+                "대기시간",
+                "투약 오류율",
+                "재입원율",
+                "감염률",
+                "환자 만족도"
+            ],
+            "preferred_tools": [
+                "project_charter",
+                "voc_ctq",
+                "sipoc",
+                "swimlane_map",
+                "operational_definition",
+                "data_collection_plan",
+                "pareto",
+                "fishbone",
+                "5whys",
+                "fmea",
+                "risk_priority_matrix",
+                "hypothesis_test",
+                "piloting",
+                "standard_work",
+                "visual_management",
+                "control_plan",
+                "audit_checklist"
+            ],
+            "template_hints": {
+                "charter": [
+                    "환자군",
+                    "안전사건 정의",
+                    "규정/지침",
+                    "데이터 익명화",
+                    "윤리 승인(필요 시)"
+                ]
+            }
+        }
+    ],
+    "tools": [
+        {
+            "id": "project_charter",
+            "name": "Project Charter",
+            "name_ko": "프로젝트 차터",
+            "phase": "define",
+            "category": "project",
+            "difficulty": "easy",
+            "time_estimate": "2-4 시간",
+            "summary": "문제/목표/범위/일정/역할을 한 장으로 고정합니다.",
+            "description": "프로젝트의 정당성, 목표, 범위, 팀 구성, 일정을 명확히 하여 이해관계자의 합의를 얻는 문서입니다.",
+            "when_to_use": "모든 6시그마 프로젝트의 시작점",
+            "precheck": [
+                {
+                    "id": "p1",
+                    "type": "must",
+                    "content": "개선 대상 프로세스가 한 문장으로 정의되어 있나요?"
+                },
+                {
+                    "id": "p2",
+                    "type": "must",
+                    "content": "측정 가능한 KPI가 있나요?"
+                }
+            ],
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {},
+                    "score_add": 50,
+                    "reason": "모든 프로젝트의 필수 출발점"
+                }
+            ]
+        },
+        {
+            "id": "voc_ctq",
+            "name": "VOC → CTQ",
+            "name_ko": "고객요구사항 분석",
+            "phase": "define",
+            "category": "customer",
+            "difficulty": "easy",
+            "time_estimate": "3-6 시간",
+            "summary": "고객 요구(VOC)를 측정 가능한 CTQ로 변환합니다.",
+            "description": "고객의 목소리(Voice of Customer)를 수집하고, 핵심 품질 특성(Critical to Quality)으로 변환합니다.",
+            "when_to_use": "고객 중심의 개선이 필요할 때",
+            "precheck": [
+                {
+                    "id": "p1",
+                    "type": "info",
+                    "content": "내·외부 고객이 명확히 정의되어 있나요?"
+                }
+            ],
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {
+                        "problem_type": [
+                            "voc",
+                            "quality",
+                            "safety"
+                        ]
+                    },
+                    "score_add": 35,
+                    "reason": "고객 요구사항 기반 목표 설정"
+                },
+                {
+                    "id": "r2",
+                    "when": {
+                        "industry": [
+                            "healthcare",
+                            "service_office"
+                        ]
+                    },
+                    "score_add": 15,
+                    "reason": "고객/환자 경험이 핵심"
+                }
+            ]
+        },
+        {
+            "id": "sipoc",
+            "name": "SIPOC",
+            "name_ko": "SIPOC 다이어그램",
+            "phase": "define",
+            "category": "process_definition",
+            "difficulty": "easy",
+            "time_estimate": "2-3 시간",
+            "summary": "프로세스 경계(공급자/투입/과정/산출/고객)를 정리해 범위를 고정합니다.",
+            "description": "Supplier-Input-Process-Output-Customer 구조로 프로세스의 범위와 경계를 명확히 합니다.",
+            "when_to_use": "프로세스 범위가 불명확할 때",
+            "precheck": [
+                {
+                    "id": "p1",
+                    "type": "info",
+                    "content": "프로세스 이름이 '시작~끝' 형태로 표현되었나요?"
+                }
+            ],
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {},
+                    "score_add": 40,
+                    "reason": "Define 단계의 표준 도구"
+                }
+            ]
+        },
+        {
+            "id": "process_map",
+            "name": "Process Map",
+            "name_ko": "프로세스 맵",
+            "phase": "define",
+            "category": "process_definition",
+            "difficulty": "easy",
+            "time_estimate": "4-8 시간",
+            "summary": "현재 프로세스를 단계/역할/흐름으로 시각화합니다.",
+            "description": "업무 흐름을 순서도 형태로 상세히 그려 현상을 이해합니다.",
+            "when_to_use": "프로세스가 복잡하거나 비표준화되어 있을 때",
+            "precheck": [
+                {
+                    "id": "p1",
+                    "type": "must",
+                    "content": "프로세스의 시작과 끝 이벤트가 정의되었나요?"
+                }
+            ],
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {
+                        "process_maturity": [
+                            "ad_hoc",
+                            "partial"
+                        ]
+                    },
+                    "score_add": 30,
+                    "reason": "비정형/부분표준일수록 맵핑 우선"
+                },
+                {
+                    "id": "r2",
+                    "when": {},
+                    "score_add": 20,
+                    "reason": "현상 이해의 기반"
+                }
+            ],
+            "alternatives": [
+                "swimlane_map"
+            ]
+        },
+        {
+            "id": "swimlane_map",
+            "name": "Swimlane Map",
+            "name_ko": "스윔레인 다이어그램",
+            "phase": "define",
+            "category": "process_definition",
+            "difficulty": "medium",
+            "time_estimate": "4-8 시간",
+            "summary": "부서/역할별 핸드오프와 병목을 드러냅니다.",
+            "description": "여러 부서나 역할이 관여하는 프로세스를 레인별로 구분하여 핸드오프 포인트를 시각화합니다.",
+            "when_to_use": "부서 간 협업 프로세스 분석 시",
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {
+                        "industry": [
+                            "service_office",
+                            "healthcare",
+                            "it_ops"
+                        ]
+                    },
+                    "score_add": 30,
+                    "reason": "핸드오프가 성능을 좌우"
+                },
+                {
+                    "id": "r2",
+                    "when": {
+                        "scope": [
+                            "cross_function",
+                            "enterprise"
+                        ]
+                    },
+                    "score_add": 20,
+                    "reason": "부서 간 협업 가시화"
+                }
+            ],
+            "alternatives": [
+                "process_map"
+            ]
+        },
+        {
+            "id": "msa_grr",
+            "name": "MSA - Gage R&R",
+            "name_ko": "측정시스템 분석",
+            "phase": "measure",
+            "category": "msa",
+            "difficulty": "medium",
+            "time_estimate": "8-16 시간",
+            "summary": "측정 시스템의 반복성/재현성을 검증합니다.",
+            "description": "측정 데이터의 신뢰성을 평가하여 측정 오차를 정량화합니다.",
+            "when_to_use": "연속형 데이터 측정 전",
+            "precheck": [
+                {
+                    "id": "p1",
+                    "type": "must",
+                    "content": "측정 도구와 방법이 정의되어 있나요?"
+                },
+                {
+                    "id": "p2",
+                    "type": "must",
+                    "content": "여러 측정자가 참여 가능한가요?"
+                }
+            ],
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {
+                        "industry": [
+                            "manufacturing"
+                        ],
+                        "data_type": [
+                            "continuous"
+                        ]
+                    },
+                    "score_add": 30,
+                    "reason": "측정 신뢰도 선행 검증 필수"
+                }
+            ]
+        },
+        {
+            "id": "capability_analysis",
+            "name": "Process Capability",
+            "name_ko": "공정능력 분석",
+            "phase": "measure",
+            "category": "capability",
+            "difficulty": "medium",
+            "time_estimate": "4-8 시간",
+            "summary": "규격 대비 공정의 능력을 수치화합니다 (Cp, Cpk).",
+            "description": "공정이 규격을 만족시킬 수 있는 능력을 Cp, Cpk, Pp, Ppk 등의 지수로 평가합니다.",
+            "when_to_use": "규격이 명확한 제조 공정",
+            "precheck": [
+                {
+                    "id": "p1",
+                    "type": "must",
+                    "content": "USL/LSL 규격이 정의되어 있나요?"
+                },
+                {
+                    "id": "p2",
+                    "type": "must",
+                    "content": "충분한 데이터(최소 30개 이상)가 있나요?"
+                }
+            ],
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {
+                        "industry": [
+                            "manufacturing"
+                        ]
+                    },
+                    "score_add": 25,
+                    "reason": "제조 규격 기반 개선의 기준"
+                }
+            ]
+        },
+        {
+            "id": "spc_control_chart",
+            "name": "SPC Control Chart",
+            "name_ko": "관리도",
+            "phase": "measure",
+            "category": "spc",
+            "difficulty": "medium",
+            "time_estimate": "4-6 시간",
+            "summary": "시간에 따른 프로세스 안정성을 모니터링합니다.",
+            "description": "X-bar/R, I-MR, P, C 등의 관리도로 공정의 특수 원인을 탐지합니다.",
+            "when_to_use": "시계열 데이터 모니터링 시",
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {
+                        "data_type": [
+                            "continuous",
+                            "discrete"
+                        ],
+                        "sample_size": [
+                            "gt100"
+                        ]
+                    },
+                    "score_add": 25,
+                    "reason": "프로세스 안정성 평가"
+                }
+            ]
+        },
+        {
+            "id": "pareto",
+            "name": "Pareto Analysis",
+            "name_ko": "파레토 분석",
+            "phase": "analyze",
+            "category": "qc_basic",
+            "difficulty": "easy",
+            "time_estimate": "2-4 시간",
+            "summary": "80/20 법칙으로 우선순위를 정합니다.",
+            "description": "불량 유형, 원인 등을 빈도순으로 정리하여 가장 큰 영향을 미치는 소수를 파악합니다.",
+            "when_to_use": "여러 원인 중 핵심 집중 대상 선정 시",
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {},
+                    "score_add": 20,
+                    "reason": "우선순위 결정의 기본"
+                }
+            ]
+        },
+        {
+            "id": "fishbone",
+            "name": "Fishbone Diagram",
+            "name_ko": "특성요인도 (Fishbone)",
+            "phase": "analyze",
+            "category": "root_cause",
+            "difficulty": "easy",
+            "time_estimate": "2-3 시간",
+            "summary": "6M 관점에서 원인을 구조화합니다.",
+            "description": "Man-Machine-Material-Method-Measurement-Environment 카테고리로 잠재 원인을 브레인스토밍합니다.",
+            "when_to_use": "원인 후보를 체계적으로 도출할 때",
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {},
+                    "score_add": 15,
+                    "reason": "원인 구조화의 표준"
+                }
+            ]
+        },
+        {
+            "id": "5whys",
+            "name": "5 Whys",
+            "name_ko": "5 Whys 분석",
+            "phase": "analyze",
+            "category": "root_cause",
+            "difficulty": "easy",
+            "time_estimate": "1-2 시간",
+            "summary": "연속 질문으로 근본 원인을 탐색합니다.",
+            "description": "'왜?'를 5번 반복하여 표면 원인에서 근본 원인까지 파고듭니다.",
+            "when_to_use": "단순 원인 파악 또는 워크샵",
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {
+                        "process_maturity": [
+                            "ad_hoc",
+                            "partial"
+                        ]
+                    },
+                    "score_add": 15,
+                    "reason": "빠른 원인 탐색"
+                }
+            ]
+        },
+        {
+            "id": "hypothesis_test",
+            "name": "Hypothesis Test",
+            "name_ko": "가설검정",
+            "phase": "analyze",
+            "category": "statistics",
+            "difficulty": "hard",
+            "time_estimate": "4-8 시간",
+            "summary": "데이터로 원인을 통계적으로 검증합니다 (t-test, ANOVA 등).",
+            "description": "t-검정, ANOVA, 카이제곱 검정 등으로 원인 가설의 유의성을 평가합니다.",
+            "when_to_use": "원인 후보를 데이터로 검증할 때",
+            "precheck": [
+                {
+                    "id": "p1",
+                    "type": "must",
+                    "content": "충분한 샘플(보통 30개 이상)이 있나요?"
+                },
+                {
+                    "id": "p2",
+                    "type": "info",
+                    "content": "데이터가 정규분포를 따르나요?"
+                }
+            ],
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {
+                        "sample_size": [
+                            "30to100",
+                            "gt100"
+                        ]
+                    },
+                    "score_add": 25,
+                    "reason": "통계적 근거 확보"
+                }
+            ]
+        },
+        {
+            "id": "regression",
+            "name": "Regression Analysis",
+            "name_ko": "회귀분석",
+            "phase": "analyze",
+            "category": "statistics",
+            "difficulty": "hard",
+            "time_estimate": "6-12 시간",
+            "summary": "입력 변수와 출력의 관계식을 도출합니다.",
+            "description": "선형/다중 회귀로 Y = f(X1, X2, ...)를 정량화하고 예측 모델을 만듭니다.",
+            "when_to_use": "영향도 정량화 및 예측 모델 필요 시",
+            "precheck": [
+                {
+                    "id": "p1",
+                    "type": "must",
+                    "content": "연속형 Y 데이터가 있나요?"
+                },
+                {
+                    "id": "p2",
+                    "type": "must",
+                    "content": "충분한 데이터 포인트가 있나요?"
+                }
+            ],
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {
+                        "data_type": [
+                            "continuous"
+                        ],
+                        "sample_size": [
+                            "gt100"
+                        ]
+                    },
+                    "score_add": 20,
+                    "reason": "정량적 관계 모델링"
+                }
+            ]
+        },
+        {
+            "id": "fmea",
+            "name": "FMEA",
+            "name_ko": "고장모드 영향분석",
+            "phase": "analyze",
+            "category": "risk",
+            "difficulty": "hard",
+            "time_estimate": "8-16 시간",
+            "summary": "잠재 실패 모드를 사전 평가하고 우선순위를 정합니다.",
+            "description": "Failure Mode & Effects Analysis로 각 실패 모드의 심각도·발생도·검출도를 평가하여 RPN을 계산합니다.",
+            "when_to_use": "신규 공정/제품 설계 또는 리스크 예방",
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {
+                        "problem_type": [
+                            "safety",
+                            "quality"
+                        ]
+                    },
+                    "score_add": 25,
+                    "reason": "사전 리스크 관리"
+                },
+                {
+                    "id": "r2",
+                    "when": {
+                        "industry": [
+                            "manufacturing",
+                            "healthcare"
+                        ]
+                    },
+                    "score_add": 15,
+                    "reason": "안전·품질 중요 분야"
+                }
+            ]
+        },
+        {
+            "id": "doe",
+            "name": "DOE (Design of Experiments)",
+            "name_ko": "실험계획법",
+            "phase": "improve",
+            "category": "optimization",
+            "difficulty": "hard",
+            "time_estimate": "16-40 시간",
+            "summary": "체계적 실험으로 최적 조건을 찾습니다.",
+            "description": "Full Factorial, Fractional Factorial, Response Surface 등으로 인자 조합을 효율적으로 실험합니다.",
+            "when_to_use": "다수 변수의 최적 조합 탐색 시",
+            "precheck": [
+                {
+                    "id": "p1",
+                    "type": "must",
+                    "content": "실험 가능한 환경인가요?"
+                },
+                {
+                    "id": "p2",
+                    "type": "must",
+                    "content": "충분한 시간과 리소스가 있나요?"
+                }
+            ],
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {
+                        "industry": [
+                            "manufacturing"
+                        ],
+                        "problem_type": [
+                            "quality"
+                        ]
+                    },
+                    "score_add": 30,
+                    "reason": "최적화 실험"
+                }
+            ]
+        },
+        {
+            "id": "piloting",
+            "name": "Pilot Test",
+            "name_ko": "파일럿 테스트",
+            "phase": "improve",
+            "category": "validation",
+            "difficulty": "medium",
+            "time_estimate": "1-4 주",
+            "summary": "개선안을 소규모로 먼저 적용하여 검증합니다.",
+            "description": "전체 적용 전에 일부 영역에서 개선안을 시범 운영하여 효과와 부작용을 확인합니다.",
+            "when_to_use": "개선안 검증 필수",
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {},
+                    "score_add": 25,
+                    "reason": "개선안 검증 필수 단계"
+                }
+            ]
+        },
+        {
+            "id": "poka_yoke",
+            "name": "Poka-Yoke",
+            "name_ko": "포카요케 (실수방지)",
+            "phase": "improve",
+            "category": "mistake_proofing",
+            "difficulty": "medium",
+            "time_estimate": "4-8 시간",
+            "summary": "실수를 구조적으로 방지하는 메커니즘을 설계합니다.",
+            "description": "물리적/시스템적 장치로 사람의 실수가 불량으로 이어지지 않도록 합니다.",
+            "when_to_use": "사람 의존적 오류 방지",
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {
+                        "problem_type": [
+                            "quality",
+                            "safety"
+                        ]
+                    },
+                    "score_add": 20,
+                    "reason": "실수 원천 제거"
+                }
+            ]
+        },
+        {
+            "id": "control_plan",
+            "name": "Control Plan",
+            "name_ko": "관리계획서",
+            "phase": "control",
+            "category": "control",
+            "difficulty": "easy",
+            "time_estimate": "4-8 시간",
+            "summary": "개선 효과를 유지하기 위한 모니터링 계획을 수립합니다.",
+            "description": "무엇을·언제·어떻게 측정하고, 이탈 시 어떻게 대응할지 문서화합니다.",
+            "when_to_use": "Control 단계 필수",
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {},
+                    "score_add": 40,
+                    "reason": "Control 단계 핵심 산출물"
+                }
+            ]
+        },
+        {
+            "id": "standard_work",
+            "name": "Standard Work",
+            "name_ko": "표준작업 문서화",
+            "phase": "control",
+            "category": "standardization",
+            "difficulty": "easy",
+            "time_estimate": "4-8 시간",
+            "summary": "개선된 프로세스를 표준 절차로 고정합니다.",
+            "description": "새로운 작업 방법을 SOP(Standard Operating Procedure) 형태로 문서화하고 교육합니다.",
+            "when_to_use": "프로세스 변경 후 표준화",
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {},
+                    "score_add": 30,
+                    "reason": "개선 고착화"
+                }
+            ]
+        }
+    ],
+    "gates": [
+        {
+            "phase": "define",
+            "gate_id": "define_gate",
+            "title": "Define Gate",
+            "description": "Define 단계를 완료하고 Measure로 진행하기 위한 조건",
+            "criteria": [
+                {
+                    "id": "c1",
+                    "type": "field_required",
+                    "field": "define.projectTitle",
+                    "message": "프로젝트 제목이 입력되어야 합니다"
+                },
+                {
+                    "id": "c2",
+                    "type": "field_required",
+                    "field": "define.problemStatement",
+                    "message": "문제 정의가 작성되어야 합니다"
+                },
+                {
+                    "id": "c3",
+                    "type": "field_required",
+                    "field": "define.goal",
+                    "message": "목표가 설정되어야 합니다"
+                },
+                {
+                    "id": "c4",
+                    "type": "quality_check_passed",
+                    "check_id": "no_solution_in_problem",
+                    "message": "문제 정의에서 품질 검사를 통과해야 합니다"
+                }
+            ]
+        },
+        {
+            "phase": "measure",
+            "gate_id": "measure_gate",
+            "title": "Measure Gate",
+            "description": "Measure 단계를 완료하고 Analyze로 진행하기 위한 조건",
+            "criteria": [
+                {
+                    "id": "c1",
+                    "type": "field_required",
+                    "field": "measure.ctq",
+                    "message": "CTQ(측정 지표)가 정의되어야 합니다"
+                }
+            ]
+        },
+        {
+            "phase": "analyze",
+            "gate_id": "analyze_gate",
+            "title": "Analyze Gate",
+            "description": "Analyze 단계를 완료하고 Improve로 진행하기 위한 조건",
+            "criteria": [
+                {
+                    "id": "c1",
+                    "type": "min_items",
+                    "field": "analyze.causes",
+                    "min": 1,
+                    "message": "최소 1개 이상의 근본 원인이 파악되어야 합니다"
+                }
+            ]
+        }
+    ],
+    "quality_rules": [
+        {
+            "id": "no_solution_in_problem",
+            "name": "문제 정의에 해결책 미포함",
+            "description": "문제 정의는 현상을 기술해야 하며, 해결책을 포함하지 않아야 합니다",
+            "field": "define.problemStatement",
+            "type": "keyword_blacklist",
+            "keywords": [
+                "개선",
+                "향상",
+                "도입",
+                "구축",
+                "설치",
+                "적용",
+                "시행"
+            ],
+            "severity": "warning",
+            "message": "문제 정의에 해결책('개선', '향상' 등)이 포함되지 않도록 현상만 기술하세요"
+        },
+        {
+            "id": "measurable_goal",
+            "name": "측정 가능한 목표",
+            "description": "목표에는 숫자와 단위가 포함되어야 합니다",
+            "field": "define.goal",
+            "type": "pattern_match",
+            "pattern": "\\d+",
+            "severity": "info",
+            "message": "목표를 측정 가능하게 숫자로 표현하는 것을 권장합니다 (예: 불량률 5% → 2%)"
+        },
+        {
+            "id": "min_team_size",
+            "name": "최소 팀 구성",
+            "description": "효과적인 프로젝트 수행을 위해 최소 3명 이상의 팀이 권장됩니다",
+            "field": "define.team",
+            "type": "min_count",
+            "min": 3,
+            "severity": "info",
+            "message": "프로젝트 성공을 위해 최소 3명 (Champion, BB/GB, 실무자) 이상의 팀 구성을 권장합니다"
+        }
+    ]
+}

@@ -1,0 +1,649 @@
+{
+    "projectInfo": {
+        "projectName": "스마트폰 케이스 불량률 감소 프로젝트",
+        "methodology": "DMAIC",
+        "startDate": "2026-01-15",
+        "endDate": "2026-07-15",
+        "duration": "6개월",
+        "bb": "김철수",
+        "champion": "이영희",
+        "status": "완료"
+    },
+    "define": {
+        "customer": {
+            "name": "스마트폰 제조사 (삼성전자, 애플)",
+            "type": "B2B 대기업",
+            "annualRevenue": "500억원",
+            "requirements": [
+                "불량률 5% 이하",
+                "납기 준수율 95% 이상"
+            ]
+        },
+        "voc": [
+            {
+                "id": 1,
+                "content": "케이스 표면 스크래치 불량",
+                "frequency": "상",
+                "frequencyCount": 150,
+                "severity": "상",
+                "priority": 1
+            },
+            {
+                "id": 2,
+                "content": "치수 불량으로 조립 불가",
+                "frequency": "상",
+                "frequencyCount": 100,
+                "severity": "상",
+                "priority": 2
+            },
+            {
+                "id": 3,
+                "content": "색상 불균일",
+                "frequency": "중",
+                "frequencyCount": 50,
+                "severity": "중",
+                "priority": 3
+            },
+            {
+                "id": 4,
+                "content": "납기 지연",
+                "frequency": "중",
+                "frequencyCount": 30,
+                "severity": "중",
+                "priority": 4
+            },
+            {
+                "id": 5,
+                "content": "포장 불량",
+                "frequency": "하",
+                "frequencyCount": 10,
+                "severity": "하",
+                "priority": 5
+            }
+        ],
+        "projectPool": [
+            {
+                "name": "스마트폰 케이스 불량률 감소",
+                "current": "15%",
+                "target": "5%",
+                "urgency": 5,
+                "impact": 5,
+                "score": 50,
+                "selected": true
+            },
+            {
+                "name": "사출 공정 생산성 향상",
+                "current": "80%",
+                "target": "95%",
+                "urgency": 3,
+                "impact": 4,
+                "score": 35,
+                "selected": false
+            },
+            {
+                "name": "납기 준수율 개선",
+                "current": "85%",
+                "target": "95%",
+                "urgency": 4,
+                "impact": 3,
+                "score": 37,
+                "selected": false
+            }
+        ],
+        "stakeholders": [
+            {
+                "name": "이영희",
+                "department": "생산본부장",
+                "role": "Champion, 의사결정",
+                "influence": "상",
+                "interest": "상",
+                "strategy": "주간 보고, 주요 의사결정 참여"
+            },
+            {
+                "name": "김철수",
+                "department": "품질관리팀 과장",
+                "role": "BB, 프로젝트 리더",
+                "influence": "상",
+                "interest": "상",
+                "strategy": "전체 프로젝트 주도"
+            },
+            {
+                "name": "박민수",
+                "department": "생산팀장",
+                "role": "공정 개선 실행",
+                "influence": "상",
+                "interest": "상",
+                "strategy": "일일 미팅, 개선안 실행"
+            },
+            {
+                "name": "정수진",
+                "department": "품질관리팀",
+                "role": "데이터 분석, 검증",
+                "influence": "상",
+                "interest": "상",
+                "strategy": "주 2회 분석 회의"
+            }
+        ]
+    },
+    "measure": {
+        "ctq": [
+            {
+                "category": "표면 품질",
+                "weight": 60,
+                "criteria": [
+                    "스크래치 깊이 < 0.1mm",
+                    "스크래치 개수 < 3개/제품"
+                ]
+            },
+            {
+                "category": "치수 정밀도",
+                "weight": 30,
+                "criteria": [
+                    "길이 오차 ± 0.2mm 이내",
+                    "폭 오차 ± 0.2mm 이내",
+                    "두께 오차 ± 0.1mm 이내"
+                ]
+            },
+            {
+                "category": "색상 균일도",
+                "weight": 10,
+                "criteria": [
+                    "색차(ΔE) < 2.0"
+                ]
+            }
+        ],
+        "currentPerformance": {
+            "totalSamples": 1000,
+            "defects": 152,
+            "defectRate": 15.2,
+            "dpmo": 152000,
+            "sigmaLevel": 2.7,
+            "targetSigmaLevel": 4.2
+        },
+        "defectsByType": [
+            {
+                "type": "표면 스크래치",
+                "count": 91,
+                "percentage": 60
+            },
+            {
+                "type": "치수 불량",
+                "count": 46,
+                "percentage": 30
+            },
+            {
+                "type": "색상 불량",
+                "count": 15,
+                "percentage": 10
+            }
+        ],
+        "defectsByProcess": [
+            {
+                "process": "사출",
+                "count": 106,
+                "percentage": 70
+            },
+            {
+                "process": "냉각",
+                "count": 23,
+                "percentage": 15
+            },
+            {
+                "process": "검사",
+                "count": 23,
+                "percentage": 15
+            }
+        ],
+        "defectsByShift": [
+            {
+                "shift": "A조 (아침)",
+                "production": 250,
+                "defects": 28,
+                "defectRate": 11.2
+            },
+            {
+                "shift": "B조 (오후)",
+                "production": 250,
+                "defects": 38,
+                "defectRate": 15.2
+            },
+            {
+                "shift": "C조 (야간)",
+                "production": 250,
+                "defects": 48,
+                "defectRate": 19.2
+            },
+            {
+                "shift": "D조 (주말)",
+                "production": 250,
+                "defects": 38,
+                "defectRate": 15.2
+            }
+        ],
+        "processParameters": [
+            {
+                "sample": 1,
+                "temp": 245,
+                "pressure": 85,
+                "coolingTime": 28,
+                "defect": false
+            },
+            {
+                "sample": 2,
+                "temp": 258,
+                "pressure": 92,
+                "coolingTime": 25,
+                "defect": true
+            },
+            {
+                "sample": 3,
+                "temp": 242,
+                "pressure": 83,
+                "coolingTime": 30,
+                "defect": false
+            },
+            {
+                "sample": 4,
+                "temp": 262,
+                "pressure": 95,
+                "coolingTime": 23,
+                "defect": true
+            },
+            {
+                "sample": 5,
+                "temp": 248,
+                "pressure": 87,
+                "coolingTime": 29,
+                "defect": false
+            },
+            {
+                "sample": 6,
+                "temp": 255,
+                "pressure": 90,
+                "coolingTime": 26,
+                "defect": true
+            },
+            {
+                "sample": 7,
+                "temp": 244,
+                "pressure": 84,
+                "coolingTime": 31,
+                "defect": false
+            },
+            {
+                "sample": 8,
+                "temp": 260,
+                "pressure": 94,
+                "coolingTime": 24,
+                "defect": true
+            },
+            {
+                "sample": 9,
+                "temp": 246,
+                "pressure": 86,
+                "coolingTime": 28,
+                "defect": false
+            },
+            {
+                "sample": 10,
+                "temp": 250,
+                "pressure": 88,
+                "coolingTime": 27,
+                "defect": false
+            }
+        ]
+    },
+    "analyze": {
+        "correlation": [
+            {
+                "variableX": "사출 온도",
+                "variableY": "불량률",
+                "coefficient": 0.78,
+                "pValue": 0.001,
+                "significance": "강한 양의 상관"
+            },
+            {
+                "variableX": "사출 압력",
+                "variableY": "불량률",
+                "coefficient": 0.65,
+                "pValue": 0.005,
+                "significance": "중간 양의 상관"
+            },
+            {
+                "variableX": "냉각 시간",
+                "variableY": "불량률",
+                "coefficient": -0.72,
+                "pValue": 0.002,
+                "significance": "강한 음의 상관"
+            },
+            {
+                "variableX": "작업자 경력",
+                "variableY": "불량률",
+                "coefficient": -0.58,
+                "pValue": 0.012,
+                "significance": "중간 음의 상관"
+            }
+        ],
+        "paretoAnalysis": [
+            {
+                "cause": "사출 온도 과다",
+                "count": 68,
+                "cumulative": 45
+            },
+            {
+                "cause": "냉각 시간 부족",
+                "count": 38,
+                "cumulative": 70
+            },
+            {
+                "cause": "금형 오염",
+                "count": 23,
+                "cumulative": 85
+            },
+            {
+                "cause": "원자재 품질",
+                "count": 15,
+                "cumulative": 95
+            },
+            {
+                "cause": "기타",
+                "count": 8,
+                "cumulative": 100
+            }
+        ],
+        "rootCauses": [
+            {
+                "category": "Man",
+                "causes": [
+                    "작업자 교육 훈련 부족",
+                    "숙련도 편차 큼",
+                    "표준 작업 미준수"
+                ]
+            },
+            {
+                "category": "Machine",
+                "causes": [
+                    "사출기 온도 센서 정밀도 부족",
+                    "냉각 시스템 노후화",
+                    "금형 청소 주기 미준수"
+                ]
+            },
+            {
+                "category": "Material",
+                "causes": [
+                    "원자재 LOT별 품질 편차",
+                    "재생 원료 혼합 비율 불균일"
+                ]
+            },
+            {
+                "category": "Method",
+                "causes": [
+                    "공정 표준서(SOP) 미비",
+                    "검사 기준 모호",
+                    "온도/압력 설정 기준 부재"
+                ]
+            },
+            {
+                "category": "Measurement",
+                "causes": [
+                    "실시간 모니터링 부재",
+                    "검사 주기 불규칙",
+                    "측정 데이터 기록 미흡"
+                ]
+            },
+            {
+                "category": "Environment",
+                "causes": [
+                    "작업장 온도 변화 큰 편",
+                    "습도 관리 미흡"
+                ]
+            }
+        ]
+    },
+    "improve": {
+        "improvements": [
+            {
+                "name": "사출 온도 최적화 (245±3℃)",
+                "expectedEffect": "불량률 5% 감소",
+                "cost": "낮음",
+                "difficulty": "하",
+                "duration": "1주",
+                "score": 90,
+                "selected": true
+            },
+            {
+                "name": "냉각 시간 연장 (30초)",
+                "expectedEffect": "불량률 3% 감소",
+                "cost": "낮음",
+                "difficulty": "하",
+                "duration": "1주",
+                "score": 85,
+                "selected": true
+            },
+            {
+                "name": "금형 청소 주기 단축 (일 2회)",
+                "expectedEffect": "불량률 2% 감소",
+                "cost": "낮음",
+                "difficulty": "하",
+                "duration": "즉시",
+                "score": 80,
+                "selected": true
+            },
+            {
+                "name": "작업자 교육 프로그램",
+                "expectedEffect": "불량률 2% 감소",
+                "cost": "중간",
+                "difficulty": "중",
+                "duration": "2주",
+                "score": 75,
+                "selected": true
+            },
+            {
+                "name": "검사 기준서 작성",
+                "expectedEffect": "불량률 1% 감소",
+                "cost": "낮음",
+                "difficulty": "하",
+                "duration": "1주",
+                "score": 70,
+                "selected": true
+            }
+        ],
+        "pilotTest": {
+            "period": "2주",
+            "startDate": "2026-04-01",
+            "endDate": "2026-04-14",
+            "controlGroup": {
+                "production": 250,
+                "defects": 38,
+                "defectRate": 15.2
+            },
+            "experimentGroup": {
+                "production": 250,
+                "defects": 13,
+                "defectRate": 5.2
+            },
+            "improvement": 65.8,
+            "tValue": 5.82,
+            "pValue": 0.001,
+            "significant": true
+        },
+        "fullImplementation": {
+            "period": "4주",
+            "startDate": "2026-04-15",
+            "endDate": "2026-05-12",
+            "weeklyResults": [
+                {
+                    "week": 1,
+                    "production": 5000,
+                    "defects": 310,
+                    "defectRate": 6.2
+                },
+                {
+                    "week": 2,
+                    "production": 5000,
+                    "defects": 270,
+                    "defectRate": 5.4
+                },
+                {
+                    "week": 3,
+                    "production": 5000,
+                    "defects": 250,
+                    "defectRate": 5.0
+                },
+                {
+                    "week": 4,
+                    "production": 5000,
+                    "defects": 240,
+                    "defectRate": 4.8
+                }
+            ],
+            "average": {
+                "production": 20000,
+                "defects": 1018,
+                "defectRate": 5.1
+            }
+        },
+        "economicEffect": {
+            "before": {
+                "monthlyProduction": 100000,
+                "defectRate": 15.2,
+                "defects": 15200,
+                "costPerDefect": 2000,
+                "monthlyCost": 30400000,
+                "annualCost": 364800000
+            },
+            "after": {
+                "monthlyProduction": 100000,
+                "defectRate": 5.1,
+                "defects": 5100,
+                "costPerDefect": 2000,
+                "monthlyCost": 10200000,
+                "annualCost": 122400000
+            },
+            "savings": {
+                "monthly": 20200000,
+                "annual": 242400000
+            }
+        }
+    },
+    "control": {
+        "controlItems": [
+            {
+                "item": "불량률",
+                "target": 5.0,
+                "ucl": 6.0,
+                "lcl": null,
+                "frequency": "일일",
+                "owner": "품질팀"
+            },
+            {
+                "item": "사출 온도",
+                "target": 245,
+                "ucl": 248,
+                "lcl": 242,
+                "frequency": "매 생산",
+                "owner": "작업자"
+            },
+            {
+                "item": "냉각 시간",
+                "target": 30,
+                "ucl": 32,
+                "lcl": 28,
+                "frequency": "매 생산",
+                "owner": "작업자"
+            },
+            {
+                "item": "금형 청소",
+                "target": "일 2회",
+                "ucl": null,
+                "lcl": "일 2회",
+                "frequency": "일일",
+                "owner": "생산팀"
+            }
+        ],
+        "monitoringData": [
+            {
+                "month": "2026-05",
+                "production": 100000,
+                "defects": 5100,
+                "defectRate": 5.1,
+                "targetDiff": 0.1
+            },
+            {
+                "month": "2026-06",
+                "production": 100000,
+                "defects": 4800,
+                "defectRate": 4.8,
+                "targetDiff": -0.2
+            },
+            {
+                "month": "2026-07",
+                "production": 100000,
+                "defects": 4700,
+                "defectRate": 4.7,
+                "targetDiff": -0.3
+            }
+        ],
+        "customerSatisfaction": {
+            "before": {
+                "quality": 65,
+                "delivery": 70,
+                "overall": 68,
+                "complaints": 150
+            },
+            "after": {
+                "quality": 88,
+                "delivery": 85,
+                "overall": 87,
+                "complaints": 45
+            },
+            "improvement": {
+                "quality": 23,
+                "delivery": 15,
+                "overall": 19,
+                "complaints": -70
+            }
+        }
+    },
+    "summary": {
+        "achievements": [
+            {
+                "goal": "불량률 감소",
+                "target": "15% → 5%",
+                "result": "15.2% → 4.9%",
+                "achievement": 103
+            },
+            {
+                "goal": "비용 절감",
+                "target": "연 2.4억원",
+                "result": "연 3.2억원",
+                "achievement": 133
+            },
+            {
+                "goal": "고객 만족도",
+                "target": "20% 향상",
+                "result": "28% 향상",
+                "achievement": 140
+            },
+            {
+                "goal": "프로젝트 기간",
+                "target": "6개월",
+                "result": "6개월",
+                "achievement": 100
+            }
+        ],
+        "keySuccessFactors": [
+            "데이터 기반 의사결정",
+            "단계적 접근 (DMAIC)",
+            "전사적 협력",
+            "지속적 모니터링",
+            "표준화"
+        ],
+        "futurePlans": [
+            "추가 개선: 불량률 4.9% → 3% 목표",
+            "수평 전개: 다른 제품 라인 적용",
+            "자동화 검토: 자동 검사 시스템 도입",
+            "인증 획득: ISO 9001 추진"
+        ]
+    }
+}

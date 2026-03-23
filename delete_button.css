@@ -1,0 +1,21 @@
+/* Delete Button for Lists */
+.btn-delete-small {
+    background: white;
+    color: #dc2626;
+    border: 1px solid #dc2626;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    line-height: 1;
+    min-width: 32px;
+    height: 32px;
+}
+
+.btn-delete-small:hover {
+    background: #dc2626;
+    color: white;
+    transform: scale(1.1);
+}
