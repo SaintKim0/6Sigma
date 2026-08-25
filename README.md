@@ -1,16 +1,57 @@
-# React + Vite
+# 6 Sigma Workbench
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+DMAIC/DFSS 프로젝트를 브라우저에서 진행하는 React 앱입니다.  
+기본은 **로컬 저장**(localStorage). 선택적으로 동기화 API·정적 배포를 사용할 수 있습니다.
 
-Currently, two official plugins are available:
+## 실행
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+npm install
+npm run dev
+```
 
-## React Compiler
+동기화 서버(선택):
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+npm run server
+# http://localhost:8787
+```
 
-## Expanding the ESLint configuration
+프론트에 API 연결:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+cp .env.example .env
+# VITE_API_URL=http://localhost:8787
+npm run dev
+```
+
+내 프로젝트 → **클라우드 업로드 / 클라우드 불러오기**
+
+## 배포 (프론트 정적)
+
+```bash
+npm run build
+```
+
+- **Vercel**: 저장소 연결 후 자동 (`vercel.json` SPA rewrite 포함)
+- **Netlify**: `netlify.toml` 사용, publish=`dist`
+- 미리보기: `npm run preview`
+
+## 구성 요약
+
+| 경로 | 역할 |
+|------|------|
+| `src/` | React 앱 |
+| `server/` | 프로젝트 동기화 API (파일 저장) |
+| `public/demo_project_seed.json` | 데모 프로젝트 |
+| `public/sixsigma_data.json` | 도구 카탈로그·추천 규칙 |
+
+## UX
+
+단계별 도구는 **카테고리 탭**(전체 / 원인 분석 / 통계 검정 등)으로 그룹핑됩니다.
+
+### 교육 커리큘럼
+
+사이드바 **교육 과정**에서 Yellow Belt → Green Belt → 통계 실험실 → DFSS 입문 순으로
+기존 학습관·설명서·도구·샘플·데모를 학습 경로로 따라갈 수 있습니다.
+진도는 브라우저 localStorage(`sigma_edu_progress`)에 저장됩니다.

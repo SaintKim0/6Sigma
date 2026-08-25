@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { AlertTriangle, Plus, Trash2, Save } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { AlertTriangle, Plus, Trash2, CheckCircle } from 'lucide-react';
+import { getFmeaTemplates } from '../data/defineAnalyzeTemplates';
 
 /**
  * FMEA (Failure Mode and Effects Analysis) Component
  * Provides a structured table for risk assessment and RPN calculation.
  */
-const FMEA = ({ data, onUpdate }) => {
+const FMEA = ({ data, onUpdate, industryId, industryName }) => {
     const [items, setItems] = useState(data || []);
+    const [selectedTpl, setSelectedTpl] = useState(null);
+    const templates = useMemo(() => getFmeaTemplates(industryId), [industryId]);
 
     // Initialize with one row if empty
     useEffect(() => {
@@ -18,6 +21,24 @@ const FMEA = ({ data, onUpdate }) => {
             setItems(data);
         }
     }, [data]);
+
+    const applyTemplate = (tpl) => {
+        setSelectedTpl(tpl.id);
+        const updated = tpl.items.map((row, idx) => ({
+            id: Date.now() + idx,
+            process: row.process,
+            failureMode: row.failureMode,
+            effect: row.effect,
+            cause: row.cause,
+            s: row.s,
+            o: row.o,
+            d: row.d,
+            rpn: row.s * row.o * row.d,
+            action: row.action
+        }));
+        setItems(updated);
+        onUpdate(updated);
+    };
 
     const handleCreate = () => {
         const newItem = {
@@ -72,6 +93,31 @@ const FMEA = ({ data, onUpdate }) => {
 
     return (
         <div className="fmea-container" style={{ marginTop: '1rem' }}>
+            <div style={{ marginBottom: '1rem' }}>
+                <div style={{ fontWeight: 700, marginBottom: '0.25rem' }}>업종 FMEA 템플릿</div>
+                <div style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: '0.75rem' }}>
+                    {industryName ? `${industryName} 맞춤` : '업종별'} 템플릿을 선택한 뒤 수정하세요.
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.75rem' }}>
+                    {templates.map(tpl => {
+                        const active = selectedTpl === tpl.id;
+                        return (
+                            <button key={tpl.id} type="button" onClick={() => applyTemplate(tpl)} style={{
+                                textAlign: 'left', padding: '0.9rem', borderRadius: '12px', cursor: 'pointer',
+                                border: active ? '2px solid #f59e0b' : '1px solid #e2e8f0',
+                                background: active ? '#fffbeb' : 'white'
+                            }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', gap: '0.5rem' }}>
+                                    <strong style={{ fontSize: '0.9rem' }}>{tpl.name}</strong>
+                                    {active && <CheckCircle size={16} color="#f59e0b" />}
+                                </div>
+                                <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '0.3rem' }}>{tpl.desc}</div>
+                            </button>
+                        );
+                    })}
+                </div>
+            </div>
+
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
                 <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <AlertTriangle size={20} color="#f59e0b" />

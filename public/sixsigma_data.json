@@ -5,7 +5,9 @@
         "measure",
         "analyze",
         "improve",
-        "control"
+        "control",
+        "design",
+        "verify"
     ],
     "diagnostic": {
         "questions": [
@@ -2203,6 +2205,657 @@
                     "when": {},
                     "score_add": 30,
                     "reason": "개선 고착화"
+                }
+            ]
+        },
+        {
+            "id": "team",
+            "name": "Team & Timeline",
+            "name_ko": "팀 및 일정",
+            "phase": "define",
+            "category": "project",
+            "difficulty": "easy",
+            "time_estimate": "1-2 시간",
+            "summary": "역할과 일정을 확정합니다.",
+            "description": "Champion/BB/GB/SME 구성과 프로젝트 일정을 정의합니다.",
+            "when_to_use": "프로젝트 킥오프 시",
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {},
+                    "score_add": 25,
+                    "reason": "실행 조직 필수"
+                }
+            ]
+        },
+        {
+            "id": "solutions",
+            "name": "Solution Selection",
+            "name_ko": "해결안 선정",
+            "phase": "improve",
+            "category": "improve",
+            "difficulty": "medium",
+            "time_estimate": "2-4 시간",
+            "summary": "개선안을 평가하고 선정합니다.",
+            "description": "원인별 해결안을 평가·선정합니다.",
+            "when_to_use": "Analyze 이후",
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {},
+                    "score_add": 40,
+                    "reason": "Improve 핵심"
+                }
+            ]
+        },
+        {
+            "id": "histogram",
+            "name": "Histogram",
+            "name_ko": "히스토그램",
+            "phase": "measure",
+            "category": "stats",
+            "difficulty": "easy",
+            "time_estimate": "1-2 시간",
+            "summary": "분포와 공정능력을 봅니다.",
+            "description": "데이터 분포와 Cp/Cpk를 분석합니다.",
+            "when_to_use": "계량형 데이터",
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {
+                        "data_type": [
+                            "continuous"
+                        ]
+                    },
+                    "score_add": 30,
+                    "reason": "분포 파악"
+                }
+            ]
+        },
+        {
+            "id": "control",
+            "name": "Control Chart",
+            "name_ko": "관리도",
+            "phase": "measure",
+            "category": "stats",
+            "difficulty": "medium",
+            "time_estimate": "2-3 시간",
+            "summary": "공정 안정성을 모니터링합니다.",
+            "description": "관리도로 이상원인을 감지합니다.",
+            "when_to_use": "시계열 공정데이터",
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {},
+                    "score_add": 28,
+                    "reason": "안정성 확인"
+                }
+            ]
+        },
+        {
+            "id": "design_spec",
+            "name": "Design Spec",
+            "name_ko": "상세 설계 사양",
+            "phase": "design",
+            "category": "dfss",
+            "difficulty": "medium",
+            "time_estimate": "4-8 시간",
+            "summary": "CTQ 기반 설계 스펙을 확정합니다.",
+            "description": "요구사항·CTQ·제약·검증계획을 상세화합니다.",
+            "when_to_use": "DFSS Design",
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {},
+                    "score_add": 50,
+                    "reason": "DFSS Design 필수"
+                }
+            ]
+        },
+        {
+            "id": "pilot",
+            "name": "Pilot Verification",
+            "name_ko": "시제품 검증",
+            "phase": "verify",
+            "category": "dfss",
+            "difficulty": "medium",
+            "time_estimate": "1-2 주",
+            "summary": "설계 성능을 검증합니다.",
+            "description": "시제품/파일럿으로 CTQ를 검증합니다.",
+            "when_to_use": "DFSS Verify",
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {},
+                    "score_add": 50,
+                    "reason": "DFSS Verify 필수"
+                }
+            ]
+        },
+        {
+            "id": "monitoring",
+            "name": "Monitoring Plan",
+            "name_ko": "모니터링 계획",
+            "phase": "control",
+            "category": "control",
+            "difficulty": "easy",
+            "time_estimate": "2-3 시간",
+            "summary": "KPI 모니터링을 정의합니다.",
+            "description": "성과 유지를 위한 KPI·주기·에스컬레이션을 정의합니다.",
+            "when_to_use": "Control",
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {},
+                    "score_add": 35,
+                    "reason": "성과 유지"
+                }
+            ]
+        },
+        {
+            "id": "result",
+            "name": "Final Result",
+            "name_ko": "최종 성과",
+            "phase": "control",
+            "category": "control",
+            "difficulty": "easy",
+            "time_estimate": "1-2 시간",
+            "summary": "Before/After 성과를 요약합니다.",
+            "description": "개선 전후 지표와 효과를 기록합니다.",
+            "when_to_use": "프로젝트 종료 전",
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {},
+                    "score_add": 30,
+                    "reason": "성과 기록"
+                }
+            ]
+        },
+        {
+            "id": "complete",
+            "name": "Project Completion",
+            "name_ko": "프로젝트 완료",
+            "phase": "control",
+            "category": "control",
+            "difficulty": "easy",
+            "time_estimate": "1 시간",
+            "summary": "완료 체크리스트로 종료합니다.",
+            "description": "필수 산출물 확인 후 프로젝트를 종료합니다.",
+            "when_to_use": "모든 단계 완료 후",
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {},
+                    "score_add": 20,
+                    "reason": "종료 절차"
+                }
+            ]
+        },
+        {
+            "id": "complete",
+            "name": "Project Completion",
+            "name_ko": "프로젝트 완료(Verify)",
+            "phase": "verify",
+            "category": "control",
+            "difficulty": "easy",
+            "time_estimate": "1 시간",
+            "summary": "완료 체크리스트로 종료합니다.",
+            "description": "필수 산출물 확인 후 프로젝트를 종료합니다.",
+            "when_to_use": "모든 단계 완료 후",
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {},
+                    "score_add": 20,
+                    "reason": "종료 절차"
+                }
+            ]
+        },
+        {
+            "id": "normality",
+            "name": "Normality Test",
+            "name_ko": "정규성 검정",
+            "phase": "measure",
+            "category": "stats",
+            "difficulty": "medium",
+            "time_estimate": "1-2 시간",
+            "summary": "Anderson-Darling로 정규분포 적합성을 검정합니다.",
+            "description": "공정능력·가설검정 전에 데이터가 정규분포에 가까운지 확인합니다.",
+            "when_to_use": "연속형 데이터 분석 전",
+            "precheck": [
+                {
+                    "id": "p1",
+                    "type": "must",
+                    "content": "연속형 측정값이 있나요?"
+                }
+            ],
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {
+                        "data_type": [
+                            "continuous"
+                        ]
+                    },
+                    "score_add": 25,
+                    "reason": "연속형 데이터 정규성 확인"
+                }
+            ]
+        },
+        {
+            "id": "capability",
+            "name": "Process Capability Advanced",
+            "name_ko": "공정능력(Pp/Ppk)",
+            "phase": "measure",
+            "category": "capability",
+            "difficulty": "medium",
+            "time_estimate": "2-4 시간",
+            "summary": "Cp/Cpk·Pp/Ppk·%OOS·Z.bench를 산출합니다.",
+            "description": "Within/Overall σ 기반 단기·장기 공정능력을 함께 평가합니다.",
+            "when_to_use": "규격이 있는 연속형 공정",
+            "precheck": [
+                {
+                    "id": "p1",
+                    "type": "must",
+                    "content": "LSL/USL이 정의되어 있나요?"
+                }
+            ],
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {
+                        "industry": [
+                            "manufacturing"
+                        ],
+                        "data_type": [
+                            "continuous"
+                        ]
+                    },
+                    "score_add": 28,
+                    "reason": "규격 대비 공정능력 필수"
+                }
+            ],
+            "alternatives": [
+                "capability_analysis",
+                "histogram"
+            ]
+        },
+        {
+            "id": "anova",
+            "name": "ANOVA",
+            "name_ko": "분산분석(ANOVA)",
+            "phase": "analyze",
+            "category": "stats",
+            "difficulty": "medium",
+            "time_estimate": "2-4 시간",
+            "summary": "3개 이상 그룹 평균 차이를 F-검정합니다.",
+            "description": "라인·교대·설비 등 다중 그룹 평균 비교에 사용합니다.",
+            "when_to_use": "3개 이상 그룹 비교",
+            "precheck": [
+                {
+                    "id": "p1",
+                    "type": "must",
+                    "content": "그룹별 연속형 데이터가 있나요?"
+                }
+            ],
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {
+                        "data_type": [
+                            "continuous"
+                        ]
+                    },
+                    "score_add": 20,
+                    "reason": "다중 그룹 비교"
+                }
+            ]
+        },
+        {
+            "id": "chi_square",
+            "name": "Chi-Square",
+            "name_ko": "카이제곱 검정",
+            "phase": "analyze",
+            "category": "stats",
+            "difficulty": "medium",
+            "time_estimate": "1-3 시간",
+            "summary": "분할표 기반 계수형 독립성/연관성 검정",
+            "description": "불량유형·라인 등 범주형 연관성을 검정합니다.",
+            "when_to_use": "계수형/범주형 데이터",
+            "precheck": [
+                {
+                    "id": "p1",
+                    "type": "must",
+                    "content": "분할표 데이터가 있나요?"
+                }
+            ],
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {
+                        "data_type": [
+                            "attribute",
+                            "discrete"
+                        ]
+                    },
+                    "score_add": 25,
+                    "reason": "계수형 분석"
+                }
+            ]
+        },
+        {
+            "id": "correlation",
+            "name": "Correlation",
+            "name_ko": "상관분석",
+            "phase": "analyze",
+            "category": "stats",
+            "difficulty": "easy",
+            "time_estimate": "1-2 시간",
+            "summary": "Pearson r과 p-value로 관계 유의성을 확인합니다.",
+            "description": "산점도와 함께 상관의 강도와 유의성을 평가합니다.",
+            "when_to_use": "두 연속형 변수 관계",
+            "precheck": [
+                {
+                    "id": "p1",
+                    "type": "must",
+                    "content": "짝지어진 X,Y 데이터가 있나요?"
+                }
+            ],
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {
+                        "data_type": [
+                            "continuous"
+                        ]
+                    },
+                    "score_add": 18,
+                    "reason": "변수 관계 탐색"
+                }
+            ]
+        },
+        {
+            "id": "multi_regression",
+            "name": "Multiple Regression",
+            "name_ko": "다중회귀분석",
+            "phase": "analyze",
+            "category": "stats",
+            "difficulty": "hard",
+            "time_estimate": "4-8 시간",
+            "summary": "여러 예측변수로 Y를 설명하고 잔차를 요약합니다.",
+            "description": "단순회귀 다음 단계로 다인자 영향도를 정량화합니다.",
+            "when_to_use": "여러 X와 한 Y",
+            "precheck": [
+                {
+                    "id": "p1",
+                    "type": "must",
+                    "content": "예측변수 2개 이상과 반응값이 있나요?"
+                }
+            ],
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {
+                        "data_type": [
+                            "continuous"
+                        ],
+                        "sample_size": [
+                            "gt100",
+                            "50_100"
+                        ]
+                    },
+                    "score_add": 22,
+                    "reason": "다인자 정량화"
+                }
+            ]
+        },
+        {
+            "id": "doe_effects",
+            "name": "DOE Effects",
+            "name_ko": "DOE 주효과/교호작용",
+            "phase": "improve",
+            "category": "doe",
+            "difficulty": "medium",
+            "time_estimate": "2-4 시간",
+            "summary": "실험 run으로 주효과와 교호작용을 계산합니다.",
+            "description": "2수준 factorial 실험의 효과 크기를 시각화합니다.",
+            "when_to_use": "DOE 실험 후",
+            "precheck": [
+                {
+                    "id": "p1",
+                    "type": "must",
+                    "content": "인자 수준(-1/1)과 반응값이 있나요?"
+                }
+            ],
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {
+                        "industry": [
+                            "manufacturing"
+                        ]
+                    },
+                    "score_add": 20,
+                    "reason": "실험 결과 해석"
+                }
+            ],
+            "alternatives": [
+                "doe"
+            ]
+        },
+        {
+            "id": "proportion_test",
+            "name": "Proportion Test",
+            "name_ko": "비율검정",
+            "phase": "analyze",
+            "category": "stats",
+            "difficulty": "easy",
+            "time_estimate": "1시간",
+            "summary": "1비율·2비율 z검정",
+            "description": "불량률 목표 대비 또는 개선 전후 비교",
+            "when_to_use": "계수형 비율 비교",
+            "precheck": [],
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {
+                        "data_type": [
+                            "attribute",
+                            "discrete"
+                        ]
+                    },
+                    "score_add": 22,
+                    "reason": "불량률 비교"
+                }
+            ]
+        },
+        {
+            "id": "levene",
+            "name": "Levene Test",
+            "name_ko": "등분산 검정",
+            "phase": "analyze",
+            "category": "stats",
+            "difficulty": "medium",
+            "time_estimate": "1시간",
+            "summary": "그룹 분산 동질성 검정",
+            "description": "t/ANOVA 전제 확인",
+            "when_to_use": "다중 그룹 비교 전",
+            "precheck": [],
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {
+                        "data_type": [
+                            "continuous"
+                        ]
+                    },
+                    "score_add": 15,
+                    "reason": "등분산 확인"
+                }
+            ]
+        },
+        {
+            "id": "nonparametric",
+            "name": "Nonparametric",
+            "name_ko": "비모수 검정",
+            "phase": "analyze",
+            "category": "stats",
+            "difficulty": "medium",
+            "time_estimate": "1-2시간",
+            "summary": "Mann-Whitney / Kruskal-Wallis",
+            "description": "정규성 미충족 시 중앙값 비교",
+            "when_to_use": "비정규 데이터",
+            "precheck": [],
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {
+                        "data_type": [
+                            "continuous"
+                        ]
+                    },
+                    "score_add": 14,
+                    "reason": "비모수 대안"
+                }
+            ]
+        },
+        {
+            "id": "residual_diag",
+            "name": "Residual Diagnostics",
+            "name_ko": "잔차 진단",
+            "phase": "analyze",
+            "category": "stats",
+            "difficulty": "medium",
+            "time_estimate": "1-2시간",
+            "summary": "회귀 잔차 가정 점검",
+            "description": "정규성·등분산·잔차vs적합",
+            "when_to_use": "회귀 후",
+            "precheck": [],
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {
+                        "data_type": [
+                            "continuous"
+                        ]
+                    },
+                    "score_add": 12,
+                    "reason": "회귀 진단"
+                }
+            ]
+        },
+        {
+            "id": "weibull",
+            "name": "Weibull",
+            "name_ko": "Weibull 신뢰성",
+            "phase": "analyze",
+            "category": "reliability",
+            "difficulty": "hard",
+            "time_estimate": "2-4시간",
+            "summary": "수명분포 적합",
+            "description": "shape/scale, B10, MTTF",
+            "when_to_use": "고장/수명 데이터",
+            "precheck": [],
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {
+                        "industry": [
+                            "manufacturing"
+                        ]
+                    },
+                    "score_add": 10,
+                    "reason": "신뢰성"
+                }
+            ]
+        },
+        {
+            "id": "ce_matrix",
+            "name": "C&E Matrix",
+            "name_ko": "C&E 매트릭스",
+            "phase": "analyze",
+            "category": "cause",
+            "difficulty": "easy",
+            "time_estimate": "2-4시간",
+            "summary": "원인 우선순위 매트릭스",
+            "description": "Y가중치×X영향도",
+            "when_to_use": "Fishbone 이후",
+            "precheck": [],
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {},
+                    "score_add": 18,
+                    "reason": "원인 우선순위"
+                }
+            ]
+        },
+        {
+            "id": "hypothesis_log",
+            "name": "Y=f(X) Log",
+            "name_ko": "Y=f(X) 검증 로그",
+            "phase": "analyze",
+            "category": "cause",
+            "difficulty": "easy",
+            "time_estimate": "1-2시간",
+            "summary": "가설 검증 체크리스트",
+            "description": "Analyze-Improve 연결",
+            "when_to_use": "원인 검증 기록",
+            "precheck": [],
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {},
+                    "score_add": 16,
+                    "reason": "가설 관리"
+                }
+            ]
+        },
+        {
+            "id": "sample_size",
+            "name": "Sample Size",
+            "name_ko": "샘플 크기 계산",
+            "phase": "measure",
+            "category": "stats",
+            "difficulty": "medium",
+            "time_estimate": "30분",
+            "summary": "필요 표본수 산출",
+            "description": "평균/비율 검정용 n 계산",
+            "when_to_use": "데이터 수집 전",
+            "precheck": [],
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {
+                        "baseline_data": [
+                            "no_data",
+                            "partial"
+                        ]
+                    },
+                    "score_add": 20,
+                    "reason": "샘플설계"
+                }
+            ]
+        },
+        {
+            "id": "before_after",
+            "name": "Before After",
+            "name_ko": "Before/After 비교",
+            "phase": "control",
+            "category": "result",
+            "difficulty": "easy",
+            "time_estimate": "1시간",
+            "summary": "개선 전후 KPI 비교",
+            "description": "불량률·DPMO·Cpk·Sigma",
+            "when_to_use": "개선 효과 요약",
+            "precheck": [],
+            "recommendation_rules": [
+                {
+                    "id": "r1",
+                    "when": {},
+                    "score_add": 20,
+                    "reason": "성과 가시화"
                 }
             ]
         }

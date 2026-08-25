@@ -1,0 +1,1427 @@
+{
+  "meta": {
+    "name": "스마트폰 케이스 사출 불량률 감소",
+    "industry": "manufacturing",
+    "methodology": "dmaic",
+    "activeStep": "define"
+  },
+  "diagnosticResponses": {
+    "q1_problem_type": [
+      "quality_defects",
+      "yield_productivity"
+    ],
+    "q2_data_type": "continuous",
+    "q3_sample_size": "gt100",
+    "q4_process_maturity": "partial",
+    "q5_scope": "cross_function",
+    "q6_project_nature": "existing_improve",
+    "q7_problem_clarity": "problem_clear",
+    "q8_baseline_data": "data_exists",
+    "q9_goal_type": [
+      "reduce_defects",
+      "cost_reduction"
+    ]
+  },
+  "completedTools": [
+    "project_charter",
+    "voc_ctq",
+    "sipoc",
+    "process_map",
+    "swimlane_map",
+    "msa_grr",
+    "capability_analysis",
+    "spc_control_chart",
+    "pareto",
+    "fishbone",
+    "5whys",
+    "hypothesis_test",
+    "regression",
+    "fmea",
+    "doe",
+    "piloting",
+    "poka_yoke",
+    "control_plan",
+    "standard_work",
+    "solutions",
+    "monitoring",
+    "result",
+    "design_spec",
+    "complete",
+    "team",
+    "normality",
+    "capability",
+    "anova",
+    "chi_square",
+    "correlation",
+    "multi_regression",
+    "doe_effects",
+    "histogram",
+    "control",
+    "dpmo",
+    "sample_size",
+    "proportion_test",
+    "levene",
+    "nonparametric",
+    "residual_diag",
+    "weibull",
+    "ce_matrix",
+    "hypothesis_log",
+    "before_after"
+  ],
+  "projectData": {
+    "selection": {
+      "opportunity": {
+        "customerType": "external",
+        "customerDefinition": "국내외 스마트폰 OEM (삼성전자, 애플 협력사 납품). 연간 케이스 수요 약 120만 개, 프리미엄 라인 비중 확대 중.",
+        "customerNeeds": "1) 외관 스크래치·찍힘 불량 Zero에 가까운 수준\n2) 조립 치수 공차 ±0.2mm 이내\n3) 납기 준수율 95% 이상\n4) 색상 균일도 ΔE < 2.0",
+        "businessOpportunity": "최근 3개월 사출 불량률 15.2%로 연간 품질비용 약 3.65억원 발생. 고객 클레임 증가 및 프리미엄 라인 인증 위험. 불량률 5% 이하 달성 시 연간 2.4억원 이상 절감 가능.",
+        "attachments": {
+          "customer": [],
+          "businessOpp": [],
+          "analysis3C": {
+            "customer": [],
+            "competitor": [],
+            "company": []
+          },
+          "analysisFAW": {
+            "field": [],
+            "application": [],
+            "whatsNew": []
+          }
+        },
+        "analysis3C": {
+          "customer": "OEM은 외관·치수 품질을 최우선 평가. 클레임 2회 이상 시 벤더 재평가 대상.",
+          "competitor": "경쟁사 A사는 불량률 4~6% 수준으로 인증 라인 우선 배정 중.",
+          "company": "당사 사출기 #3 라인은 설비 노후·SOP 미비로 산포가 큼. 개선 여지 명확."
+        },
+        "analysisFAW": {
+          "field": "모바일 액세서리 / 정밀 사출 성형",
+          "application": "스마트폰 보호 케이스 사출 → 검사 → OEM 납품",
+          "whatsNew": "실시간 SPC + 온도 자동보정 + 금형 청소 주기 표준화로 기존 대비 품질 안정화"
+        }
+      },
+      "megaY": "고객 클레임 제로에 가까운 품질 수준",
+      "bigY": "최종검사 불량률 ≤ 5%",
+      "logicTree": {
+        "id": "root",
+        "type": "mega-y",
+        "content": "프리미엄 라인 품질 경쟁력 확보",
+        "children": [
+          {
+            "id": "bigy-1",
+            "type": "big-y",
+            "content": "사출 불량률 ≤ 5%",
+            "children": [
+              {
+                "id": "proj-1",
+                "type": "project",
+                "content": "스마트폰 케이스 사출 불량률 감소",
+                "isSelected": true,
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "bigy-2",
+            "type": "big-y",
+            "content": "납기 준수율 ≥ 95%",
+            "children": [
+              {
+                "id": "proj-2",
+                "type": "project",
+                "content": "납기 준수율 개선",
+                "isSelected": false,
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      "projectPool": [
+        {
+          "name": "스마트폰 케이스 사출 불량률 감소",
+          "currentLevel": "15.2%",
+          "goal": "5% 이하",
+          "urgency": 5,
+          "impact": 5,
+          "total": 10,
+          "selected": true
+        },
+        {
+          "name": "사출 공정 생산성 향상",
+          "currentLevel": "OEE 72%",
+          "goal": "OEE 85%",
+          "urgency": 3,
+          "impact": 4,
+          "total": 7,
+          "selected": false
+        },
+        {
+          "name": "납기 준수율 개선",
+          "currentLevel": "85%",
+          "goal": "95%",
+          "urgency": 4,
+          "impact": 3,
+          "total": 7,
+          "selected": false
+        }
+      ]
+    },
+    "define": {
+      "projectTitle": "스마트폰 케이스 사출 불량률 감소 프로젝트",
+      "businessCase": "프리미엄 스마트폰 케이스 시장 경쟁이 심화되는 가운데, 사출기 #3 라인 불량률이 최근 3개월 평균 15.2%로 고착화되어 연간 약 3.65억 원의 품질비용(폐기·재작업·클레임)이 발생하고 있다. 고객사 벤더 평가에서 품질 항목 감점 위험이 있으며, 불량률을 5% 이하로 낮추면 연간 2.4억 원 이상 절감과 함께 A등급 벤더 유지를 기대할 수 있다.",
+      "problemStatement": "사출기 #3에서 생산하는 스마트폰 케이스의 최종 검사 불량률이 2025년 10~12월 평균 15.2%(1,000개당 152개)이며, 주요 불량 모드는 표면 스크래치(60%), 치수 이탈(30%), 색상 불균일(10%)이다. 이로 인해 월평균 품질비용 약 3,040만 원이 발생하고 고객 납품 지연·클레임이 증가하고 있다.",
+      "goal": "6개월 내(2026-01-15 ~ 2026-07-15) 사출기 #3 불량률을 15.2%에서 5% 이하로 낮추고, 시그마 수준을 약 2.7σ에서 4.0σ 이상으로 개선하며, 연간 품질비용 2.4억 원 이상을 절감한다.",
+      "scopeIn": "사출기 #3 라인: 원자재(펠렛) 입고 검사 → 건조 → 사출 → 냉각 → 취출 → 자주검사 → 최종검사",
+      "scopeOut": "금형 신규 설계 변경, 도장·조립 후가공, 타 사출기(#1,#2,#4) 라인, 영업/단가 협상",
+      "financialBenefits": "연간 품질비용 절감 약 2.42억 원 (불량률 15.2%→5.1% 기준). 월 절감 약 2,020만 원. 고객 클레임 감소에 따른 무형 효과(벤더 등급 유지) 별도.",
+      "team": [
+        {
+          "name": "이영희",
+          "role": "Champion"
+        },
+        {
+          "name": "김철수",
+          "role": "Black Belt"
+        },
+        {
+          "name": "박민수",
+          "role": "공정 전문가 (생산팀장)"
+        },
+        {
+          "name": "정수진",
+          "role": "Green Belt (데이터 분석)"
+        },
+        {
+          "name": "최동욱",
+          "role": "설비보전"
+        }
+      ],
+      "timeline": {
+        "start": "2026-01-15",
+        "end": "2026-07-15"
+      },
+      "sipoc": {
+        "supplier": "폴리카보네이트 펠렛 공급사(A사),\n이형제/착색제 공급사,\n금형 보수 협력사",
+        "input": "PC 펠렛, 착색 마스터배치,\n금형(#3-CASE), 이형제,\n작업지시서, 도면/공차 스펙",
+        "process": "원료 건조 → 호퍼 투입 →\n용융/계량 → 사출 →\n보압 → 냉각 → 취출 →\n자주검사 → 최종검사",
+        "output": "스마트폰 케이스 사출물,\n검사성적서, 불량 분리품,\n공정 파라미터 로그",
+        "customer": "스마트폰 OEM 조립라인,\n내부 후공정(필요 시),\n품질보증팀"
+      },
+      "vocCtq": {
+        "templateId": "mfg_voc",
+        "templateName": "제조 품질 VOC→CTQ",
+        "vocItems": [
+          {
+            "voice": "케이스에 스크래치가 많다",
+            "customer": "OEM 품질",
+            "priority": "상"
+          },
+          {
+            "voice": "치수가 안 맞아 조립이 어렵다",
+            "customer": "조립라인",
+            "priority": "상"
+          },
+          {
+            "voice": "색상이 LOT마다 다르다",
+            "customer": "OEM",
+            "priority": "중"
+          },
+          {
+            "voice": "납기가 자주 지연된다",
+            "customer": "구매",
+            "priority": "중"
+          }
+        ],
+        "ctqItems": [
+          {
+            "ctq": "표면 스크래치",
+            "spec": "깊이 <0.1mm, ≤2개/제품",
+            "weight": 60
+          },
+          {
+            "ctq": "치수 정밀도",
+            "spec": "길이/폭 ±0.2mm, 두께 ±0.1mm",
+            "weight": 30
+          },
+          {
+            "ctq": "색차(ΔE)",
+            "spec": "ΔE < 2.0",
+            "weight": 10
+          }
+        ]
+      },
+      "processMap": {
+        "lanes": [
+          {
+            "id": "m1-1-demo",
+            "title": "자재",
+            "cards": [
+              {
+                "id": "c-1-demo",
+                "text": "원료 입고/건조",
+                "type": "process"
+              },
+              {
+                "id": "c-2-demo",
+                "text": "LOT 투입",
+                "type": "process"
+              }
+            ]
+          },
+          {
+            "id": "m1-2-demo",
+            "title": "생산",
+            "cards": [
+              {
+                "id": "c-3-demo",
+                "text": "사출/냉각",
+                "type": "process"
+              },
+              {
+                "id": "c-4-demo",
+                "text": "취출",
+                "type": "process"
+              }
+            ]
+          },
+          {
+            "id": "m1-3-demo",
+            "title": "품질",
+            "cards": [
+              {
+                "id": "c-5-demo",
+                "text": "자주검사",
+                "type": "decision"
+              },
+              {
+                "id": "c-6-demo",
+                "text": "최종검사",
+                "type": "decision"
+              }
+            ]
+          }
+        ]
+      },
+      "swimlaneMap": {
+        "lanes": [
+          {
+            "id": "m1-1-demo",
+            "title": "자재",
+            "cards": [
+              {
+                "id": "c-1-demo",
+                "text": "원료 입고/건조",
+                "type": "process"
+              },
+              {
+                "id": "c-2-demo",
+                "text": "LOT 투입",
+                "type": "process"
+              }
+            ]
+          },
+          {
+            "id": "m1-2-demo",
+            "title": "생산",
+            "cards": [
+              {
+                "id": "c-3-demo",
+                "text": "사출/냉각",
+                "type": "process"
+              },
+              {
+                "id": "c-4-demo",
+                "text": "취출",
+                "type": "process"
+              }
+            ]
+          },
+          {
+            "id": "m1-3-demo",
+            "title": "품질",
+            "cards": [
+              {
+                "id": "c-5-demo",
+                "text": "자주검사",
+                "type": "decision"
+              },
+              {
+                "id": "c-6-demo",
+                "text": "최종검사",
+                "type": "decision"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "measure": {
+      "unitCount": 30,
+      "defectCount": 0,
+      "opportunityPerUnit": 1,
+      "ctq": "1. 표면 스크래치 (가중치 60%): 깊이 <0.1mm, ≤2개/제품\n2. 치수 정밀도 (가중치 30%): 길이/폭 ±0.2mm, 두께 ±0.1mm\n3. 색차(ΔE) (가중치 10%): ΔE < 2.0",
+      "chartData": {
+        "controlChart": {
+          "type": "xbar",
+          "samples": [
+            {
+              "id": "sg-0",
+              "values": [
+                4.92,
+                5.01,
+                4.88,
+                5.12,
+                4.95
+              ]
+            },
+            {
+              "id": "sg-5",
+              "values": [
+                5.05,
+                4.78,
+                5.18,
+                4.91,
+                5.02
+              ]
+            },
+            {
+              "id": "sg-10",
+              "values": [
+                4.85,
+                5.08,
+                4.97,
+                5.15,
+                4.82
+              ]
+            },
+            {
+              "id": "sg-15",
+              "values": [
+                5.22,
+                4.9,
+                5,
+                4.86,
+                5.09
+              ]
+            },
+            {
+              "id": "sg-20",
+              "values": [
+                4.94,
+                5.11,
+                4.89,
+                5.03,
+                4.96
+              ]
+            },
+            {
+              "id": "sg-25",
+              "values": [
+                5.07,
+                4.83,
+                5.19,
+                4.93,
+                5.04
+              ]
+            }
+          ]
+        },
+        "histogram": {
+          "rawData": [
+            4.92,
+            5.01,
+            4.88,
+            5.12,
+            4.95,
+            5.05,
+            4.78,
+            5.18,
+            4.91,
+            5.02,
+            4.85,
+            5.08,
+            4.97,
+            5.15,
+            4.82,
+            5.22,
+            4.9,
+            5,
+            4.86,
+            5.09,
+            4.94,
+            5.11,
+            4.89,
+            5.03,
+            4.96,
+            5.07,
+            4.83,
+            5.19,
+            4.93,
+            5.04
+          ],
+          "lsl": 4.7,
+          "usl": 5.3,
+          "binCount": 10
+        },
+        "scatterPlot": {
+          "data": [
+            {
+              "x": 1,
+              "y": 4.92
+            },
+            {
+              "x": 2,
+              "y": 5.01
+            },
+            {
+              "x": 3,
+              "y": 4.88
+            },
+            {
+              "x": 4,
+              "y": 5.12
+            },
+            {
+              "x": 5,
+              "y": 4.95
+            },
+            {
+              "x": 6,
+              "y": 5.05
+            },
+            {
+              "x": 7,
+              "y": 4.78
+            },
+            {
+              "x": 8,
+              "y": 5.18
+            },
+            {
+              "x": 9,
+              "y": 4.91
+            },
+            {
+              "x": 10,
+              "y": 5.02
+            },
+            {
+              "x": 11,
+              "y": 4.85
+            },
+            {
+              "x": 12,
+              "y": 5.08
+            },
+            {
+              "x": 13,
+              "y": 4.97
+            },
+            {
+              "x": 14,
+              "y": 5.15
+            },
+            {
+              "x": 15,
+              "y": 4.82
+            },
+            {
+              "x": 16,
+              "y": 5.22
+            },
+            {
+              "x": 17,
+              "y": 4.9
+            },
+            {
+              "x": 18,
+              "y": 5
+            },
+            {
+              "x": 19,
+              "y": 4.86
+            },
+            {
+              "x": 20,
+              "y": 5.09
+            },
+            {
+              "x": 21,
+              "y": 4.94
+            },
+            {
+              "x": 22,
+              "y": 5.11
+            },
+            {
+              "x": 23,
+              "y": 4.89
+            },
+            {
+              "x": 24,
+              "y": 5.03
+            },
+            {
+              "x": 25,
+              "y": 4.96
+            },
+            {
+              "x": 26,
+              "y": 5.07
+            },
+            {
+              "x": 27,
+              "y": 4.83
+            },
+            {
+              "x": 28,
+              "y": 5.19
+            },
+            {
+              "x": 29,
+              "y": 4.93
+            },
+            {
+              "x": 30,
+              "y": 5.04
+            }
+          ],
+          "xLabel": "측정 순서",
+          "yLabel": "측정값"
+        },
+        "boxPlot": {
+          "groups": [
+            {
+              "id": "all",
+              "name": "전체 측정값",
+              "data": [
+                4.92,
+                5.01,
+                4.88,
+                5.12,
+                4.95,
+                5.05,
+                4.78,
+                5.18,
+                4.91,
+                5.02,
+                4.85,
+                5.08,
+                4.97,
+                5.15,
+                4.82,
+                5.22,
+                4.9,
+                5,
+                4.86,
+                5.09,
+                4.94,
+                5.11,
+                4.89,
+                5.03,
+                4.96,
+                5.07,
+                4.83,
+                5.19,
+                4.93,
+                5.04
+              ]
+            }
+          ]
+        },
+        "runChart": {
+          "data": [
+            {
+              "label": "#1",
+              "day": 1,
+              "value": 4.92
+            },
+            {
+              "label": "#2",
+              "day": 2,
+              "value": 5.01
+            },
+            {
+              "label": "#3",
+              "day": 3,
+              "value": 4.88
+            },
+            {
+              "label": "#4",
+              "day": 4,
+              "value": 5.12
+            },
+            {
+              "label": "#5",
+              "day": 5,
+              "value": 4.95
+            },
+            {
+              "label": "#6",
+              "day": 6,
+              "value": 5.05
+            },
+            {
+              "label": "#7",
+              "day": 7,
+              "value": 4.78
+            },
+            {
+              "label": "#8",
+              "day": 8,
+              "value": 5.18
+            },
+            {
+              "label": "#9",
+              "day": 9,
+              "value": 4.91
+            },
+            {
+              "label": "#10",
+              "day": 10,
+              "value": 5.02
+            },
+            {
+              "label": "#11",
+              "day": 11,
+              "value": 4.85
+            },
+            {
+              "label": "#12",
+              "day": 12,
+              "value": 5.08
+            },
+            {
+              "label": "#13",
+              "day": 13,
+              "value": 4.97
+            },
+            {
+              "label": "#14",
+              "day": 14,
+              "value": 5.15
+            },
+            {
+              "label": "#15",
+              "day": 15,
+              "value": 4.82
+            },
+            {
+              "label": "#16",
+              "day": 16,
+              "value": 5.22
+            },
+            {
+              "label": "#17",
+              "day": 17,
+              "value": 4.9
+            },
+            {
+              "label": "#18",
+              "day": 18,
+              "value": 5
+            },
+            {
+              "label": "#19",
+              "day": 19,
+              "value": 4.86
+            },
+            {
+              "label": "#20",
+              "day": 20,
+              "value": 5.09
+            },
+            {
+              "label": "#21",
+              "day": 21,
+              "value": 4.94
+            },
+            {
+              "label": "#22",
+              "day": 22,
+              "value": 5.11
+            },
+            {
+              "label": "#23",
+              "day": 23,
+              "value": 4.89
+            },
+            {
+              "label": "#24",
+              "day": 24,
+              "value": 5.03
+            },
+            {
+              "label": "#25",
+              "day": 25,
+              "value": 4.96
+            },
+            {
+              "label": "#26",
+              "day": 26,
+              "value": 5.07
+            },
+            {
+              "label": "#27",
+              "day": 27,
+              "value": 4.83
+            },
+            {
+              "label": "#28",
+              "day": 28,
+              "value": 5.19
+            },
+            {
+              "label": "#29",
+              "day": 29,
+              "value": 4.93
+            },
+            {
+              "label": "#30",
+              "day": 30,
+              "value": 5.04
+            }
+          ]
+        }
+      },
+      "analysisSummary": {
+        "n": 30,
+        "mean": 4.991666666666666,
+        "stdDev": 0.11817822114934286,
+        "cp": 0.846179600838881,
+        "cpk": 0.8226746119266887,
+        "sigmaLevel": 2.468023835780066,
+        "dpmo": 0,
+        "defectCount": 0,
+        "pp": 0.92,
+        "ppk": 0.78,
+        "zBench": 2.34,
+        "pctOosObserved": 8.5,
+        "pctOosExpected": 9.2,
+        "normalityP": 0.42,
+        "isNormal": true
+      },
+      "msa": {
+        "templateId": "mfg_msa",
+        "templateName": "치수/게이지 GR&R",
+        "method": "Gage R&R (Crossed)",
+        "parts": 10,
+        "operators": 3,
+        "replicates": 3,
+        "acceptance": "GR&R < 10% 우수, 10~30% 조건부 허용, >30% 불가",
+        "checklist": [
+          "측정기 교정 유효기간 확인",
+          "측정 절차(지그/압력/각도) 표준화",
+          "측정자 교육 및 블라인드 측정",
+          "환경(온도/진동) 안정화",
+          "데이터 기록 양식 준비"
+        ],
+        "result": "예: %GR&R = 12.4% (조건부 허용). 주요 원인: 측정자 간 편차. 조치: 재교육 및 지그 개선."
+      }
+    },
+    "analyze": {
+      "causes": [
+        "사출 온도 과다 및 산포",
+        "냉각 시간 부족",
+        "금형 오염/잔류물",
+        "작업자 숙련도 편차",
+        "SOP·검사기준 모호"
+      ],
+      "alternatives": "1) 사출 온도 윈도우 최적화 (245±3℃)\n2) 냉각 시간 표준 30초로 연장\n3) 금형 청소 주기 일 2회 강제\n4) 교대조별 표준작업 교육\n5) 검사 기준서·포카요케 도입",
+      "paretoItems": [
+        {
+          "category": "표면 스크래치",
+          "count": 48
+        },
+        {
+          "category": "치수 이탈",
+          "count": 22
+        },
+        {
+          "category": "색상 편차",
+          "count": 12
+        },
+        {
+          "category": "변형/휨",
+          "count": 8
+        },
+        {
+          "category": "기타",
+          "count": 5
+        }
+      ],
+      "fishbone": {
+        "man": [
+          "숙련도 편차",
+          "교대 인수인계 누락",
+          "자주검사 생략"
+        ],
+        "machine": [
+          "온도센서 드리프트",
+          "냉각수 유량 불안정",
+          "금형 마모"
+        ],
+        "material": [
+          "원료 수분율",
+          "LOT 편차",
+          "이형제 과다"
+        ],
+        "method": [
+          "냉각시간 단축 관행",
+          "설정값 허용폭 과다",
+          "SOP 미준수"
+        ],
+        "measurement": [
+          "게이지 미교정",
+          "측정위치 불일치",
+          "검사기준 모호"
+        ],
+        "environment": [
+          "온습도 변동",
+          "먼지/이물",
+          "조도 부족"
+        ]
+      },
+      "fmea": [
+        {
+          "id": 1,
+          "process": "사출(용융/사출)",
+          "failureMode": "용융 온도 과다",
+          "effect": "표면 스크래치·광택 불량, 버(Burr)",
+          "cause": "센서 오차 + 설정 허용폭 과다",
+          "s": 8,
+          "o": 7,
+          "d": 5,
+          "rpn": 280,
+          "action": "온도 윈도우 245±3℃ 고정, 센서 교정 주간화"
+        },
+        {
+          "id": 2,
+          "process": "냉각",
+          "failureMode": "냉각 시간 부족",
+          "effect": "치수 수축 불균일, 휨",
+          "cause": "사이클타임 우선 운영",
+          "s": 7,
+          "o": 6,
+          "d": 4,
+          "rpn": 168,
+          "action": "냉각 30초 표준, 타이머 인터록"
+        },
+        {
+          "id": 3,
+          "process": "금형 관리",
+          "failureMode": "금형 표면 오염",
+          "effect": "외관 찍힘·이물 전사",
+          "cause": "청소 주기 미정의",
+          "s": 6,
+          "o": 5,
+          "d": 4,
+          "rpn": 120,
+          "action": "교대당 1회(일 2회) 청소 체크시트"
+        },
+        {
+          "id": 4,
+          "process": "최종검사",
+          "failureMode": "스크래치 미검출",
+          "effect": "고객 클레임",
+          "cause": "검사 기준 모호·조명 부족",
+          "s": 9,
+          "o": 3,
+          "d": 6,
+          "rpn": 162,
+          "action": "한계견본 + 검사대 조도 기준 800lux"
+        }
+      ],
+      "why5": [
+        {
+          "question": "왜 최종 불량률이 높은가?",
+          "answer": "표면·치수 관련 결함이 다수를 차지한다."
+        },
+        {
+          "question": "왜 표면·치수 결함이 많은가?",
+          "answer": "공정 조건(온도/냉각) 산포가 크다."
+        },
+        {
+          "question": "왜 공정 조건 산포가 큰가?",
+          "answer": "허용범위가 넓고 설정이 경험적으로 변경된다."
+        },
+        {
+          "question": "왜 경험적으로 변경되는가?",
+          "answer": "SPC·SOP·인터록이 약하다."
+        },
+        {
+          "question": "왜 관리체계가 약한가?",
+          "answer": "예방보전과 표준작업이 체계화되지 않았다."
+        }
+      ],
+      "hypothesis": {
+        "sample1": "4.8, 5.0, 4.9, 5.1, 4.7, 5.2, 4.8, 5.0, 4.9, 5.1",
+        "sample2": "6.2, 6.5, 6.0, 6.8, 6.3, 6.1, 6.4, 6.7, 6.2, 6.5",
+        "testType": "t-test",
+        "result": "분석 결과 (2-Sample T-Test):\n--------------------------------\nGroup A(최적온도 245℃): Mean=4.950, SD=0.158, N=10\nGroup B(고온 258℃): Mean=6.370, SD=0.259, N=10\n--------------------------------\nT-Statistic: -14.8200\n결론: 통계적으로 유의미한 차이가 있습니다. (Alpha=0.05 추정)"
+      },
+      "regression": {
+        "xData": "242, 244, 245, 246, 248, 250, 252, 255, 258, 260",
+        "yData": "8.5, 5.5, 5.1, 4.9, 4.8, 8.2, 10.5, 13.2, 16.8, 19.5",
+        "result": "분석 결과 (Regression):\n--------------------------------\n회귀식: Y = 0.8120 * X + -193.4500\n설명력 (R²): 78.40%\n상관계수 (r): 0.8854\n→ 사출 온도 상승 시 불량률 증가 경향이 뚜렷함"
+      },
+      "ceMatrix": {
+        "ys": [
+          {
+            "name": "불량률",
+            "weight": 10
+          },
+          {
+            "name": "치수",
+            "weight": 7
+          },
+          {
+            "name": "외관",
+            "weight": 5
+          }
+        ],
+        "xs": [
+          {
+            "name": "사출온도",
+            "scores": [
+              9,
+              3,
+              1
+            ]
+          },
+          {
+            "name": "냉각시간",
+            "scores": [
+              9,
+              9,
+              3
+            ]
+          },
+          {
+            "name": "보압",
+            "scores": [
+              3,
+              9,
+              1
+            ]
+          },
+          {
+            "name": "금형상태",
+            "scores": [
+              3,
+              3,
+              9
+            ]
+          },
+          {
+            "name": "원료수분",
+            "scores": [
+              9,
+              1,
+              3
+            ]
+          }
+        ]
+      },
+      "hypothesisLog": [
+        {
+          "id": 1,
+          "y": "불량률",
+          "x": "냉각시간",
+          "hypothesis": "냉각시간 증가 → 불량률 감소",
+          "method": "2-sample t / 회귀",
+          "status": "채택",
+          "evidence": "t=-3.2, p=0.004, R²=0.61"
+        },
+        {
+          "id": 2,
+          "y": "불량률",
+          "x": "사출온도",
+          "hypothesis": "최적 온도 대역에서 불량 최소",
+          "method": "ANOVA / DOE",
+          "status": "채택",
+          "evidence": "F 유의, 최적 245℃"
+        },
+        {
+          "id": 3,
+          "y": "치수",
+          "x": "보압",
+          "hypothesis": "보압 ↑ → 치수 산포 ↓",
+          "method": "상관/회귀",
+          "status": "검증중",
+          "evidence": "r=-0.48, p=0.06"
+        }
+      ],
+      "proportionTest": {
+        "result": "p₁=15.2%, p₂=4.8%, Δ=-10.4%p, z=2.41, p=0.016 → 유의"
+      },
+      "levene": {
+        "conclusion": "Levene W=1.12, p=0.34 → 등분산 가정 OK"
+      },
+      "nonparametric": {
+        "conclusion": "Mann-Whitney U=18, p=0.03 → 중앙값 차이 유의"
+      },
+      "anova": {
+        "conclusion": "F=6.4, p=0.008 → 라인 간 평균 차이 유의"
+      },
+      "chiSquare": {
+        "conclusion": "χ²=11.2, p=0.024 → 불량유형×라인 연관 유의"
+      },
+      "correlation": {
+        "conclusion": "Pearson r=-0.72 (음의 강함), p=0.001 → 유의"
+      },
+      "multiRegression": {
+        "equation": "Ŷ = 28.4 - 0.042·온도 - 0.31·냉각시간 - 0.08·보압",
+        "r2": 0.74,
+        "adjR2": 0.68,
+        "conclusion": "R²=74%, Adj.R²=68%, RMSE=1.12"
+      },
+      "residualDiag": {
+        "conclusion": "잔차 정규성 p=0.31 OK · 잔차 등분산 p=0.44 OK"
+      },
+      "weibull": {
+        "shape": 2.15,
+        "scale": 1420,
+        "B10": 620,
+        "MTTF": 1260,
+        "conclusion": "Weibull β=2.15, η=1420, B10=620h, MTTF≈1260h"
+      }
+    },
+    "improve": {
+      "solutions": [
+        {
+          "cause": "사출 온도 과다/산포",
+          "solution": "사출 온도 최적화 및 고정: 245±3℃ (존별 자동보정)",
+          "type": "공정조건",
+          "cost": "낮음 (센서교정+설정)",
+          "period": "1주",
+          "score": 92,
+          "isSelected": true
+        },
+        {
+          "cause": "냉각 시간 부족",
+          "solution": "냉각 시간 표준 30초 + 타이머 인터록(미달 시 취출 불가)",
+          "type": "설비/인터록",
+          "cost": "낮음",
+          "period": "1주",
+          "score": 88,
+          "isSelected": true
+        },
+        {
+          "cause": "금형 오염",
+          "solution": "금형 청소 주기 교대당 1회(일 2회) + 체크시트 서명",
+          "type": "표준작업",
+          "cost": "낮음",
+          "period": "즉시",
+          "score": 84,
+          "isSelected": true
+        },
+        {
+          "cause": "작업자 숙련도 편차",
+          "solution": "4시간 표준작업 교육 + 한계견본 활용 OJT",
+          "type": "교육",
+          "cost": "중간",
+          "period": "2주",
+          "score": 78,
+          "isSelected": true
+        },
+        {
+          "cause": "검사 기준 모호",
+          "solution": "검사 기준서(SOP-QA-017) 및 포카요케(조도/한계견본) 도입",
+          "type": "품질시스템",
+          "cost": "낮음",
+          "period": "1주",
+          "score": 75,
+          "isSelected": true
+        },
+        {
+          "cause": "사이클타임 우선 문화",
+          "solution": "고속 사이클 유지(냉각 단축) 옵션 — 품질 리스크 큼",
+          "type": "대안(기각)",
+          "cost": "없음",
+          "period": "-",
+          "score": 35,
+          "isSelected": false
+        }
+      ],
+      "DOE": {
+        "templateId": "mfg_doe_process",
+        "templateName": "공정조건 최적화 DOE",
+        "factors": [
+          {
+            "name": "사출온도(℃)",
+            "low": "242",
+            "high": "248"
+          },
+          {
+            "name": "냉각시간(초)",
+            "low": "25",
+            "high": "30"
+          },
+          {
+            "name": "보압(bar)",
+            "low": "85",
+            "high": "90"
+          }
+        ],
+        "factorDetails": [
+          {
+            "name": "사출온도(℃)",
+            "low": "242",
+            "high": "248"
+          },
+          {
+            "name": "냉각시간(초)",
+            "low": "25",
+            "high": "30"
+          },
+          {
+            "name": "보압(bar)",
+            "low": "85",
+            "high": "90"
+          }
+        ],
+        "response": "불량률(%)",
+        "design": "2³ 부분실시 (또는 Full Factorial)",
+        "result": "최적 조건: 온도 245℃, 냉각 30초, 보압 88bar. 파일럿 불량률 유의하게 감소(p<0.05)."
+      },
+      "pilot": {
+        "templateId": "mfg_pilot",
+        "templateName": "라인 파일럿 검증",
+        "period": "2주",
+        "scope": "사출기 #3 주간조",
+        "successCriteria": "불량률 ≤ 6%, 생산성 유지(±3%), 안전이슈 0건",
+        "plan": [
+          "실험 조건 고정(온도/냉각/청소주기)",
+          "대조군(기존)과 실험군 동일 제품군 비교",
+          "일일 불량·가동률 집계",
+          "이상 시 즉시 롤백 기준 적용"
+        ],
+        "result": "실험군 불량률 5.2% (대조 15.2%), p<0.001. 전면 확대 승인."
+      },
+      "pokaYoke": {
+        "templateId": "mfg_poka",
+        "templateName": "제조 포카요케",
+        "items": [
+          {
+            "risk": "온도 조건 이탈",
+            "device": "설정 인터록",
+            "type": "방지형",
+            "check": "범위 밖이면 기동 불가"
+          },
+          {
+            "risk": "냉각시간 미달",
+            "device": "타이머 인터록",
+            "type": "방지형",
+            "check": "미달 시 취출 금지"
+          },
+          {
+            "risk": "자주검사 누락",
+            "device": "검사 알림+체크",
+            "type": "검출형",
+            "check": "미체크 시 다음 LOT 보류"
+          },
+          {
+            "risk": "부품 혼입",
+            "device": "바코드 매칭",
+            "type": "방지형",
+            "check": "BOM 불일치 시 라인스탑"
+          }
+        ]
+      },
+      "doeEffects": {
+        "topEffect": "냉각시간",
+        "conclusion": "주효과가 가장 큰 인자: 냉각시간 (효과=-2.35)"
+      }
+    },
+    "design": {
+      "templateId": "mfg_design",
+      "templateName": "제품/공정 설계 스펙",
+      "title": "사출품 CTQ 설계 사양",
+      "requirements": "표면 품질, 치수 정밀도, 조립 적합성을 만족하는 공정 윈도우 정의",
+      "ctqSpecs": "두께 5.0±0.3mm, 스크래치 깊이 <0.1mm(≤2개), 색차 ΔE<2.0",
+      "constraints": "기존 금형 유지, 사이클타임 +5초 이내, 원가 상승 최소화",
+      "verification": "DOE 최적조건 → 파일럿 2주 → MSA 재확인 → SPC 관리한계 설정",
+      "notes": "인터록(냉각시간)·센서교정 주기를 설계 산출물에 포함",
+      "spec": "[사출품 CTQ 설계 사양]\n요구사항: 표면 품질, 치수 정밀도, 조립 적합성을 만족하는 공정 윈도우 정의\nCTQ/스펙: 두께 5.0±0.3mm, 스크래치 깊이 <0.1mm(≤2개), 색차 ΔE<2.0\n제약: 기존 금형 유지, 사이클타임 +5초 이내, 원가 상승 최소화\n검증계획: DOE 최적조건 → 파일럿 2주 → MSA 재확인 → SPC 관리한계 설정\n비고: 인터록(냉각시간)·센서교정 주기를 설계 산출물에 포함",
+      "designSpecs": "[사출품 CTQ 설계 사양]\n요구사항: 표면 품질, 치수 정밀도, 조립 적합성을 만족하는 공정 윈도우 정의\nCTQ/스펙: 두께 5.0±0.3mm, 스크래치 깊이 <0.1mm(≤2개), 색차 ΔE<2.0\n제약: 기존 금형 유지, 사이클타임 +5초 이내, 원가 상승 최소화\n검증계획: DOE 최적조건 → 파일럿 2주 → MSA 재확인 → SPC 관리한계 설정\n비고: 인터록(냉각시간)·센서교정 주기를 설계 산출물에 포함"
+    },
+    "control": {
+      "monitoringPlan": "【모니터링 KPI】 제조 KPI 모니터링\n· 불량률(%) | 목표 ≤ 5% | 일일 | 담당:품질 | 에스컬레이션:2일 연속 초과 시 Champion 보고\n· Cpk(두께) | 목표 ≥ 1.33 | 주간 | 담당:공정기술 | 에스컬레이션:1.0 미만 시 라인스탑 검토\n· 고객 클레임 | 목표 월 ≤ 1건 | 주간 | 담당:QA | 에스컬레이션:중대 클레임 24h 대응",
+      "sop": "사출기 #N 표준작업지침",
+      "training": "신규/전환 배치 시 4시간 OJT + 한계견본 교육, 이수 기록 필수",
+      "result": "【최종 성과】 제조 성과 요약\n· 불량률: 15.2% → 4.8% (목표 5% 달성)\n· DPMO: 152,000 → 48,000 (~4.1σ)\n· 연간 품질비용: 기준 → 약 2.4억 절감\n\n파일럿·전면적용 후 공정이 안정화되었고, SPC·SOP·교육을 통해 성과를 유지한다.",
+      "controlPlan": {
+        "templateId": "mfg_injection_spc",
+        "templateName": "사출/가공 SPC 관리계획",
+        "items": [
+          {
+            "process": "원료 건조",
+            "characteristic": "수분율(%)",
+            "spec": "≤ 0.02%",
+            "method": "수분분석기",
+            "sample": "LOT당 1회",
+            "owner": "자재팀",
+            "reaction": "기준 초과 시 LOT 보류·재건조"
+          },
+          {
+            "process": "사출",
+            "characteristic": "용융 온도(℃)",
+            "spec": "245 ± 3℃",
+            "method": "설비 센서/기록",
+            "sample": "실시간",
+            "owner": "생산",
+            "reaction": "UCL/LCL 이탈 시 라인스탑·센서교정"
+          },
+          {
+            "process": "냉각",
+            "characteristic": "냉각 시간(초)",
+            "spec": "≥ 30초",
+            "method": "타이머 인터록",
+            "sample": "매 사이클",
+            "owner": "생산",
+            "reaction": "미달 시 취출 금지·설정 확인"
+          },
+          {
+            "process": "최종검사",
+            "characteristic": "치수(mm)",
+            "spec": "공차 ±0.2mm",
+            "method": "버니어/게이지",
+            "sample": "시간당 5개",
+            "owner": "품질",
+            "reaction": "이탈 시 전량 선별·원인 조사"
+          },
+          {
+            "process": "최종검사",
+            "characteristic": "외관 스크래치",
+            "spec": "깊이 <0.1mm, ≤2개",
+            "method": "한계견본 육안",
+            "sample": "전수(또는 AQL)",
+            "owner": "품질",
+            "reaction": "불량 격리·금형 청소 점검"
+          }
+        ]
+      },
+      "standardWork": {
+        "templateId": "mfg_sop_injection",
+        "templateName": "사출기 표준작업(SOP)",
+        "title": "사출기 #N 표준작업지침",
+        "purpose": "사출 공정 조건을 표준화하여 품질 산포와 불량을 최소화한다.",
+        "scope": "사출기 가동, 조건 확인, 금형 청소, 자주검사, 이상 발생 시 조치",
+        "safety": "안전화·장갑 착용, 가동 중 금형 접근 금지, LOTO 절차 준수",
+        "steps": [
+          {
+            "step": 1,
+            "action": "작업 전 점검",
+            "detail": "냉각수·히터·안전장치·금형 상태를 체크리스트로 확인"
+          },
+          {
+            "step": 2,
+            "action": "조건 설정",
+            "detail": "온도 245±3℃, 냉각 ≥30초, 보압 기준값 입력 후 서명"
+          },
+          {
+            "step": 3,
+            "action": "초도품 확인",
+            "detail": "초도 5개 외관·치수 검사 후 OK 시 양산 시작"
+          },
+          {
+            "step": 4,
+            "action": "자주검사",
+            "detail": "1시간마다 샘플 5개 검사, 결과를 관리도에 기록"
+          },
+          {
+            "step": 5,
+            "action": "금형 청소",
+            "detail": "교대당 1회 청소 및 체크시트 서명"
+          },
+          {
+            "step": 6,
+            "action": "이상 조치",
+            "detail": "관리이탈·불량 급증 시 라인스탑 → 팀장 보고 → 원인 기록"
+          }
+        ],
+        "training": "신규/전환 배치 시 4시간 OJT + 한계견본 교육, 이수 기록 필수"
+      },
+      "monitoring": {
+        "templateId": "mfg_mon",
+        "templateName": "제조 KPI 모니터링",
+        "kpis": [
+          {
+            "name": "불량률(%)",
+            "target": "≤ 5%",
+            "frequency": "일일",
+            "owner": "품질",
+            "escalation": "2일 연속 초과 시 Champion 보고"
+          },
+          {
+            "name": "Cpk(두께)",
+            "target": "≥ 1.33",
+            "frequency": "주간",
+            "owner": "공정기술",
+            "escalation": "1.0 미만 시 라인스탑 검토"
+          },
+          {
+            "name": "고객 클레임",
+            "target": "월 ≤ 1건",
+            "frequency": "주간",
+            "owner": "QA",
+            "escalation": "중대 클레임 24h 대응"
+          }
+        ]
+      },
+      "resultSummary": {
+        "templateId": "mfg_res",
+        "templateName": "제조 성과 요약",
+        "metrics": [
+          {
+            "name": "불량률",
+            "before": "15.2%",
+            "after": "4.8%",
+            "note": "목표 5% 달성"
+          },
+          {
+            "name": "DPMO",
+            "before": "152,000",
+            "after": "48,000",
+            "note": "~4.1σ"
+          },
+          {
+            "name": "연간 품질비용",
+            "before": "기준",
+            "after": "약 2.4억 절감",
+            "note": ""
+          }
+        ],
+        "summary": "파일럿·전면적용 후 공정이 안정화되었고, SPC·SOP·교육을 통해 성과를 유지한다."
+      },
+      "completeChecks": {
+        "sop": true,
+        "training": true,
+        "monitoring": true,
+        "result": true,
+        "approve": true
+      },
+      "controlPlanSummary": "【관리계획서】 사출/가공 SPC 관리계획\n· [원료 건조] 수분율(%) | ≤ 0.02%\n· [사출] 용융 온도(℃) | 245 ± 3℃\n· [냉각] 냉각 시간(초) | ≥ 30초\n· [최종검사] 치수(mm) | 공차 ±0.2mm\n· [최종검사] 외관 스크래치 | 깊이 <0.1mm, ≤2개",
+      "beforeAfter": {
+        "before": {
+          "defectRate": "15.2",
+          "dpmo": "152000",
+          "cpk": "0.65",
+          "sigma": "2.0"
+        },
+        "after": {
+          "defectRate": "4.8",
+          "dpmo": "48000",
+          "cpk": "1.35",
+          "sigma": "4.1"
+        }
+      }
+    },
+    "verify": {
+      "verificationResults": "",
+      "result": ""
+    }
+  }
+}
