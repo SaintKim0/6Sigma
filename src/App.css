@@ -1543,3 +1543,103 @@ textarea::placeholder {
   }
 }
 
+/* —— 홈 이동: 저장 / 삭제 확인 —— */
+.home-exit-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 12000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(4px);
+}
+
+.home-exit-modal {
+  width: min(100%, 400px);
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.5rem 1.4rem 1.25rem;
+  box-shadow: 0 24px 48px -16px rgba(15, 23, 42, 0.35);
+  text-align: center;
+}
+
+.home-exit-modal h3 {
+  margin: 0 0 0.55rem;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.home-exit-modal p {
+  margin: 0 0 1.25rem;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: #475569;
+}
+
+.home-exit-actions {
+  display: flex;
+  gap: 0.65rem;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+
+.home-exit-btn {
+  min-width: 5.5rem;
+  padding: 0.7rem 1.1rem;
+  border-radius: 10px;
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.home-exit-btn-yes {
+  background: #2563eb;
+  color: #fff;
+  border-color: #2563eb;
+}
+
+.home-exit-btn-yes:hover {
+  background: #1d4ed8;
+}
+
+.home-exit-btn-no {
+  background: #f8fafc;
+  color: #334155;
+  border-color: #cbd5e1;
+}
+
+.home-exit-btn-no:hover {
+  background: #f1f5f9;
+}
+
+.home-exit-btn-danger {
+  background: #dc2626;
+  color: #fff;
+  border-color: #dc2626;
+}
+
+.home-exit-btn-danger:hover {
+  background: #b91c1c;
+}
+
+.home-exit-cancel {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.35rem;
+  font-family: inherit;
+}
+
+.home-exit-cancel:hover {
+  color: #64748b;
+  text-decoration: underline;
+}
+

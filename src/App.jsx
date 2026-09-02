@@ -134,6 +134,7 @@ import AiSettingsForm from './components/AiSettingsForm';
 import { StatsLearningBrowser } from './components/StatsLearning';
 import { PackageHub } from './components/PackageHub';
 import EducationCurriculum from './components/EducationCurriculum';
+import LandingPage from './components/LandingPage';
 import { getSampleById } from './data/sampleLibrary';
 import {
   MAIN_SLOT_KEY,
@@ -679,6 +680,33 @@ function App() {
   const [navHistory, setNavHistory] = useState([]);
   const [workspaceMode, setWorkspaceModeState] = useState(() => getWorkspaceMode());
   const isPracticeMode = workspaceMode === 'practice';
+  /** 랜딩: 진행 중이 아니면 첫 화면으로 표시 */
+  const [showLanding, setShowLanding] = useState(() => {
+    try {
+      const hasProgress = !!(
+        localStorage.getItem('sigma_industry')
+        || localStorage.getItem('sigma_methodology')
+      );
+      return !hasProgress;
+    } catch {
+      return true;
+    }
+  });
+  /** 홈(랜딩) 이동: 'askSave' | 'askDelete' | null */
+  const [homeExitStep, setHomeExitStep] = useState(null);
+
+  const enterAppFromLanding = () => {
+    setShowLanding(false);
+    closeHelpPanels();
+    setActiveTool(null);
+    setSelectionSubView(null);
+    if (!selectedIndustry) setActiveStep('selection');
+  };
+
+  const openCurriculumFromLanding = () => {
+    setShowLanding(false);
+    openCurriculumTab();
+  };
 
   const collectWorkspaceBundle = () => ({
     industry: selectedIndustry,
@@ -717,6 +745,7 @@ function App() {
     setShowPackageHub(false);
     setShowCurriculum(false);
     setNavHistory([]);
+    setShowLanding(false);
   };
 
   /** 교육 실습 샌드박스로 전환 (본 프로젝트는 슬롯에 보관) */
@@ -1023,22 +1052,37 @@ function App() {
     }
   };
 
-  /** 현재 작업공간을 맨 처음(업종 선택)으로 초기화. 로그인·저장된 프로젝트 목록은 유지 */
-  const resetToStart = () => {
-    const ok = window.confirm(
-      isPracticeMode
-        ? '교육 실습을 처음부터 지울까요?\n\n· 실습 샌드박스만 초기화됩니다.\n· 본 프로젝트는 영향 없습니다.\n\n계속하려면 확인을 누르세요.'
-        : (
-          '처음부터 다시 시작할까요?\n\n' +
-          '· 현재 화면의 프로젝트·진단·방법론 데이터가 모두 지워집니다.\n' +
-          '· 로그인 계정과 「내 프로젝트」에 저장된 항목은 유지됩니다.\n\n' +
-          '계속하려면 확인을 누르세요.'
-        )
-    );
-    if (!ok) return;
-
+  /** 현재 작업 데이터 삭제(확인 없음). goLanding이면 홈으로 이동 */
+  const clearCurrentWorkspace = ({ goLanding = false } = {}) => {
     if (isPracticeMode) {
       clearWorkspaceSlot(PRACTICE_SLOT_KEY);
+      if (goLanding) {
+        setWorkspaceMode('project');
+        setWorkspaceModeState('project');
+        WORKSPACE_STORAGE_KEYS.forEach((k) => localStorage.removeItem(k));
+        try { sessionStorage.removeItem('sigma_last_sample'); } catch { /* ignore */ }
+        setCurrentProjectId(null);
+        setCurrentProjectIdState(null);
+        setSelectedIndustry(null);
+        setDiagnosticCompleted(false);
+        setDiagnosticResponses({});
+        setCurrentDiagnosticIndex(0);
+        setExpandedProblemTypes(new Set());
+        setCompletedTools([]);
+        setQualityIssues([]);
+        setProjectSelected(false);
+        setOpportunityAnalyzed(false);
+        setMethodology(null);
+        setActiveStep('selection');
+        setSelectionSubView(null);
+        setActiveTool(null);
+        setData(createEmptyProjectData());
+        setVersions([]);
+        closeHelpPanels();
+        setNavHistory([]);
+        setShowLanding(true);
+        return;
+      }
       enterPracticeMode({ fresh: true, phase: 'define' });
       return;
     }
@@ -1072,6 +1116,79 @@ function App() {
     setShowSaveDraft(false);
     closeHelpPanels();
     setNavHistory([]);
+    if (goLanding) setShowLanding(true);
+  };
+
+  /** 현재 작업공간을 맨 처음(업종 선택)으로 초기화. 로그인·저장된 프로젝트 목록은 유지 */
+  const resetToStart = () => {
+    const ok1 = window.confirm(
+      isPracticeMode
+        ? '작업을 초기화할까요?\n\n· 교육 실습 샌드박스만 지워집니다.\n· 본 프로젝트는 영향 없습니다.\n\n계속하려면 확인을 누르세요.'
+        : (
+          '작업을 초기화할까요?\n\n' +
+          '· 현재 화면의 프로젝트·진단·방법론 데이터가 모두 지워집니다.\n' +
+          '· 로그인 계정과 「내 프로젝트」에 저장된 항목은 유지됩니다.\n\n' +
+          '계속하려면 확인을 누르세요.'
+        )
+    );
+    if (!ok1) return;
+
+    const ok2 = window.confirm(
+      isPracticeMode
+        ? '마지막 확인입니다.\n\n교육 실습 내용을 정말 삭제할까요?\n이 작업은 되돌릴 수 없습니다.'
+        : (
+          '마지막 확인입니다.\n\n' +
+          '현재 작업을 정말 삭제할까요?\n이 작업은 되돌릴 수 없습니다.\n\n' +
+          '확인을 누르면 초기화 후 랜딩 화면으로 이동합니다.'
+        )
+    );
+    if (!ok2) return;
+
+    clearCurrentWorkspace({ goLanding: !isPracticeMode });
+  };
+
+  const goHomeKeepWork = () => {
+    closeHelpPanels();
+    setActiveTool(null);
+    setSelectionSubView(null);
+    setHomeExitStep(null);
+    setShowLanding(true);
+  };
+
+  const requestGoHome = () => {
+    setHomeExitStep('askSave');
+  };
+
+  const handleHomeSaveYes = () => {
+    // 로그인 상태면 「내 프로젝트」에도 저장. 미로그인이면 브라우저 작업 공간 유지.
+    if (!isPracticeMode && session?.userId) {
+      try {
+        const title = data.define?.projectTitle || '제목 없는 프로젝트';
+        const saved = saveUserProject(
+          session.userId,
+          buildProjectSnapshot(title),
+          currentProjectId
+        );
+        setCurrentProjectIdState(saved.id);
+        setCurrentProjectId(saved.id);
+      } catch (err) {
+        alert('저장에 실패했습니다: ' + (err.message || '알 수 없는 오류') + '\n작업은 이 브라우저에 유지한 채 홈으로 이동합니다.');
+      }
+    }
+    goHomeKeepWork();
+  };
+
+  const handleHomeSaveNo = () => {
+    setHomeExitStep('askDelete');
+  };
+
+  const handleHomeDeleteConfirm = () => {
+    setHomeExitStep(null);
+    clearCurrentWorkspace({ goLanding: true });
+  };
+
+  const handleHomeExitCancel = () => {
+    setHomeExitStep(null);
   };
 
   const applySamplePack = (pack) => {
@@ -5061,19 +5178,57 @@ function App() {
 
   return (
     <div className="app-container">
-      {/* 🔄 [New] DFSS Setup Button */}
+      {showLanding && (
+        <LandingPage
+          hasResume={!!(selectedIndustry || methodology)}
+          onStartProject={enterAppFromLanding}
+          onResume={enterAppFromLanding}
+          onOpenCurriculum={openCurriculumFromLanding}
+          onResetWork={resetToStart}
+        />
+      )}
+
+      {!showLanding && (
+      <>
+      {homeExitStep && (
+        <div className="home-exit-overlay" role="dialog" aria-modal="true" aria-labelledby="home-exit-title">
+          <div className="home-exit-modal">
+            {homeExitStep === 'askSave' ? (
+              <>
+                <h3 id="home-exit-title">홈 화면으로 돌아갑니다</h3>
+                <p>작업 내용을 저장할까요?</p>
+                <div className="home-exit-actions">
+                  <button type="button" className="home-exit-btn home-exit-btn-yes" onClick={handleHomeSaveYes}>
+                    예
+                  </button>
+                  <button type="button" className="home-exit-btn home-exit-btn-no" onClick={handleHomeSaveNo}>
+                    아니오
+                  </button>
+                </div>
+                <button type="button" className="home-exit-cancel" onClick={handleHomeExitCancel}>
+                  취소 (현재 화면 유지)
+                </button>
+              </>
+            ) : (
+              <>
+                <h3 id="home-exit-title">작업한 내용이 삭제됩니다</h3>
+                <p>삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.</p>
+                <div className="home-exit-actions">
+                  <button type="button" className="home-exit-btn home-exit-btn-danger" onClick={handleHomeDeleteConfirm}>
+                    삭제
+                  </button>
+                  <button type="button" className="home-exit-btn home-exit-btn-no" onClick={handleHomeExitCancel}>
+                    취소
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
 
       <header className="app-header">
-        <div className="logo" onClick={() => {
-          if (window.confirm('시작 화면으로 돌아갈까요? (데이터가 지워지지는 않습니다. 완전 초기화는 「처음으로」 버튼을 사용하세요.)')) {
-            closeHelpPanels();
-            setActiveTool(null);
-            setSelectionSubView(null);
-            if (!selectedIndustry) setActiveStep('selection');
-            else if (!methodology) setActiveStep('selection');
-            else setActiveStep(steps[0]?.id === 'selection' ? 'define' : 'define');
-          }
-        }} style={{ cursor: 'pointer' }} title="시작 화면으로 이동">
+        <div className="logo" onClick={requestGoHome} style={{ cursor: 'pointer' }} title="홈 화면으로 이동">
           <Zap size={24} color="#f59e0b" fill="#f59e0b" />
           <h1>6-SIGMA MASTER</h1>
         </div>
@@ -5116,9 +5271,9 @@ function App() {
           <button
             className="btn-reset"
             onClick={resetToStart}
-            title="업종 선택부터 완전 초기화 (저장된 내 프로젝트·로그인은 유지)"
+            title="작업 초기화 — 현재 프로젝트 데이터를 지우고 처음부터 (저장된 내 프로젝트·로그인은 유지)"
           >
-            <RotateCcw size={16} /> 처음으로
+            <RotateCcw size={16} /> 작업 초기화
           </button>
           <button
             className="btn-demo"
@@ -5750,6 +5905,8 @@ function App() {
             </div>
           </div>
         </div>
+      )}
+      </>
       )}
     </div>
   );
