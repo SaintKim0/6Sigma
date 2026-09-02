@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Zap,
   ArrowRight,
   Target,
   Ruler,
@@ -18,6 +17,7 @@ import {
   Layers,
   GitBranch
 } from 'lucide-react';
+import BrandLogo from './BrandLogo';
 import './LandingPage.css';
 
 const PATHS = {
@@ -103,8 +103,9 @@ export default function LandingPage({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45 }}
             >
-              <Zap size={34} className="landing-brand-icon" />
-              <span className="landing-brand-name">6-SIGMA MASTER</span>
+              <BrandLogo size={40} className="landing-brand-mark" />
+              <span className="landing-brand-name">SigmaLab</span>
+              <span className="landing-brand-ko">시그마랩</span>
             </motion.div>
             {hasResume && onResetWork && (
               <button
@@ -297,6 +298,39 @@ export default function LandingPage({
           </div>
         </div>
       </section>
+
+      <footer className="landing-footer">
+        <div className="landing-footer-inner">
+          <div className="landing-footer-brand">
+            <div className="landing-footer-logo">
+              <BrandLogo size={22} />
+              <strong>SigmaLab</strong>
+              <span className="landing-footer-ko">시그마랩</span>
+            </div>
+            <p>데이터 기반 품질 개선 · DMAIC · DFSS 실습 워크스페이스</p>
+          </div>
+
+          <nav className="landing-footer-nav" aria-label="푸터 메뉴">
+            <button type="button" onClick={onStartProject}>프로젝트 시작</button>
+            {hasResume && onResume && (
+              <button type="button" onClick={onResume}>이어서 진행</button>
+            )}
+            {onOpenCurriculum && (
+              <button type="button" onClick={onOpenCurriculum}>교육과정</button>
+            )}
+            {hasResume && onResetWork && (
+              <button type="button" className="landing-footer-danger" onClick={onResetWork}>
+                작업 초기화
+              </button>
+            )}
+          </nav>
+
+          <div className="landing-footer-meta">
+            <span>© {new Date().getFullYear()} SigmaLab</span>
+            <span>교육·실습용 · 브라우저에서 바로 사용</span>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

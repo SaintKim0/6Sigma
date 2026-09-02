@@ -49,7 +49,7 @@ export async function exportProjectPdf({ data, methodology, completedTools, indu
     });
   };
 
-  line(`6-SIGMA MASTER Report`, 16, 'bold');
+  line(`SigmaLab Report`, 16, 'bold');
   line(`${story.methodology} | ${story.title}`, 12, 'bold');
   if (story.industryName) line(`Industry: ${story.industryName}`, 10);
   line(story.oneLiner, 10);

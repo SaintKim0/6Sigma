@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reel Renderer · Light Gen-Z</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=Noto+Sans+KR:wght@500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 1080px; height: 1920px; overflow: hidden;
+      background: #FFFBF7;
+      font-family: "Noto Sans KR", Outfit, sans-serif;
+    }
+    .reel { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
+    .reel.active { opacity: 1; }
+    .scene {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      text-align: center; padding: 80px 64px;
+      opacity: 0; transform: scale(1.03);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
+    .scene.on { opacity: 1; transform: scale(1); }
+    .mesh {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 65% 50% at 90% 8%, rgba(255, 180, 162, 0.55), transparent 55%),
+        radial-gradient(ellipse 55% 45% at 5% 88%, rgba(167, 243, 208, 0.5), transparent 52%),
+        radial-gradient(ellipse 40% 35% at 55% 45%, rgba(199, 239, 255, 0.55), transparent 60%),
+        linear-gradient(165deg, #FFFBF7 0%, #FFF5EB 40%, #F0FDFA 100%);
+    }
+    .mesh-peach {
+      background:
+        radial-gradient(ellipse 70% 55% at 80% 15%, rgba(253, 186, 116, 0.55), transparent 55%),
+        radial-gradient(ellipse 50% 40% at 15% 80%, rgba(251, 113, 133, 0.22), transparent 50%),
+        linear-gradient(160deg, #FFF7ED 0%, #FFF1F2 50%, #FFFBEB 100%);
+    }
+    .mesh-mint {
+      background:
+        radial-gradient(ellipse 60% 50% at 15% 20%, rgba(110, 231, 183, 0.45), transparent 55%),
+        radial-gradient(ellipse 55% 45% at 90% 75%, rgba(125, 211, 252, 0.4), transparent 50%),
+        linear-gradient(160deg, #F0FDFA 0%, #ECFEFF 55%, #FFFBF7 100%);
+    }
+    .mesh-butter {
+      background:
+        radial-gradient(ellipse 55% 45% at 70% 25%, rgba(254, 240, 138, 0.65), transparent 55%),
+        radial-gradient(ellipse 50% 40% at 20% 80%, rgba(253, 186, 116, 0.4), transparent 50%),
+        linear-gradient(155deg, #FFFBEB 0%, #FFF7ED 50%, #FFFBF7 100%);
+    }
+    .fg { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 28px; }
+    .mark { width: 64px; height: 64px; flex-shrink: 0; display: block; }
+    .brand { font-family: Outfit, sans-serif; font-weight: 800; font-size: 34px; letter-spacing: -.03em; color: #1E293B; }
+    .pill {
+      padding: 12px 26px; border-radius: 999px; font-size: 24px; font-weight: 700;
+      color: #BE123C; background: rgba(255,255,255,.85);
+      border: 1px solid rgba(251, 113, 133, 0.35);
+      box-shadow: 0 8px 24px rgba(251, 113, 133, 0.12);
+    }
+    .title {
+      font-family: Outfit, "Noto Sans KR", sans-serif; font-weight: 800;
+      font-size: 72px; line-height: 1.25; letter-spacing: -.03em; color: #1E293B;
+    }
+    .title.sm { font-size: 56px; }
+    .title.rose { color: #E11D48; }
+    .title.mint { color: #0F766E; }
+    .title.sky { color: #0284C7; }
+    .sub { font-size: 32px; line-height: 1.55; color: #64748B; max-width: 16em; }
+    .cta {
+      margin-top: 20px; padding: 28px 48px; border-radius: 999px; font-size: 34px; font-weight: 800; color: #fff;
+      background: linear-gradient(120deg, #FB7185 0%, #FB923C 100%);
+      box-shadow: 0 16px 36px rgba(251, 113, 133, 0.35);
+    }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; width: 100%; margin-top: 12px; }
+    .card {
+      background: rgba(255,255,255,.92); border: 1px solid rgba(253, 186, 116, 0.35);
+      border-radius: 28px; padding: 36px 24px; text-align: center;
+      box-shadow: 0 12px 28px rgba(251, 146, 60, 0.1);
+    }
+    .card strong { display: block; font-size: 40px; font-weight: 900; margin-bottom: 10px; color: #0284C7; }
+    .card.teal strong { color: #0D9488; }
+    .card span { font-size: 26px; color: #64748B; font-weight: 700; line-height: 1.4; }
+    .chaos { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; max-width: 900px; }
+    .tag {
+      padding: 16px 22px; border-radius: 16px;
+      background: #fff; border: 1px dashed #FDA4AF;
+      color: #BE123C; font-size: 26px; font-weight: 700; transform: rotate(-2deg);
+      box-shadow: 0 8px 18px rgba(251, 113, 133, 0.12);
+    }
+    .tag:nth-child(2) { transform: rotate(3deg); color: #C2410C; border-color: #FDBA74; }
+    .tag:nth-child(3) { transform: rotate(-4deg); color: #0F766E; border-color: #5EEAD4; }
+    .tag:nth-child(4) { transform: rotate(2deg); color: #0369A1; border-color: #7DD3FC; }
+    .progress {
+      position: absolute; left: 64px; right: 64px; bottom: 56px; height: 8px;
+      background: rgba(251, 146, 60, 0.18); border-radius: 999px; overflow: hidden; z-index: 5;
+    }
+    .progress > i {
+      display: block; height: 100%; width: 0%;
+      background: linear-gradient(90deg, #FB7185, #FB923C, #FDE68A);
+      border-radius: 999px;
+    }
+  </style>
+</head>
+<body>
+  <div class="reel" id="reel-a">
+    <div class="scene" data-t="0"><div class="mesh mesh-peach"></div><div class="fg">
+      <svg class="mark" width="64" height="64" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <rect x="2" y="2" width="44" height="44" rx="14" fill="url(#rp1)"/>
+  <path d="M30.2 14.8c2.2 0 3.9 1.1 4.8 2.8.3.5-.1 1.1-.7 1.1h-1.7c-.35 0-.65-.15-.85-.45-.55-.85-1.35-1.3-2.35-1.3-1.85 0-3 1.35-3 3.25 0 1.45.85 2.45 2.55 3.35l2.05 1.05c2.5 1.3 3.95 2.95 3.95 5.55 0 3.55-2.7 5.95-6.55 5.95-2.7 0-4.8-1.25-5.85-3.25-.3-.55.05-1.15.7-1.15h1.8c.35 0 .65.2.85.5.7 1.1 1.8 1.7 3.15 1.7 2.1 0 3.4-1.35 3.4-3.25 0-1.5-.85-2.55-2.65-3.5l-2.15-1.1c-2.5-1.3-3.85-2.95-3.85-5.55 0-3.4 2.5-5.7 6.25-5.7Z" fill="#fff"/>
+  <defs>
+    <linearGradient id="rp1" x1="6" y1="4" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FB7185"/><stop offset="1" stop-color="#FB923C"/>
+    </linearGradient>
+  </defs>
+</svg>
+      <div class="title rose">엑셀만으로<br />6시그마?</div>
+    </div></div>
+    <div class="scene" data-t="3000"><div class="mesh mesh-mint"></div><div class="fg">
+      <div class="pill">PROJECT START</div>
+      <div class="title sm">이젠 앱에서<br />바로 실습</div>
+      <p class="sub">업종 선택 → 진단 → 시작</p>
+    </div></div>
+    <div class="scene" data-t="7000"><div class="mesh"></div><div class="fg">
+      <div class="pill">METHOD PATH</div>
+      <div class="title sm">DMAIC · DFSS</div>
+      <p class="sub">진단으로 맞는 경로 선택</p>
+      <div class="split">
+        <div class="card"><strong>DMAIC</strong><span>기존 개선</span></div>
+        <div class="card teal"><strong>DFSS</strong><span>신규 설계</span></div>
+      </div>
+    </div></div>
+    <div class="scene" data-t="12000"><div class="mesh mesh-butter"></div><div class="fg">
+      <div class="brand">SigmaLab · 시그마랩</div>
+      <div class="title sm">프로필 링크에서<br />시작</div>
+      <div class="cta">프로젝트 시작 →</div>
+    </div></div>
+    <div class="progress"><i id="bar-a"></i></div>
+  </div>
+
+  <div class="reel" id="reel-b">
+    <div class="scene" data-t="0"><div class="mesh mesh-peach"></div><div class="fg">
+      <div class="pill">CHOOSE PATH</div>
+      <div class="title">개선?<br />신규 설계?</div>
+    </div></div>
+    <div class="scene" data-t="3000"><div class="mesh"></div><div class="fg">
+      <div class="pill">기존 공정</div>
+      <div class="title sky">→ DMAIC</div>
+      <p class="sub">정의 · 측정 · 분석 · 개선 · 관리</p>
+    </div></div>
+    <div class="scene" data-t="8000"><div class="mesh mesh-mint"></div><div class="fg">
+      <div class="pill">처음부터 설계</div>
+      <div class="title mint">→ DFSS</div>
+      <p class="sub">정의 · 측정 · 분석 · 설계 · 검증</p>
+    </div></div>
+    <div class="scene" data-t="12000"><div class="mesh mesh-butter"></div><div class="fg">
+      <div class="brand">SigmaLab · 시그마랩</div>
+      <div class="title sm">맞는 경로,<br />앱이 도와줍니다</div>
+      <div class="cta">지금 확인 →</div>
+    </div></div>
+    <div class="progress"><i id="bar-b"></i></div>
+  </div>
+
+  <div class="reel" id="reel-c">
+    <div class="scene" data-t="0"><div class="mesh mesh-peach"></div><div class="fg">
+      <div class="title sm rose">차터… 관리도…<br />또 어디지?</div>
+      <div class="chaos">
+        <span class="tag">차터.xlsx</span>
+        <span class="tag">SIPOC.docx</span>
+        <span class="tag">관리도.png</span>
+        <span class="tag">회의록...</span>
+      </div>
+    </div></div>
+    <div class="scene" data-t="4000"><div class="mesh mesh-mint"></div><div class="fg">
+      <div class="pill">ONE WORKSPACE</div>
+      <div class="title sm">한곳에서<br />단계별 도구</div>
+      <p class="sub">차터 · SIPOC · 관리도 · 통계</p>
+    </div></div>
+    <div class="scene" data-t="10000"><div class="mesh mesh-butter"></div><div class="fg">
+      <svg class="mark" width="64" height="64" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <rect x="2" y="2" width="44" height="44" rx="14" fill="url(#rp2)"/>
+  <path d="M30.2 14.8c2.2 0 3.9 1.1 4.8 2.8.3.5-.1 1.1-.7 1.1h-1.7c-.35 0-.65-.15-.85-.45-.55-.85-1.35-1.3-2.35-1.3-1.85 0-3 1.35-3 3.25 0 1.45.85 2.45 2.55 3.35l2.05 1.05c2.5 1.3 3.95 2.95 3.95 5.55 0 3.55-2.7 5.95-6.55 5.95-2.7 0-4.8-1.25-5.85-3.25-.3-.55.05-1.15.7-1.15h1.8c.35 0 .65.2.85.5.7 1.1 1.8 1.7 3.15 1.7 2.1 0 3.4-1.35 3.4-3.25 0-1.5-.85-2.55-2.65-3.5l-2.15-1.1c-2.5-1.3-3.85-2.95-3.85-5.55 0-3.4 2.5-5.7 6.25-5.7Z" fill="#fff"/>
+  <defs>
+    <linearGradient id="rp2" x1="6" y1="4" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FB7185"/><stop offset="1" stop-color="#FB923C"/>
+    </linearGradient>
+  </defs>
+</svg>
+      <div class="brand">SigmaLab · 시그마랩</div>
+      <div class="title sm">시그마랩으로<br />시작</div>
+      <div class="cta">지금 시작 →</div>
+    </div></div>
+    <div class="progress"><i id="bar-c"></i></div>
+  </div>
+
+  <script>
+    const DURATION = 15000;
+    const params = new URLSearchParams(location.search);
+    const id = params.get('reel') || 'reel-a';
+    const reel = document.getElementById(id);
+    reel.classList.add('active');
+    const scenes = [...reel.querySelectorAll('.scene')];
+    const bar = reel.querySelector('.progress > i');
+    const start = performance.now();
+
+    function tick(now) {
+      const t = now - start;
+      const p = Math.min(1, t / DURATION);
+      if (bar) bar.style.width = (p * 100) + '%';
+      let current = scenes[0];
+      for (const s of scenes) {
+        if (t >= Number(s.dataset.t)) current = s;
+      }
+      scenes.forEach(s => s.classList.toggle('on', s === current));
+      if (t < DURATION + 200) requestAnimationFrame(tick);
+      else document.body.dataset.done = '1';
+    }
+    document.fonts.ready.then(() => {
+      scenes[0].classList.add('on');
+      requestAnimationFrame(tick);
+      window.__reelReady = true;
+    });
+  </script>
+</body>
+</html>

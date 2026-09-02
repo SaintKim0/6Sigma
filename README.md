@@ -33,7 +33,10 @@ npm run dev
 npm run build
 ```
 
-- **Vercel**: 저장소 연결 후 자동 (`vercel.json` SPA rewrite 포함)
+- **GitHub Actions → GitHub Pages** (권장): `main` 푸시 시 `.github/workflows/deploy-pages.yml`이 빌드·배포  
+  - 저장소 **Settings → Pages → Source: GitHub Actions** 한 번만 선택  
+  - URL: `https://saintkim0.github.io/6Sigma/`
+- **Vercel**: 저장소 연결 시 푸시만으로도 배포 (`vercel.json` SPA rewrite 포함). Actions로 Vercel에 올리려면 `VERCEL_TOKEN` 등 시크릿이 필요합니다.
 - **Netlify**: `netlify.toml` 사용, publish=`dist`
 - 미리보기: `npm run preview`
 

@@ -135,6 +135,7 @@ import { StatsLearningBrowser } from './components/StatsLearning';
 import { PackageHub } from './components/PackageHub';
 import EducationCurriculum from './components/EducationCurriculum';
 import LandingPage from './components/LandingPage';
+import BrandLogo from './components/BrandLogo';
 import { getSampleById } from './data/sampleLibrary';
 import {
   MAIN_SLOT_KEY,
@@ -5229,8 +5230,8 @@ function App() {
 
       <header className="app-header">
         <div className="logo" onClick={requestGoHome} style={{ cursor: 'pointer' }} title="홈 화면으로 이동">
-          <Zap size={24} color="#f59e0b" fill="#f59e0b" />
-          <h1>6-SIGMA MASTER</h1>
+          <BrandLogo size={28} />
+          <h1>SigmaLab</h1>
         </div>
 
         {/* Central Status Bar — flex/grid 흐름에 포함 (절대배치로 가리지 않음) */}
