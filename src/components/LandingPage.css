@@ -134,13 +134,18 @@
   padding: 0.25rem 0.7rem;
 }
 
+.landing-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.landing-plans-btn,
 .landing-reset-btn {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  border: 1px solid #fecdd3;
-  background: #fff1f2;
-  color: #be123c;
   font-family: inherit;
   font-weight: 700;
   font-size: 0.92rem;
@@ -148,6 +153,23 @@
   border-radius: 999px;
   cursor: pointer;
   transition: background 0.2s, border-color 0.2s;
+}
+
+.landing-plans-btn {
+  border: 1px solid rgba(251, 146, 60, 0.35);
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--lp-ink);
+}
+
+.landing-plans-btn:hover {
+  background: #fff;
+  border-color: rgba(251, 113, 133, 0.45);
+}
+
+.landing-reset-btn {
+  border: 1px solid #fecdd3;
+  background: #fff1f2;
+  color: #be123c;
 }
 
 .landing-reset-btn:hover {
@@ -702,8 +724,13 @@
     padding: 0.15rem 0.5rem;
   }
 
-  .landing-reset-btn {
+  .landing-hero-actions {
     width: 100%;
+  }
+
+  .landing-plans-btn,
+  .landing-reset-btn {
+    flex: 1;
     justify-content: center;
   }
 

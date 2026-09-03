@@ -137,6 +137,7 @@ import { StatsLearningBrowser } from './components/StatsLearning';
 import { PackageHub } from './components/PackageHub';
 import EducationCurriculum from './components/EducationCurriculum';
 import LandingPage from './components/LandingPage';
+import PricingPage from './components/PricingPage';
 import BrandLogo from './components/BrandLogo';
 import { getSampleById } from './data/sampleLibrary';
 import {
@@ -696,6 +697,7 @@ function App() {
       return true;
     }
   });
+  const [showPricing, setShowPricing] = useState(false);
   /** 홈(랜딩) 이동: 'askSave' | 'askDelete' | null */
   const [homeExitStep, setHomeExitStep] = useState(null);
 
@@ -710,10 +712,12 @@ function App() {
     clearCurrentWorkspace({ goLanding: false });
     closeHelpPanels();
     setActiveTool(null);
+    setShowPricing(false);
     setShowLanding(false);
   };
 
   const resumeProjectFromLanding = () => {
+    setShowPricing(false);
     setShowLanding(false);
     closeHelpPanels();
     setActiveTool(null);
@@ -722,8 +726,17 @@ function App() {
   };
 
   const openCurriculumFromLanding = () => {
+    setShowPricing(false);
     setShowLanding(false);
     openCurriculumTab();
+  };
+
+  const openPricingFromLanding = () => {
+    setShowPricing(true);
+  };
+
+  const closePricingToLanding = () => {
+    setShowPricing(false);
   };
 
   const collectWorkspaceBundle = () => ({
@@ -1102,6 +1115,7 @@ function App() {
         setVersions([]);
         closeHelpPanels();
         setNavHistory([]);
+        setShowPricing(false);
         setShowLanding(true);
         return;
       }
@@ -1142,7 +1156,10 @@ function App() {
     setShowSaveDraft(false);
     closeHelpPanels();
     setNavHistory([]);
-    if (goLanding) setShowLanding(true);
+    if (goLanding) {
+      setShowPricing(false);
+      setShowLanding(true);
+    }
   };
 
   /** 현재 작업공간을 맨 처음(업종 선택)으로 초기화. 로그인·저장된 프로젝트 목록은 유지 */
@@ -1178,6 +1195,7 @@ function App() {
     setActiveTool(null);
     setSelectionSubView(null);
     setHomeExitStep(null);
+    setShowPricing(false);
     setShowLanding(true);
   };
 
@@ -5168,12 +5186,23 @@ function App() {
 
   return (
     <div className="app-container">
-      {showLanding && (
+      {showLanding && showPricing && (
+        <PricingPage
+          hasResume={!!(selectedIndustry || methodology)}
+          onBack={closePricingToLanding}
+          onStartProject={startNewProjectFromLanding}
+          onResume={resumeProjectFromLanding}
+          onOpenCurriculum={openCurriculumFromLanding}
+        />
+      )}
+
+      {showLanding && !showPricing && (
         <LandingPage
           hasResume={!!(selectedIndustry || methodology)}
           onStartProject={startNewProjectFromLanding}
           onResume={resumeProjectFromLanding}
           onOpenCurriculum={openCurriculumFromLanding}
+          onOpenPricing={openPricingFromLanding}
           onResetWork={resetToStart}
         />
       )}

@@ -15,7 +15,8 @@ import {
   Workflow,
   Brain,
   Layers,
-  GitBranch
+  GitBranch,
+  CreditCard
 } from 'lucide-react';
 import BrandLogo from './BrandLogo';
 import './LandingPage.css';
@@ -78,6 +79,7 @@ const TRENDS = [
 export default function LandingPage({
   onStartProject,
   onOpenCurriculum,
+  onOpenPricing,
   hasResume = false,
   onResume,
   onResetWork
@@ -107,17 +109,29 @@ export default function LandingPage({
               <span className="landing-brand-name">SigmaLab</span>
               <span className="landing-brand-ko">시그마랩</span>
             </motion.div>
-            {hasResume && onResetWork && (
-              <button
-                type="button"
-                className="landing-reset-btn"
-                onClick={onResetWork}
-                title="현재 작업을 지우고 처음부터"
-              >
-                <RotateCcw size={16} />
-                작업 초기화
-              </button>
-            )}
+            <div className="landing-hero-actions">
+              {onOpenPricing && (
+                <button
+                  type="button"
+                  className="landing-plans-btn"
+                  onClick={onOpenPricing}
+                >
+                  <CreditCard size={16} />
+                  요금·플랜
+                </button>
+              )}
+              {hasResume && onResetWork && (
+                <button
+                  type="button"
+                  className="landing-reset-btn"
+                  onClick={onResetWork}
+                  title="현재 작업을 지우고 처음부터"
+                >
+                  <RotateCcw size={16} />
+                  작업 초기화
+                </button>
+              )}
+            </div>
           </div>
 
           <motion.p
@@ -169,6 +183,12 @@ export default function LandingPage({
               <button type="button" className="landing-cta-secondary" onClick={onOpenCurriculum}>
                 <GraduationCap size={18} />
                 교육과정
+              </button>
+            )}
+            {onOpenPricing && (
+              <button type="button" className="landing-cta-ghost" onClick={onOpenPricing}>
+                <CreditCard size={18} />
+                요금·플랜
               </button>
             )}
           </motion.div>
@@ -294,6 +314,12 @@ export default function LandingPage({
                 교육과정 보기
               </button>
             )}
+            {onOpenPricing && (
+              <button type="button" className="landing-cta-secondary landing-cta-secondary-light" onClick={onOpenPricing}>
+                <CreditCard size={18} />
+                요금·플랜 보기
+              </button>
+            )}
           </div>
         </div>
       </section>
@@ -316,6 +342,9 @@ export default function LandingPage({
             )}
             {onOpenCurriculum && (
               <button type="button" onClick={onOpenCurriculum}>교육과정</button>
+            )}
+            {onOpenPricing && (
+              <button type="button" onClick={onOpenPricing}>요금·플랜</button>
             )}
             {hasResume && onResetWork && (
               <button type="button" className="landing-footer-danger" onClick={onResetWork}>
