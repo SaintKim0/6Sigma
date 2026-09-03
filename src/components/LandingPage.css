@@ -17,6 +17,7 @@
   color: var(--lp-ink);
   background: var(--lp-surface);
   font-family: 'Noto Sans KR', 'Outfit', sans-serif;
+  overflow-x: hidden;
 }
 
 /* —— Bright Gen-Z hero —— */
@@ -625,9 +626,34 @@
   font-weight: 600;
 }
 
+.landing-title-break {
+  display: block;
+}
+
 @media (max-width: 900px) {
+  .landing-hero {
+    min-height: auto;
+    overflow: visible;
+    align-items: flex-start;
+  }
+
+  .landing-hero-content {
+    width: 100%;
+    padding: 1.35rem 1.1rem 2.25rem;
+  }
+
   .landing-title {
     max-width: none;
+    font-size: clamp(1.55rem, 7.2vw, 2.15rem);
+  }
+
+  .landing-lead {
+    font-size: 1rem;
+    max-width: none;
+  }
+
+  .landing-brand-name {
+    font-size: 1.45rem;
   }
 
   .landing-flow-arrow {
@@ -647,11 +673,46 @@
   .landing-trend-grid {
     grid-template-columns: 1fr;
   }
+
+  .landing-hero-chips {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
 }
 
 @media (max-width: 560px) {
+  .landing-page {
+    overflow-x: hidden;
+  }
+
+  .landing-title-break {
+    display: inline;
+  }
+
+  .landing-hero-top {
+    margin-bottom: 1.1rem;
+  }
+
+  .landing-brand {
+    gap: 0.45rem;
+  }
+
+  .landing-brand-ko {
+    font-size: 0.78rem;
+    padding: 0.15rem 0.5rem;
+  }
+
+  .landing-reset-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
   .landing-path-tabs {
     grid-template-columns: 1fr;
+  }
+
+  .landing-cta-row {
+    width: 100%;
   }
 
   .landing-cta-primary,
@@ -659,11 +720,8 @@
   .landing-cta-ghost {
     width: 100%;
     min-width: 0;
-  }
-
-  .landing-hero-chips {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    width: 100%;
+    min-height: 3rem;
+    padding: 0.8rem 1.1rem;
   }
 
   .landing-cta-band-inner {
@@ -671,9 +729,35 @@
     align-items: stretch;
   }
 
+  .landing-section {
+    padding: 2rem 1rem;
+  }
+
+  .landing-section h2 {
+    font-size: 1.45rem;
+  }
+
+  .landing-path-panel {
+    padding: 1rem 0.8rem;
+  }
+
+  .landing-footer {
+    padding: 1.5rem 1rem 2.25rem;
+  }
+
+  .landing-footer-nav button {
+    width: 100%;
+    text-align: left;
+    padding: 0.55rem 0.35rem;
+  }
+
   .landing-footer-meta {
     flex-direction: column;
     gap: 0.35rem;
+  }
+
+  .landing-orb-c {
+    display: none;
   }
 }
 

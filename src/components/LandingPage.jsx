@@ -136,9 +136,8 @@ export default function LandingPage({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.08 }}
           >
-            품질 개선의 다음 단계,
-            <br />
-            AI와 함께하는 6시그마
+            품질 개선의 다음 단계,{' '}
+            <span className="landing-title-break">AI와 함께하는 6시그마</span>
           </motion.h1>
 
           <motion.p

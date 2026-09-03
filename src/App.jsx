@@ -52,7 +52,8 @@ import {
   Sparkles,
   GraduationCap,
   LayoutDashboard,
-  RotateCcw
+  RotateCcw,
+  Menu
 } from 'lucide-react';
 import './App.css';
 import './ModalStyles.css';
@@ -323,8 +324,8 @@ const ToolRecommendationPanel = ({ tools, industryName, completedTools, onSelect
   if (!tools || tools.length === 0) return null;
 
   return (
-    <div className="charter-section" style={{ background: '#f8f9fa', border: 'none', marginBottom: '2rem', padding: '1.5rem' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', marginBottom: '1.2rem' }}>
+    <div className="charter-section tool-recommend" style={{ background: '#f8f9fa', border: 'none', marginBottom: '2rem', padding: '1.5rem' }}>
+      <div className="tool-recommend-head">
         <h3 style={{ margin: 0, fontSize: '1.1rem', color: '#1e293b' }}>🎯 AI 추천 도구</h3>
         {industryName && (
           <span style={{ fontSize: '0.8rem', color: '#4f46e5', background: '#eef2ff', padding: '0.3rem 0.8rem', borderRadius: '20px', fontWeight: '600' }}>
@@ -333,7 +334,7 @@ const ToolRecommendationPanel = ({ tools, industryName, completedTools, onSelect
         )}
       </div>
 
-      <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap' }}>
+      <div className="tool-recommend-row">
         {tools.map(tool => {
           const isHovered = hoveredTool === tool.id;
           const isCompleted = completedTools.includes(tool.id);
@@ -682,6 +683,7 @@ function App() {
   const [workspaceMode, setWorkspaceModeState] = useState(() => getWorkspaceMode());
   const isPracticeMode = workspaceMode === 'practice';
   /** 랜딩: 진행 중이 아니면 첫 화면으로 표시 */
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [showLanding, setShowLanding] = useState(() => {
     try {
       const hasProgress = !!(
@@ -1427,7 +1429,9 @@ function App() {
         setWorkspaceModeState('practice');
       }
 
-      const res = await fetch('/demo_project_seed.json');
+      // GitHub Pages 배포는 base path(`/6Sigma/`) 아래에서 동작하므로,
+      // 항상 Vite의 BASE_URL 기준으로 시드 파일을 읽습니다.
+      const res = await fetch(`${import.meta.env.BASE_URL}demo_project_seed.json`);
       if (!res.ok) throw new Error('시드 파일을 불러오지 못했습니다.');
       const seed = await res.json();
 
@@ -1967,20 +1971,13 @@ function App() {
           <h2>🏢 업종 선택</h2>
           <p className="subtitle">프로젝트를 진행할 업종을 선택하세요. 업종에 맞는 맞춤형 도구와 템플릿이 제공됩니다.</p>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem', marginTop: '2rem' }}>
+          <div className="industry-pick-grid">
             {sigmaData.industries.map(industry => (
               <motion.div
                 key={industry.id}
-                whileHover={{ scale: 1.05, boxShadow: '0 8px 24px rgba(0,0,0,0.15)' }}
+                className="industry-pick-card"
+                whileHover={{ scale: 1.02, boxShadow: '0 8px 24px rgba(0,0,0,0.15)' }}
                 whileTap={{ scale: 0.98 }}
-                style={{
-                  padding: '2rem',
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                  borderRadius: '12px',
-                  cursor: 'pointer',
-                  color: 'white',
-                  textAlign: 'center'
-                }}
                 onClick={() => setSelectedIndustry(industry.id)}
               >
                 <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>{industry.icon}</div>
@@ -5249,7 +5246,31 @@ function App() {
         ) : (
           <div className="status-bar-spacer" aria-hidden="true" />
         )}
-        <div className="header-actions">
+        <button
+          type="button"
+          className="header-menu-toggle"
+          aria-expanded={mobileNavOpen}
+          aria-controls="app-header-actions"
+          aria-label={mobileNavOpen ? '메뉴 닫기' : '메뉴 열기'}
+          onClick={() => setMobileNavOpen((open) => !open)}
+        >
+          {mobileNavOpen ? <X size={22} /> : <Menu size={22} />}
+        </button>
+        {mobileNavOpen && (
+          <button
+            type="button"
+            className="header-nav-backdrop"
+            aria-label="메뉴 닫기"
+            onClick={() => setMobileNavOpen(false)}
+          />
+        )}
+        <div
+          id="app-header-actions"
+          className={`header-actions${mobileNavOpen ? ' is-open' : ''}`}
+          onClick={(e) => {
+            if (e.target.closest('button, a, label')) setMobileNavOpen(false);
+          }}
+        >
           <UserMenuBar
             session={session}
             onLogin={() => setAuthModal('login')}
