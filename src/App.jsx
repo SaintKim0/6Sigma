@@ -698,22 +698,21 @@ function App() {
   /** 홈(랜딩) 이동: 'askSave' | 'askDelete' | null */
   const [homeExitStep, setHomeExitStep] = useState(null);
 
-  const enterAppFromLanding = () => {
-    // 이전 작업 데이터가 있으면 새로 시작 / 이어서 진행 선택지 제공
+  const startNewProjectFromLanding = () => {
     if (selectedIndustry || methodology) {
-      const choice = window.confirm(
-        '이전 작업 데이터가 있습니다.\n\n' +
-        '「확인」→ 새 프로젝트 시작 (이전 데이터 초기화)\n' +
-        '「취소」→ 이전 작업 이어서 진행'
+      const ok = window.confirm(
+        '새 프로젝트를 시작하면 현재 작업이 초기화되고 업종 선택부터 다시 시작합니다.\n\n' +
+        '계속할까요? (이전 작업을 유지하려면 랜딩의 「이어서 진행」을 누르세요.)'
       );
-      if (choice) {
-        // 새로 시작: 데이터 초기화
-        clearCurrentWorkspace({ goLanding: false });
-        setShowLanding(false);
-        return;
-      }
-      // 이어서 진행
+      if (!ok) return;
     }
+    clearCurrentWorkspace({ goLanding: false });
+    closeHelpPanels();
+    setActiveTool(null);
+    setShowLanding(false);
+  };
+
+  const resumeProjectFromLanding = () => {
     setShowLanding(false);
     closeHelpPanels();
     setActiveTool(null);
@@ -1360,8 +1359,11 @@ function App() {
 
   // Load sixsigma_data.json on mount
   React.useEffect(() => {
-    fetch('/sixsigma_data.json')
-      .then(res => res.json())
+    fetch(`${import.meta.env.BASE_URL}sixsigma_data.json`)
+      .then((res) => {
+        if (!res.ok) throw new Error(`시드 데이터를 불러오지 못했습니다. (${res.status})`);
+        return res.json();
+      })
       .then(data => {
         setSigmaData(data);
         setDataLoading(false);
@@ -1979,6 +1981,15 @@ function App() {
       );
     }
 
+    if (!selectedIndustry && !sigmaData) {
+      return (
+        <div className="fade-in" style={{ textAlign: 'center', padding: '3rem 1rem' }}>
+          <h2>🏢 업종 선택</h2>
+          <p className="subtitle">업종 목록을 불러오지 못했습니다. 페이지를 새로고침해 주세요.</p>
+        </div>
+      );
+    }
+
     // Phase 0-0: Industry Selection (very first step)
     if (!selectedIndustry && sigmaData) {
       return (
@@ -2414,8 +2425,11 @@ function App() {
       );
     }
 
-    // Phase 0-1: Business Opportunity Analysis
-    if (selectionSubView === 'opportunity' || (!methodology && !opportunityAnalyzed && !projectSelected)) {
+    // Phase 0-1: Business Opportunity Analysis (업종 선택 이후에만)
+    if (
+      selectedIndustry &&
+      (selectionSubView === 'opportunity' || (!methodology && !opportunityAnalyzed && !projectSelected))
+    ) {
       return (
         <div className="fade-in">
           {(methodology || selectionSubView === 'opportunity') && (
@@ -5194,8 +5208,8 @@ function App() {
       {showLanding && (
         <LandingPage
           hasResume={!!(selectedIndustry || methodology)}
-          onStartProject={enterAppFromLanding}
-          onResume={enterAppFromLanding}
+          onStartProject={startNewProjectFromLanding}
+          onResume={resumeProjectFromLanding}
           onOpenCurriculum={openCurriculumFromLanding}
           onResetWork={resetToStart}
         />
