@@ -2097,6 +2097,8 @@ function App() {
                       setExpandedProblemTypes(newExpanded);
                     };
 
+                    const hasDetails = !!(hasSubTypes || option.description);
+
                     return (
                       <div key={option.id} className="diagnostic-option">
                         <motion.div
@@ -2109,11 +2111,8 @@ function App() {
                             {option.icon && <span className="diagnostic-option-icon">{option.icon}</span>}
                             <div className="diagnostic-option-text">
                               <strong>{option.label}</strong>
-                              {option.description && (
-                                <span className="diagnostic-option-desc">{option.description}</span>
-                              )}
                             </div>
-                            {hasSubTypes && (
+                            {hasDetails && (
                               <button
                                 type="button"
                                 className="diagnostic-example-btn"
@@ -2122,32 +2121,35 @@ function App() {
                                 {isExpanded ? '접기 ▲' : '예시 ▼'}
                               </button>
                             )}
-                            {!hasSubTypes && currentQuestion.type === 'multi' && (
+                            {currentQuestion.type === 'multi' ? (
                               <input type="checkbox" checked={isMainTypeSelected} readOnly />
-                            )}
-                            {!hasSubTypes && currentQuestion.type === 'single' && (
+                            ) : (
                               <input type="radio" checked={isMainTypeSelected} readOnly />
-                            )}
-                            {hasSubTypes && (
-                              <input type="checkbox" checked={isMainTypeSelected} readOnly />
                             )}
                           </div>
 
-                          {/* 예시는 해당 카드 열 안에만 짧게 표시 */}
-                          {hasSubTypes && isExpanded && (
+                          {/* 설명·상세 예시는 「예시」를 눌렀을 때만 표시 */}
+                          {hasDetails && isExpanded && (
                             <div
                               className="diagnostic-examples"
                               onClick={(e) => e.stopPropagation()}
                             >
-                              <div className="diagnostic-examples-title">참고 예시</div>
-                              <ul className="diagnostic-examples-list">
-                                {option.subTypes[selectedIndustry].map(subType => (
-                                  <li key={subType.id}>
-                                    <strong>{subType.label}</strong>
-                                    {subType.description && <span> — {subType.description}</span>}
-                                  </li>
-                                ))}
-                              </ul>
+                              {option.description && (
+                                <p className="diagnostic-examples-lead">{option.description}</p>
+                              )}
+                              {hasSubTypes && (
+                                <>
+                                  <div className="diagnostic-examples-title">참고 예시</div>
+                                  <ul className="diagnostic-examples-list">
+                                    {option.subTypes[selectedIndustry].map(subType => (
+                                      <li key={subType.id}>
+                                        <strong>{subType.label}</strong>
+                                        {subType.description && <span> — {subType.description}</span>}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </>
+                              )}
                             </div>
                           )}
                         </motion.div>
