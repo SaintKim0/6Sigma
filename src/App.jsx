@@ -116,6 +116,7 @@ import {
   MultipleRegressionEditor
 } from './components/AdvancedAnalysisTools';
 import ToolGroupGrid from './components/ToolGroupGrid';
+import SectionStepper from './components/SectionStepper';
 import {
   ProportionTestEditor,
   LeveneEditor,
@@ -1077,7 +1078,11 @@ function App() {
         setWorkspaceMode('project');
         setWorkspaceModeState('project');
         WORKSPACE_STORAGE_KEYS.forEach((k) => localStorage.removeItem(k));
-        try { sessionStorage.removeItem('sigma_last_sample'); } catch { /* ignore */ }
+        try {
+          sessionStorage.removeItem('sigma_last_sample');
+          sessionStorage.removeItem('sigma_opp_section');
+          sessionStorage.removeItem('sigma_proj_section');
+        } catch { /* ignore */ }
         setCurrentProjectId(null);
         setCurrentProjectIdState(null);
         setSelectedIndustry(null);
@@ -1105,7 +1110,11 @@ function App() {
     }
 
     WORKSPACE_STORAGE_KEYS.forEach((k) => localStorage.removeItem(k));
-    try { sessionStorage.removeItem('sigma_last_sample'); } catch { /* ignore */ }
+    try {
+      sessionStorage.removeItem('sigma_last_sample');
+      sessionStorage.removeItem('sigma_opp_section');
+      sessionStorage.removeItem('sigma_proj_section');
+    } catch { /* ignore */ }
 
     setCurrentProjectId(null);
     setCurrentProjectIdState(null);
@@ -2037,8 +2046,8 @@ function App() {
             <p className="subtitle">{currentQuestion.title}</p>
             {currentQuestion.subtitle && <p style={{ fontSize: '0.9rem', color: '#666', marginTop: '-0.5rem' }}>{currentQuestion.subtitle}</p>}
 
-            <div className="charter-section" style={{ marginTop: '2rem' }}>
-              <div style={{ display: 'grid', gap: '1rem' }}>
+            <div className="charter-section diagnostic-quiz" style={{ marginTop: '1.25rem' }}>
+              <div className="diagnostic-option-grid">
                 {currentQuestion.options
                   .filter(option => {
                     // Filter by industry if industries field exists
@@ -2072,13 +2081,6 @@ function App() {
                           : [...currentArray, option.id];
 
                         setDiagnosticResponses({ ...diagnosticResponses, [currentQuestion.id]: updated });
-
-                        // Auto-expand to show examples when selecting (UX enhancement)
-                        if (!currentArray.includes(option.id) && hasSubTypes && !isExpanded) {
-                          const newExpanded = new Set(expandedProblemTypes);
-                          newExpanded.add(option.id);
-                          setExpandedProblemTypes(newExpanded);
-                        }
                       } else {
                         setDiagnosticResponses({ ...diagnosticResponses, [currentQuestion.id]: option.id });
                       }
@@ -2096,103 +2098,59 @@ function App() {
                     };
 
                     return (
-                      <div key={option.id} style={{ position: 'relative' }}>
+                      <div key={option.id} className="diagnostic-option">
                         <motion.div
+                          className={`diagnostic-option-card${isMainTypeSelected ? ' is-selected' : ''}${isExpanded ? ' is-open' : ''}`}
                           whileHover={{ scale: 1.01 }}
                           whileTap={{ scale: 0.99 }}
                           onClick={handleMainTypeClick}
-                          style={{
-                            padding: '1.2rem',
-                            border: `2px solid ${isMainTypeSelected ? '#667eea' : '#e0e0e0'}`,
-                            borderRadius: '8px',
-                            cursor: 'pointer',
-                            background: isMainTypeSelected ? 'rgba(102, 126, 234, 0.1)' : 'white',
-                            transition: 'all 0.2s'
-                          }}
                         >
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                            {option.icon && <span style={{ fontSize: '1.5rem' }}>{option.icon}</span>}
-                            <div style={{ flex: 1 }}>
+                          <div className="diagnostic-option-row">
+                            {option.icon && <span className="diagnostic-option-icon">{option.icon}</span>}
+                            <div className="diagnostic-option-text">
                               <strong>{option.label}</strong>
-                              <div style={{ fontSize: '0.85rem', color: '#666', marginTop: '0.25rem' }}>
-                                {option.description}
-                              </div>
+                              {option.description && (
+                                <span className="diagnostic-option-desc">{option.description}</span>
+                              )}
                             </div>
                             {hasSubTypes && (
                               <button
+                                type="button"
+                                className="diagnostic-example-btn"
                                 onClick={toggleExpansion}
-                                style={{
-                                  background: 'none',
-                                  border: 'none',
-                                  cursor: 'pointer',
-                                  fontSize: '1rem',
-                                  padding: '0.25rem 0.5rem',
-                                  color: '#667eea',
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  gap: '0.25rem',
-                                  fontWeight: '500'
-                                }}
                               >
-                                {isExpanded ? '접기 ▲' : '예시 보기 ▼'}
+                                {isExpanded ? '접기 ▲' : '예시 ▼'}
                               </button>
                             )}
                             {!hasSubTypes && currentQuestion.type === 'multi' && (
-                              <input type="checkbox" checked={isMainTypeSelected} readOnly style={{ width: '1.25rem', height: '1.25rem' }} />
+                              <input type="checkbox" checked={isMainTypeSelected} readOnly />
                             )}
                             {!hasSubTypes && currentQuestion.type === 'single' && (
-                              <input type="radio" checked={isMainTypeSelected} readOnly style={{ width: '1.25rem', height: '1.25rem' }} />
+                              <input type="radio" checked={isMainTypeSelected} readOnly />
                             )}
-                            {/* Checkbox for subtypes items too (visual only for consistency) */}
                             {hasSubTypes && (
-                              <input type="checkbox" checked={isMainTypeSelected} readOnly style={{ width: '1.25rem', height: '1.25rem' }} />
+                              <input type="checkbox" checked={isMainTypeSelected} readOnly />
                             )}
                           </div>
-                        </motion.div>
 
-                        {/* Subtypes section - Reference Mode */}
-                        {hasSubTypes && isExpanded && (
-                          <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: 'auto' }}
-                            exit={{ opacity: 0, height: 0 }}
-                            transition={{ duration: 0.2 }}
-                            style={{
-                              marginTop: '0.5rem',
-                              marginLeft: '0.5rem',
-                              marginRight: '0.5rem',
-                              padding: '1rem',
-                              background: '#f8f9fa',
-                              borderRadius: '8px',
-                              borderLeft: '4px solid #667eea'
-                            }}
-                          >
-                            <div style={{ fontSize: '0.9rem', color: '#4a5568', marginBottom: '0.75rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                              💡 구체적인 문제 사례 (참고용)
+                          {/* 예시는 해당 카드 열 안에만 짧게 표시 */}
+                          {hasSubTypes && isExpanded && (
+                            <div
+                              className="diagnostic-examples"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <div className="diagnostic-examples-title">참고 예시</div>
+                              <ul className="diagnostic-examples-list">
+                                {option.subTypes[selectedIndustry].map(subType => (
+                                  <li key={subType.id}>
+                                    <strong>{subType.label}</strong>
+                                    {subType.description && <span> — {subType.description}</span>}
+                                  </li>
+                                ))}
+                              </ul>
                             </div>
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '0.75rem' }}>
-                              {option.subTypes[selectedIndustry].map(subType => (
-                                <div
-                                  key={subType.id}
-                                  style={{
-                                    padding: '0.75rem',
-                                    background: 'white',
-                                    border: '1px solid #e2e8f0',
-                                    borderRadius: '6px',
-                                    fontSize: '0.9rem'
-                                  }}
-                                >
-                                  <div style={{ fontWeight: '600', color: '#2d3748', marginBottom: '0.25rem' }}>
-                                    • {subType.label}
-                                  </div>
-                                  <div style={{ fontSize: '0.85rem', color: '#718096' }}>
-                                    {subType.description}
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          </motion.div>
-                        )}
+                          )}
+                        </motion.div>
                       </div>
                     );
                   })}
@@ -2469,6 +2427,23 @@ function App() {
             }}
           />
 
+          <SectionStepper
+            steps={[
+              { id: 'customer', label: '고객 정의' },
+              { id: 'bizopp', label: '개선기회' },
+              { id: '3c', label: '3C 분석' },
+              { id: 'faw', label: 'FAW 분석' }
+            ]}
+            storageKey="sigma_opp_section"
+            finishLabel={methodology || selectionSubView === 'opportunity' ? '저장하고 Selection으로' : '과제 선정 단계로 이동'}
+            onFinish={() => {
+              setOpportunityAnalyzed(true);
+              if (methodology || selectionSubView === 'opportunity') {
+                setSelectionSubView(null);
+                setActiveStep('selection');
+              }
+            }}
+          >
           {/* 1. 고객 정의 */}
           <div className="charter-section">
             <h3>1. 고객 정의 (Customer Definition)</h3>
@@ -2946,21 +2921,7 @@ function App() {
               }}
             />
           </div>
-
-          <div className="action-footer">
-            <button
-              className="btn btn-primary"
-              onClick={() => {
-                setOpportunityAnalyzed(true);
-                if (methodology || selectionSubView === 'opportunity') {
-                  setSelectionSubView(null);
-                  setActiveStep('selection');
-                }
-              }}
-            >
-              {methodology || selectionSubView === 'opportunity' ? '저장하고 Selection으로' : '과제 선정 단계로 이동'} <ChevronRight />
-            </button>
-          </div>
+          </SectionStepper>
         </div>
       );
     }
@@ -3002,6 +2963,25 @@ function App() {
             }}
           />
 
+          <SectionStepper
+            steps={[
+              { id: 'strategy', label: '전략 연계' },
+              { id: 'pool', label: '과제 Pool' }
+            ]}
+            storageKey="sigma_proj_section"
+            finishLabel={methodology || selectionSubView === 'project' ? '저장하고 Selection으로' : '방법론 선택하기'}
+            onFinish={() => {
+              if (!data.selection.projectPool.some(p => p.selected)) {
+                alert("먼저 '과제 Pool' 표의 왼쪽 체크박스(선정)를 눌러 최적의 과제를 선택해주세요.");
+                return;
+              }
+              setProjectSelected(true);
+              if (methodology || selectionSubView === 'project') {
+                setSelectionSubView(null);
+                setActiveStep('selection');
+              }
+            }}
+          >
           <div className="charter-section">
             <h3>1. 전략 Cascading (전략 연계)</h3>
             <div className="form-row">
@@ -3227,26 +3207,7 @@ function App() {
               + 과제 추가
             </button>
           </div>
-
-          <div className="action-footer">
-            <button
-              className="btn btn-primary"
-              onClick={() => {
-                if (!data.selection.projectPool.some(p => p.selected)) {
-                  alert("먼저 '과제 Pool' 표의 왼쪽 체크박스(선정)를 눌러 최적의 과제를 선택해주세요.");
-                  return;
-                }
-                setProjectSelected(true);
-                if (methodology || selectionSubView === 'project') {
-                  setSelectionSubView(null);
-                  setActiveStep('selection');
-                }
-              }}
-              title={!data.selection.projectPool.some(p => p.selected) ? "먼저 왼쪽 체크박스로 과제를 선택해주세요" : "다음 단계로 이동"}
-            >
-              {methodology || selectionSubView === 'project' ? '저장하고 Selection으로' : '방법론 선택하기'} <ChevronRight />
-            </button>
-          </div>
+          </SectionStepper>
         </div>
       );
     }
