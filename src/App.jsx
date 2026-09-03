@@ -699,6 +699,21 @@ function App() {
   const [homeExitStep, setHomeExitStep] = useState(null);
 
   const enterAppFromLanding = () => {
+    // 이전 작업 데이터가 있으면 새로 시작 / 이어서 진행 선택지 제공
+    if (selectedIndustry || methodology) {
+      const choice = window.confirm(
+        '이전 작업 데이터가 있습니다.\n\n' +
+        '「확인」→ 새 프로젝트 시작 (이전 데이터 초기화)\n' +
+        '「취소」→ 이전 작업 이어서 진행'
+      );
+      if (choice) {
+        // 새로 시작: 데이터 초기화
+        clearCurrentWorkspace({ goLanding: false });
+        setShowLanding(false);
+        return;
+      }
+      // 이어서 진행
+    }
     setShowLanding(false);
     closeHelpPanels();
     setActiveTool(null);
