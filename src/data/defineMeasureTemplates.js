@@ -203,6 +203,18 @@ export const SOLUTION_TEMPLATES = [
     ]
   },
   {
+    id: 'fin_sol',
+    industry: 'service_office',
+    name: '가계·재테크 개선안 (퀵윈 포함)',
+    solutions: [
+      { cause: '통신비 과다', solution: '요금제·부가·미사용 회선 정리 (월 약 10만원)', type: '퀵윈', cost: '없음', period: '1주', score: 88, isSelected: true },
+      { cause: '공과금 연체', solution: '자동이체 등록 + 납부일 알림', type: '퀵윈', cost: '없음', period: '즉시', score: 90, isSelected: true },
+      { cause: '방치 구독', solution: '미사용 OTT·멤버십 해지 (월 약 10만원)', type: '퀵윈', cost: '없음', period: '1주', score: 86, isSelected: true },
+      { cause: '선저축 실패', solution: '급여일 선저축 자동이체', type: '프로세스', cost: '없음', period: '즉시', score: 95, isSelected: true },
+      { cause: '월결산 부재', solution: '매월 30분 부부 결산 루틴', type: '표준작업', cost: '없음', period: '즉시', score: 86, isSelected: true }
+    ]
+  },
+  {
     id: 'it_sol',
     industry: 'it_ops',
     name: 'IT 개선안 세트',
@@ -234,6 +246,68 @@ export const SOLUTION_TEMPLATES = [
   }
 ];
 
+export const CASHFLOW_TEMPLATES = [
+  {
+    id: 'fin_cashflow',
+    industry: 'service_office',
+    name: '가계 월 소득·지출',
+    desc: '세후 소득과 지출 항목(고정/변동) 기준선',
+    periodLabel: '최근 24개월 평균(만원)',
+    income: [
+      { item: '본인 급여(세후)', amount: 450 },
+      { item: '배우자 급여(세후)', amount: 350 },
+      { item: '기타소득', amount: 0 }
+    ],
+    expenses: [
+      { item: '주거(대출이자·관리비)', amount: 150, type: '고정' },
+      { item: '식비·생필품', amount: 100, type: '변동' },
+      { item: '교육·학원', amount: 80, type: '고정' },
+      { item: '교통·차량', amount: 40, type: '고정' },
+      { item: '통신', amount: 20, type: '고정' },
+      { item: '공과금(전기·가스·수도)', amount: 20, type: '고정' },
+      { item: '보험', amount: 40, type: '고정' },
+      { item: '구독·멤버십', amount: 10, type: '고정' },
+      { item: '배달·외식', amount: 40, type: '변동' },
+      { item: '부채 상환(원금·이자)', amount: 80, type: '고정' },
+      { item: '경조사·기타', amount: 20, type: '변동' }
+    ],
+    note: '소득 합 약 800만원 − 지출 합 약 600만원 = 이론 여력 약 200만원. 실제 순저축은 평균 100만원 → 누수·들쑥날쑥함 약 100만원.'
+  },
+  {
+    id: 'svc_cashflow',
+    industry: 'service_office',
+    name: '업무 비용·리드타임 비용',
+    desc: '서비스 건당 비용 분해(참고용)',
+    periodLabel: '월 평균',
+    income: [
+      { item: '처리 건수×단가', amount: 0 }
+    ],
+    expenses: [
+      { item: '인건비', amount: 0, type: '고정' },
+      { item: '재작업·클레임', amount: 0, type: '변동' },
+      { item: '도구·시스템', amount: 0, type: '고정' }
+    ],
+    note: '서비스 과제에서는 건당 비용·재작업비를 소득/지출 자리에 넣어도 됩니다.'
+  },
+  {
+    id: 'mfg_cashflow',
+    industry: 'manufacturing',
+    name: '품질비용(COPQ) 분해',
+    desc: '내부/외부 실패·평가·예방 비용',
+    periodLabel: '월 평균(만원)',
+    income: [
+      { item: '해당 없음(비용 과제)', amount: 0 }
+    ],
+    expenses: [
+      { item: '폐기·스크랩', amount: 0, type: '실패' },
+      { item: '재작업', amount: 0, type: '실패' },
+      { item: '클레임·반품', amount: 0, type: '실패' },
+      { item: '검사·측정', amount: 0, type: '평가' }
+    ],
+    note: '제조는 현금흐름보다 COPQ 항목으로 기준선을 잡습니다.'
+  }
+];
+
 const byIndustry = (list, industryId) => {
   const filtered = list.filter(t => t.industry === industryId);
   return filtered.length ? filtered : list.filter(t => t.industry === 'manufacturing');
@@ -242,3 +316,7 @@ const byIndustry = (list, industryId) => {
 export const getVocCtqTemplates = (id) => byIndustry(VOC_CTQ_TEMPLATES, id);
 export const getMsaTemplates = (id) => byIndustry(MSA_TEMPLATES, id);
 export const getSolutionTemplates = (id) => byIndustry(SOLUTION_TEMPLATES, id);
+export const getCashflowTemplates = (id) => {
+  const filtered = CASHFLOW_TEMPLATES.filter(t => t.industry === id);
+  return filtered.length ? filtered : CASHFLOW_TEMPLATES;
+};

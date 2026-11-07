@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
-import { CheckCircle, Plus, Trash2, MessageSquare, Ruler, Lightbulb } from 'lucide-react';
-import { getVocCtqTemplates, getMsaTemplates, getSolutionTemplates } from '../data/defineMeasureTemplates';
+import { CheckCircle, Plus, Trash2, MessageSquare, Ruler, Lightbulb, Wallet } from 'lucide-react';
+import { getVocCtqTemplates, getMsaTemplates, getSolutionTemplates, getCashflowTemplates } from '../data/defineMeasureTemplates';
 
 const TemplatePicker = ({ templates, selectedId, onSelect, industryLabel, accent = '#2563eb' }) => (
   <div style={{ marginBottom: '1.25rem' }}>
@@ -172,6 +172,132 @@ export const MsaEditor = ({ industryId, industryName, value, onChange }) => {
           </div>
         </>
       )}
+    </div>
+  );
+};
+
+export const CashflowEditor = ({ industryId, industryName, value, onChange }) => {
+  const templates = useMemo(() => getCashflowTemplates(industryId), [industryId]);
+  const [selectedId, setSelectedId] = useState(value?.templateId || null);
+  const data = value || { income: [], expenses: [], periodLabel: '', note: '' };
+
+  const apply = (tpl) => {
+    setSelectedId(tpl.id);
+    onChange({
+      templateId: tpl.id,
+      templateName: tpl.name,
+      periodLabel: tpl.periodLabel,
+      income: tpl.income.map((r) => ({ ...r })),
+      expenses: tpl.expenses.map((r) => ({ ...r })),
+      note: tpl.note || ''
+    });
+  };
+
+  const patch = (fields) => onChange({ ...data, templateId: selectedId, ...fields });
+  const incomeTotal = (data.income || []).reduce((s, r) => s + (Number(r.amount) || 0), 0);
+  const expenseTotal = (data.expenses || []).reduce((s, r) => s + (Number(r.amount) || 0), 0);
+  const surplus = incomeTotal - expenseTotal;
+  const sortedExp = [...(data.expenses || [])].sort((a, b) => (Number(b.amount) || 0) - (Number(a.amount) || 0));
+
+  return (
+    <div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+        <Wallet size={18} /> <strong>월 소득 · 지출 항목</strong>
+      </div>
+      <p style={{ margin: '0 0 0.85rem', fontSize: '0.85rem', color: '#64748b', lineHeight: 1.5 }}>
+        순저축(Y)만 보지 말고, 어디서 들어오고 어디로 나가는지 항목으로 기준선을 잡습니다. 가계 과제의 Measure 핵심입니다.
+      </p>
+      <TemplatePicker templates={templates} selectedId={selectedId} onSelect={apply} industryLabel={industryName} accent="#0f766e" />
+
+      <div style={{ marginBottom: '0.75rem' }}>
+        <label style={{ fontSize: '0.8rem', color: '#64748b' }}>기준 기간</label>
+        <input style={inputStyle} value={data.periodLabel || ''} onChange={(e) => patch({ periodLabel: e.target.value })}
+          placeholder="예: 최근 24개월 평균(만원)" />
+      </div>
+
+      <h4 style={{ margin: '0 0 0.5rem' }}>월 소득</h4>
+      {(data.income || []).map((row, idx) => (
+        <div key={idx} style={{ display: 'grid', gridTemplateColumns: '1.6fr 120px 36px', gap: '0.4rem', marginBottom: '0.45rem' }}>
+          <input style={inputStyle} placeholder="항목" value={row.item || ''}
+            onChange={(e) => {
+              const income = [...data.income]; income[idx] = { ...row, item: e.target.value }; patch({ income });
+            }} />
+          <input style={inputStyle} type="number" placeholder="금액" value={row.amount ?? ''}
+            onChange={(e) => {
+              const income = [...data.income]; income[idx] = { ...row, amount: Number(e.target.value) }; patch({ income });
+            }} />
+          <button type="button" style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer' }}
+            onClick={() => patch({ income: data.income.filter((_, i) => i !== idx) })}><Trash2 size={16} /></button>
+        </div>
+      ))}
+      <button type="button" className="btn-primary" style={{ marginBottom: '1.25rem' }}
+        onClick={() => patch({ income: [...(data.income || []), { item: '', amount: 0 }] })}>
+        <Plus size={14} /> 소득 항목 추가
+      </button>
+
+      <h4 style={{ margin: '0 0 0.5rem' }}>월 지출 (항목 분석)</h4>
+      {(data.expenses || []).map((row, idx) => (
+        <div key={idx} style={{ display: 'grid', gridTemplateColumns: '1.4fr 100px 100px 36px', gap: '0.4rem', marginBottom: '0.45rem' }}>
+          <input style={inputStyle} placeholder="지출 항목" value={row.item || ''}
+            onChange={(e) => {
+              const expenses = [...data.expenses]; expenses[idx] = { ...row, item: e.target.value }; patch({ expenses });
+            }} />
+          <select style={inputStyle} value={row.type || '고정'}
+            onChange={(e) => {
+              const expenses = [...data.expenses]; expenses[idx] = { ...row, type: e.target.value }; patch({ expenses });
+            }}>
+            <option>고정</option><option>변동</option><option>실패</option><option>평가</option>
+          </select>
+          <input style={inputStyle} type="number" placeholder="금액" value={row.amount ?? ''}
+            onChange={(e) => {
+              const expenses = [...data.expenses]; expenses[idx] = { ...row, amount: Number(e.target.value) }; patch({ expenses });
+            }} />
+          <button type="button" style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer' }}
+            onClick={() => patch({ expenses: data.expenses.filter((_, i) => i !== idx) })}><Trash2 size={16} /></button>
+        </div>
+      ))}
+      <button type="button" className="btn-primary" style={{ marginBottom: '1.25rem' }}
+        onClick={() => patch({ expenses: [...(data.expenses || []), { item: '', amount: 0, type: '변동' }] })}>
+        <Plus size={14} /> 지출 항목 추가
+      </button>
+
+      <div style={{
+        display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem',
+        background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 10, padding: '0.9rem', marginBottom: '1rem'
+      }}>
+        <div><div style={{ fontSize: '0.75rem', color: '#64748b' }}>소득 합</div><strong>{incomeTotal.toLocaleString()}만</strong></div>
+        <div><div style={{ fontSize: '0.75rem', color: '#64748b' }}>지출 합</div><strong>{expenseTotal.toLocaleString()}만</strong></div>
+        <div>
+          <div style={{ fontSize: '0.75rem', color: '#64748b' }}>이론 여력</div>
+          <strong style={{ color: surplus >= 0 ? '#0f766e' : '#b91c1c' }}>{surplus.toLocaleString()}만</strong>
+        </div>
+      </div>
+
+      {sortedExp.length > 0 && (
+        <div style={{ marginBottom: '1rem' }}>
+          <div style={{ fontSize: '0.85rem', fontWeight: 650, marginBottom: '0.4rem' }}>지출 비중 (큰 순)</div>
+          {sortedExp.slice(0, 6).map((row, i) => {
+            const pct = expenseTotal > 0 ? Math.round((Number(row.amount) || 0) / expenseTotal * 100) : 0;
+            return (
+              <div key={i} style={{ marginBottom: '0.35rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginBottom: 2 }}>
+                  <span>{row.item || '항목'} · {row.type}</span>
+                  <span>{Number(row.amount) || 0}만 ({pct}%)</span>
+                </div>
+                <div style={{ height: 6, background: '#e2e8f0', borderRadius: 99 }}>
+                  <div style={{ width: `${pct}%`, height: '100%', background: '#0f766e', borderRadius: 99 }} />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      <div>
+        <label style={{ fontSize: '0.8rem', color: '#64748b' }}>해석 · 갭 메모</label>
+        <textarea style={inputStyle} rows={3} value={data.note || ''} onChange={(e) => patch({ note: e.target.value })}
+          placeholder="이론 여력 vs 실제 순저축 차이, 퀵윈 후보 등" />
+      </div>
     </div>
   );
 };

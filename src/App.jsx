@@ -53,7 +53,8 @@ import {
   GraduationCap,
   LayoutDashboard,
   RotateCcw,
-  Menu
+  Menu,
+  Wallet
 } from 'lucide-react';
 import './App.css';
 import './ModalStyles.css';
@@ -71,7 +72,7 @@ import SwimlaneBuilder from './components/SwimlaneBuilder';
 import MeasureDashboard from './components/MeasureDashboard';
 import { ControlPlanEditor, StandardWorkEditor } from './components/ControlTemplates';
 import { DoeEditor, PilotEditor, PokaYokeEditor } from './components/ImproveTemplates';
-import { VocCtqEditor, MsaEditor, SolutionsEditor } from './components/DefineMeasureTemplates';
+import { VocCtqEditor, MsaEditor, SolutionsEditor, CashflowEditor } from './components/DefineMeasureTemplates';
 import {
   CharterTemplatePicker,
   SipocTemplatePicker,
@@ -103,6 +104,7 @@ import {
   saveUserProject,
   setCurrentProjectId
 } from './utils/projectStore';
+import { syncProjectToFolder } from './utils/localFolderStore';
 import { applyDerivedToMeasure } from './utils/measureAnalysis';
 import { resolveToolId } from './utils/toolAliases';
 import {
@@ -140,6 +142,7 @@ import LandingPage from './components/LandingPage';
 import PricingPage from './components/PricingPage';
 import BrandLogo from './components/BrandLogo';
 import { getSampleById } from './data/sampleLibrary';
+import { DEMO_PROJECTS, getDemoById } from './data/demoCatalog';
 import {
   MAIN_SLOT_KEY,
   PRACTICE_SLOT_KEY,
@@ -249,6 +252,7 @@ const createEmptyProjectData = () => ({
     opportunityPerUnit: 1,
     ctq: '',
     msa: null,
+    cashflow: null,
     chartData: {
       controlChart: { samples: [], type: 'xbar' },
       histogram: { rawData: [], binCount: 10, lsl: null, usl: null },
@@ -319,6 +323,8 @@ const WORKSPACE_STORAGE_KEYS = [
   'sigma_version_history',
   'sigma_current_project_id'
 ];
+
+const TEAM_ROLE_OPTIONS = ['Champion', 'Black Belt', 'Green Belt', 'SME', '본인', '배우자', '자문'];
 
 const ToolRecommendationPanel = ({ tools, industryName, completedTools, onSelectTool }) => {
   const [hoveredTool, setHoveredTool] = React.useState(null);
@@ -600,6 +606,7 @@ function App() {
         opportunityPerUnit: 1,
         ctq: '',
         msa: null,
+        cashflow: null,
         chartData: {
           controlChart: { samples: [], type: 'xbar' },
           histogram: { rawData: [], binCount: 10, lsl: null, usl: null },
@@ -677,6 +684,9 @@ function App() {
   const [showLearning, setShowLearning] = useState(false);
   const [showPackageHub, setShowPackageHub] = useState(false);
   const [showCurriculum, setShowCurriculum] = useState(false);
+  const [showDemoPicker, setShowDemoPicker] = useState(false);
+  const [demoPickerAsPractice, setDemoPickerAsPractice] = useState(false);
+  const [pendingStartAfterLogin, setPendingStartAfterLogin] = useState(false);
   const [manualFocusId, setManualFocusId] = useState(null);
   const [learningFocusId, setLearningFocusId] = useState(null);
   const [manualModalId, setManualModalId] = useState(null);
@@ -698,10 +708,11 @@ function App() {
     }
   });
   const [showPricing, setShowPricing] = useState(false);
+  const pricingVisible = false;
   /** 홈(랜딩) 이동: 'askSave' | 'askDelete' | null */
   const [homeExitStep, setHomeExitStep] = useState(null);
 
-  const startNewProjectFromLanding = () => {
+  const beginNewProjectWorkspace = () => {
     if (selectedIndustry || methodology) {
       const ok = window.confirm(
         '새 프로젝트를 시작하면 현재 작업이 초기화되고 업종 선택부터 다시 시작합니다.\n\n' +
@@ -714,6 +725,15 @@ function App() {
     setActiveTool(null);
     setShowPricing(false);
     setShowLanding(false);
+  };
+
+  const startNewProjectFromLanding = () => {
+    if (!session?.userId) {
+      setPendingStartAfterLogin(true);
+      setAuthModal('login');
+      return;
+    }
+    beginNewProjectWorkspace();
   };
 
   const resumeProjectFromLanding = () => {
@@ -1047,7 +1067,12 @@ function App() {
       return;
     }
     if (action.kind === 'demo') {
-      loadDemoProject({ asPractice: true });
+      if (action.id) {
+        loadDemoProject({ asPractice: true, seedId: action.id });
+      } else {
+        setDemoPickerAsPractice(true);
+        setShowDemoPicker(true);
+      }
       return;
     }
     if (action.kind === 'workspace') {
@@ -1215,6 +1240,7 @@ function App() {
         );
         setCurrentProjectIdState(saved.id);
         setCurrentProjectId(saved.id);
+        void syncProjectToFolder(saved);
       } catch (err) {
         alert('저장에 실패했습니다: ' + (err.message || '알 수 없는 오류') + '\n작업은 이 브라우저에 유지한 채 홈으로 이동합니다.');
       }
@@ -1334,6 +1360,7 @@ function App() {
       );
       setCurrentProjectIdState(saved.id);
       setCurrentProjectId(saved.id);
+      void syncProjectToFolder(saved);
       alert(`"${saved.title}" 저장 완료`);
     } catch (err) {
       alert('저장 실패: ' + err.message);
@@ -1465,6 +1492,8 @@ function App() {
 
   const loadDemoProject = async (opts = {}) => {
     try {
+      const demo = getDemoById(opts.seedId);
+
       if (opts.asPractice) {
         if (getWorkspaceMode() !== 'practice') {
           saveWorkspaceSlot(MAIN_SLOT_KEY, bundleToSnapshot(collectWorkspaceBundle()));
@@ -1475,7 +1504,7 @@ function App() {
 
       // GitHub Pages 배포는 base path(`/6Sigma/`) 아래에서 동작하므로,
       // 항상 Vite의 BASE_URL 기준으로 시드 파일을 읽습니다.
-      const res = await fetch(`${import.meta.env.BASE_URL}demo_project_seed.json`);
+      const res = await fetch(`${import.meta.env.BASE_URL}${demo.file}`);
       if (!res.ok) throw new Error('시드 파일을 불러오지 못했습니다.');
       const seed = await res.json();
 
@@ -1883,6 +1912,23 @@ function App() {
 
   const steps = methodology === 'dfss' ? DFSS_STEPS : DMAIC_STEPS;
 
+  const workbenchImageBase = `${import.meta.env.BASE_URL}images/`;
+  const workbenchVisual = (() => {
+    if (showCurriculum || showLearning || showManuals) {
+      return { src: `${workbenchImageBase}measure-control-desk.jpg`, alt: '측정 도구와 기록지가 놓인 작업대' };
+    }
+    if (!selectedIndustry) {
+      return { src: `${workbenchImageBase}hero-quality-lab.jpg`, alt: '품질 검사 작업대의 마이크로미터와 금속 부품' };
+    }
+    if (!methodology) {
+      return { src: `${workbenchImageBase}measure-control-desk.jpg`, alt: '캘리퍼스와 시료가 놓인 측정 작업대' };
+    }
+    if (methodology === 'dfss') {
+      return { src: `${workbenchImageBase}dfss-design-bench.jpg`, alt: '시제품과 스케치가 놓인 설계 작업대' };
+    }
+    return { src: `${workbenchImageBase}field-process-line.jpg`, alt: '창문으로 햇빛이 들어오는 공정 라인' };
+  })();
+
   const getSetupPhase = () => {
     if (!selectedIndustry) return 'industry';
     if (!diagnosticCompleted) return 'diagnostic';
@@ -2011,7 +2057,7 @@ function App() {
     if (!selectedIndustry && !sigmaData) {
       return (
         <div className="fade-in" style={{ textAlign: 'center', padding: '3rem 1rem' }}>
-          <h2>🏢 업종 선택</h2>
+          <h2>업종 선택</h2>
           <p className="subtitle">업종 목록을 불러오지 못했습니다. 페이지를 새로고침해 주세요.</p>
         </div>
       );
@@ -2021,21 +2067,20 @@ function App() {
     if (!selectedIndustry && sigmaData) {
       return (
         <div className="fade-in">
-          <h2>🏢 업종 선택</h2>
-          <p className="subtitle">프로젝트를 진행할 업종을 선택하세요. 업종에 맞는 맞춤형 도구와 템플릿이 제공됩니다.</p>
+          <h2>업종 선택</h2>
+          <p className="subtitle">업종을 고르면 진단 문항과 템플릿이 그 기준으로 맞춰집니다.</p>
 
           <div className="industry-pick-grid">
             {sigmaData.industries.map(industry => (
               <motion.div
                 key={industry.id}
                 className="industry-pick-card"
-                whileHover={{ scale: 1.02, boxShadow: '0 8px 24px rgba(0,0,0,0.15)' }}
-                whileTap={{ scale: 0.98 }}
+                whileTap={{ scale: 0.99 }}
                 onClick={() => setSelectedIndustry(industry.id)}
               >
-                <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>{industry.icon}</div>
-                <h3 style={{ color: 'white', marginBottom: '0.5rem' }}>{industry.name}</h3>
-                <p style={{ fontSize: '0.9rem', opacity: 0.9 }}>{industry.description}</p>
+                <div style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>{industry.icon}</div>
+                <h3>{industry.name}</h3>
+                <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)' }}>{industry.description}</p>
               </motion.div>
             ))}
           </div>
@@ -2255,7 +2300,7 @@ function App() {
       return (
         <div className="fade-in">
           <h2>🎯 방법론 추천 결과</h2>
-          <p className="subtitle">진단 결과를 바탕으로 적합한 6시그마 방법론을 추천합니다</p>
+          <p className="subtitle">진단 결과를 보고 DMAIC 또는 DFSS를 권합니다.</p>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', marginTop: '2rem' }}>
             {/* DMAIC Card */}
@@ -2396,7 +2441,7 @@ function App() {
               ))}
             </div>
             <p style={{ fontSize: '0.85rem', color: '#888', marginTop: '1rem', fontStyle: 'italic' }}>
-              💡 추천은 참고용이며, 프로젝트 특성에 따라 다른 방법론을 선택하실 수 있습니다.
+              추천일 뿐입니다. 다른 쪽을 골라도 됩니다.
             </p>
           </div>
         </div>
@@ -3247,17 +3292,22 @@ function App() {
             ← 과제 재선정
           </button>
           <h2>방법론 선택</h2>
-          <p className="subtitle">선정된 프로젝트의 특성에 맞는 방법론을 선택하세요.</p>
+          <p className="subtitle">과제 성격에 따라 DMAIC 또는 DFSS를 고르세요.</p>
           <div className="selection-grid">
             <button className="selection-card" onClick={() => {
               localStorage.setItem('sigma_methodology', 'dmaic');
               setMethodology('dmaic');
               setActiveStep('define');
             }}>
+              <img
+                className="selection-card-photo"
+                src={`${import.meta.env.BASE_URL}images/field-process-line.jpg`}
+                alt=""
+              />
               <div className="selection-icon dmaic"><Zap size={32} /></div>
               <div className="card-body">
                 <h3>DMAIC</h3>
-                <p>기존 프로세스의 결함을 개선하고 최적화하고 싶을 때 사용합니다.</p>
+                <p>가동 중인 공정의 불량·산포를 줄일 때 씁니다.</p>
                 <div className="selection-badge">기존 공정 개선</div>
               </div>
             </button>
@@ -3266,10 +3316,15 @@ function App() {
               setMethodology('dfss');
               setActiveStep('define');
             }}>
+              <img
+                className="selection-card-photo"
+                src={`${import.meta.env.BASE_URL}images/dfss-design-bench.jpg`}
+                alt=""
+              />
               <div className="selection-icon dfss"><PlusCircle size={32} /></div>
               <div className="card-body">
                 <h3>DFSS (DMADV)</h3>
-                <p>새로운 제품이나 공정을 처음부터 무결점으로 설계하고 싶을 때 사용합니다.</p>
+                <p>새 제품·공정을 설계 단계부터 CTQ에 맞춰 검증할 때 씁니다.</p>
                 <div className="selection-badge">신규 설계/개발</div>
               </div>
             </button>
@@ -3465,7 +3520,7 @@ function App() {
                             <p style={{ color: '#64748b', margin: '0.5rem 0 0 0' }}>Project Definition & Plan</p>
                           </div>
                           <div style={{ textAlign: 'right' }}>
-                            <div style={{ fontSize: '0.9rem', color: '#475569' }}><strong>Project Leader:</strong> {data.define.team.find(m => m.role === 'Black Belt' || m.role === 'Green Belt')?.name || '미정'}</div>
+                            <div style={{ fontSize: '0.9rem', color: '#475569' }}><strong>Project Leader:</strong> {data.define.team.find(m => /Belt|Champion|본인/i.test(m.role || ''))?.name || data.define.team[0]?.name || '미정'}</div>
                             <div style={{ fontSize: '0.9rem', color: '#475569' }}><strong>Date:</strong> {new Date().toLocaleDateString()}</div>
                           </div>
                         </div>
@@ -3639,11 +3694,14 @@ function App() {
                                 6. Team Members (팀 구성)
                               </div>
                               <div style={{ padding: '1rem' }}>
+                                <p style={{ margin: '0 0 0.75rem', fontSize: '0.82rem', lineHeight: 1.5, color: '#64748b' }}>
+                                  회사 과제는 Champion · Belt · SME. 가계·개인 과제는 본인·배우자만으로 충분합니다.
+                                </p>
                                 <div className="team-grid" style={{ gap: '0.5rem' }}>
                                   {data.define.team.map((member, idx) => (
                                     <div key={idx} className="team-member-row" style={{ marginBottom: '0.5rem' }}>
                                       <select
-                                        value={member.role}
+                                        value={TEAM_ROLE_OPTIONS.includes(member.role) ? member.role : '자문'}
                                         onChange={(e) => {
                                           const newTeam = [...data.define.team];
                                           newTeam[idx].role = e.target.value;
@@ -3651,10 +3709,9 @@ function App() {
                                         }}
                                         style={{ padding: '0.4rem', fontSize: '0.9rem' }}
                                       >
-                                        <option>Champion</option>
-                                        <option>Black Belt</option>
-                                        <option>Green Belt</option>
-                                        <option>SME</option>
+                                        {TEAM_ROLE_OPTIONS.map((role) => (
+                                          <option key={role} value={role}>{role}</option>
+                                        ))}
                                       </select>
                                       <input
                                         type="text"
@@ -3724,11 +3781,14 @@ function App() {
                         />
                         <div className="form-group">
                           <label>6. 팀 구성 (Team Members)</label>
+                          <p style={{ margin: '0 0 0.65rem', fontSize: '0.82rem', lineHeight: 1.5, color: '#64748b' }}>
+                            회사 과제는 Champion · Belt · SME. 가계·개인 과제는 본인·배우자만으로 충분합니다.
+                          </p>
                           <div className="team-grid">
                             {data.define.team.map((member, idx) => (
                               <div key={idx} className="team-member-row">
                                 <select
-                                  value={member.role}
+                                  value={TEAM_ROLE_OPTIONS.includes(member.role) ? member.role : '자문'}
                                   onChange={(e) => {
                                     const newTeam = [...data.define.team];
                                     newTeam[idx].role = e.target.value;
@@ -3736,10 +3796,9 @@ function App() {
                                     setCompletedTools(prev => Array.from(new Set([...prev, 'team'])));
                                   }}
                                 >
-                                  <option>Champion</option>
-                                  <option>Black Belt</option>
-                                  <option>Green Belt</option>
-                                  <option>SME</option>
+                                  {TEAM_ROLE_OPTIONS.map((role) => (
+                                    <option key={role} value={role}>{role}</option>
+                                  ))}
                                 </select>
                                 <input
                                   type="text"
@@ -3866,6 +3925,7 @@ function App() {
           : 0;
 
         const measureTools = [
+          { id: 'cashflow', title: '월 소득·지출 항목', desc: '월 소득과 지출 항목을 분해해 이론 여력과 실제 순저축 갭의 기준선을 잡습니다.', icon: <Wallet size={32} /> },
           ...(isDmaicMeasure ? [{ id: 'dpmo', title: 'DPMO Calculator', desc: '결함 기회당 결함 수를 계산하여 현재 수준을 진단합니다.', icon: <Calculator size={32} /> }] : []),
           { id: 'msa_grr', title: 'MSA / GR&R', desc: '측정시스템 신뢰성을 평가하고 %GR&R를 계산합니다.', icon: <Ruler size={32} /> },
           { id: 'normality', title: 'Normality Test (정규성)', desc: 'Anderson-Darling로 정규분포 적합성을 검정합니다.', icon: <Activity size={32} /> },
@@ -3968,6 +4028,18 @@ function App() {
                           <b>도구 설명:</b> {sigmaData?.tools?.find(t => t.id === activeTool)?.description || '설명이 없습니다.'}
                         </p>
                       </div>
+                    )}
+
+                    {activeTool === 'cashflow' && (
+                      <CashflowEditor
+                        industryId={selectedIndustry || 'manufacturing'}
+                        industryName={sigmaData?.industries?.find(i => i.id === selectedIndustry)?.name}
+                        value={data.measure?.cashflow}
+                        onChange={(cashflow) => {
+                          setData({ ...data, measure: { ...data.measure, cashflow } });
+                          setCompletedTools(prev => Array.from(new Set([...prev, 'cashflow'])));
+                        }}
+                      />
                     )}
 
                     {activeTool === 'dpmo' && (
@@ -5186,7 +5258,25 @@ function App() {
 
   return (
     <div className="app-container">
-      {showLanding && showPricing && (
+      {authModal && (
+        <AuthModal
+          mode={authModal}
+          onClose={() => {
+            setPendingStartAfterLogin(false);
+            setAuthModal(null);
+          }}
+          onSuccess={(s) => {
+            setSession(s);
+            setAuthModal(null);
+            if (pendingStartAfterLogin) {
+              setPendingStartAfterLogin(false);
+              beginNewProjectWorkspace();
+            }
+          }}
+        />
+      )}
+
+      {pricingVisible && showLanding && showPricing && (
         <PricingPage
           hasResume={!!(selectedIndustry || methodology)}
           onBack={closePricingToLanding}
@@ -5196,13 +5286,13 @@ function App() {
         />
       )}
 
-      {showLanding && !showPricing && (
+      {showLanding && !(pricingVisible && showPricing) && (
         <LandingPage
           hasResume={!!(selectedIndustry || methodology)}
           onStartProject={startNewProjectFromLanding}
           onResume={resumeProjectFromLanding}
           onOpenCurriculum={openCurriculumFromLanding}
-          onOpenPricing={openPricingFromLanding}
+          onOpenPricing={pricingVisible ? openPricingFromLanding : undefined}
           onResetWork={resetToStart}
         />
       )}
@@ -5254,16 +5344,17 @@ function App() {
 
         {/* Central Status Bar — flex/grid 흐름에 포함 (절대배치로 가리지 않음) */}
         {methodology ? (
-          <div className="status-bar" title="현재 진행 단계">
-            <span className={`status-bar-method ${methodology}`}>
-              {methodology}
-            </span>
-            <ChevronRight size={16} color="#94a3b8" style={{ flexShrink: 0 }} />
-            <span className="status-bar-step">
-              {steps.find(s => s.id === activeStep)?.name.split(' (')[0]}
-            </span>
-            <span className="status-bar-badge">진행중</span>
-          </div>
+          <ol className="status-bar" aria-label="현재 진행 단계">
+            {steps.map((step) => {
+              const ko = step.name.match(/\((.+)\)/)?.[1] || step.name;
+              const letter = step.id === 'selection' ? 'S' : step.name.trim().charAt(0);
+              return (
+                <li key={step.id} className={step.id === activeStep ? 'is-now' : undefined}>
+                  {letter} {ko}
+                </li>
+              );
+            })}
+          </ol>
         ) : (
           <div className="status-bar-spacer" aria-hidden="true" />
         )}
@@ -5355,8 +5446,11 @@ function App() {
           </button>
           <button
             className="btn-demo"
-            onClick={loadDemoProject}
-            title="가상 데모 프로젝트 전체 데이터 불러오기"
+            onClick={() => {
+              setDemoPickerAsPractice(false);
+              setShowDemoPicker(true);
+            }}
+            title="교육용 데모 프로젝트 선택"
           >
             <FlaskConical size={16} /> 데모 불러오기
           </button>
@@ -5395,13 +5489,6 @@ function App() {
         </div>
       </header>
 
-      {authModal && (
-        <AuthModal
-          mode={authModal}
-          onClose={() => setAuthModal(null)}
-          onSuccess={(s) => setSession(s)}
-        />
-      )}
       {showSaveDraft && (
         <SaveDraftModal
           defaultTitle={data.define?.projectTitle || ''}
@@ -5409,6 +5496,42 @@ function App() {
           onClose={() => setShowSaveDraft(false)}
           onSave={handleSaveDraft}
         />
+      )}
+      {showDemoPicker && (
+        <div className="modal-overlay" onClick={() => setShowDemoPicker(false)}>
+          <div className="modal-content demo-picker-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>데모 프로젝트</h2>
+              <button type="button" className="btn-close" onClick={() => setShowDemoPicker(false)}>×</button>
+            </div>
+            <div className="demo-picker-body">
+              <p className="demo-picker-lead">
+                완성된 DMAIC 과제를 불러 도구와 산출물을 한 바퀴 둘러봅니다.
+                {demoPickerAsPractice
+                  ? ' 교육 실습 모드에서 열리며 본 프로젝트는 그대로 둡니다.'
+                  : ' 현재 작업 화면을 데모 데이터로 바꿉니다. 저장하지 않은 내용은 사라집니다.'}
+              </p>
+              <div className="demo-picker-grid">
+                {DEMO_PROJECTS.map((demo) => (
+                  <button
+                    key={demo.id}
+                    type="button"
+                    className="demo-picker-card"
+                    onClick={() => {
+                      setShowDemoPicker(false);
+                      loadDemoProject({ seedId: demo.id, asPractice: demoPickerAsPractice });
+                    }}
+                  >
+                    <span className="demo-picker-domain">{demo.domain}</span>
+                    <strong>{demo.title}</strong>
+                    <span className="demo-picker-y">Y · {demo.y}</span>
+                    <p>{demo.summary}</p>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       )}
       {showMyProjects && session && (
         <MyProjectsModal
@@ -5461,15 +5584,15 @@ function App() {
                     className="icon-box"
                     style={{
                       backgroundColor: isActive
-                        ? step.color
+                        ? '#1a1a17'
                         : isCompleted
-                          ? '#10b981'
-                          : '#e2e8f0'
+                          ? '#1f4a42'
+                          : '#efefea'
                     }}
                   >
                     {isCompleted && !isActive
-                      ? <CheckCircle size={20} color="white" />
-                      : <step.icon size={20} color={isActive ? 'white' : '#64748b'} />}
+                      ? <CheckCircle size={18} color="#f6f6f3" />
+                      : <step.icon size={18} color={isActive ? '#f6f6f3' : '#5f5f58'} />}
                   </div>
                   <div className="step-text">
                     <span className="step-name">{step.name}</span>
@@ -5505,15 +5628,15 @@ function App() {
                     className="icon-box"
                     style={{
                       backgroundColor: isActive
-                        ? step.color
+                        ? '#1a1a17'
                         : isCompleted
-                          ? '#10b981'
-                          : '#e2e8f0'
+                          ? '#1f4a42'
+                          : '#efefea'
                     }}
                   >
                     {isCompleted && !isActive
-                      ? <CheckCircle size={20} color="white" />
-                      : <step.icon size={20} color={isActive ? 'white' : '#64748b'} />}
+                      ? <CheckCircle size={18} color="#f6f6f3" />
+                      : <step.icon size={18} color={isActive ? '#f6f6f3' : '#5f5f58'} />}
                   </div>
                   <div className="step-text">
                     <span className="step-name">{step.name}</span>
@@ -5533,9 +5656,9 @@ function App() {
             >
               <div
                 className="icon-box"
-                style={{ backgroundColor: showCurriculum ? '#0f766e' : '#e2e8f0' }}
+                style={{ backgroundColor: showCurriculum ? '#1a1a17' : '#efefea' }}
               >
-                <GraduationCap size={20} color={showCurriculum ? 'white' : '#64748b'} />
+                <GraduationCap size={18} color={showCurriculum ? '#f6f6f3' : '#5f5f58'} />
               </div>
               <div className="step-text">
                 <span className="step-name">교육 과정</span>
@@ -5549,9 +5672,9 @@ function App() {
             >
               <div
                 className="icon-box"
-                style={{ backgroundColor: showPackageHub ? '#1e40af' : '#e2e8f0' }}
+                style={{ backgroundColor: showPackageHub ? '#1a1a17' : '#efefea' }}
               >
-                <LayoutDashboard size={20} color={showPackageHub ? 'white' : '#64748b'} />
+                <LayoutDashboard size={18} color={showPackageHub ? '#f6f6f3' : '#5f5f58'} />
               </div>
               <div className="step-text">
                 <span className="step-name">패키지 워크벤치</span>
@@ -5565,9 +5688,9 @@ function App() {
             >
               <div
                 className="icon-box"
-                style={{ backgroundColor: showLearning ? '#0f766e' : '#e2e8f0' }}
+                style={{ backgroundColor: showLearning ? '#1a1a17' : '#efefea' }}
               >
-                <Lightbulb size={20} color={showLearning ? 'white' : '#64748b'} />
+                <Lightbulb size={18} color={showLearning ? '#f6f6f3' : '#5f5f58'} />
               </div>
               <div className="step-text">
                 <span className="step-name">통계 학습관</span>
@@ -5581,9 +5704,9 @@ function App() {
             >
               <div
                 className="icon-box"
-                style={{ backgroundColor: showManuals ? '#0369a1' : '#e2e8f0' }}
+                style={{ backgroundColor: showManuals ? '#1a1a17' : '#efefea' }}
               >
-                <BookOpen size={20} color={showManuals ? 'white' : '#64748b'} />
+                <BookOpen size={18} color={showManuals ? '#f6f6f3' : '#5f5f58'} />
               </div>
               <div className="step-text">
                 <span className="step-name">사용설명서</span>
@@ -5597,9 +5720,9 @@ function App() {
             >
               <div
                 className="icon-box"
-                style={{ backgroundColor: showAiSettings ? '#7c3aed' : '#e2e8f0' }}
+                style={{ backgroundColor: showAiSettings ? '#1a1a17' : '#efefea' }}
               >
-                <Sparkles size={20} color={showAiSettings ? 'white' : '#64748b'} />
+                <Sparkles size={18} color={showAiSettings ? '#f6f6f3' : '#5f5f58'} />
               </div>
               <div className="step-text">
                 <span className="step-name">AI 조언 설정</span>
@@ -5610,6 +5733,9 @@ function App() {
         </nav>
 
         <section className="content-area">
+          <figure className="workbench-visual">
+            <img src={workbenchVisual.src} alt={workbenchVisual.alt} />
+          </figure>
           {isPracticeMode && (
             <div className="practice-mode-banner" style={{
               display: 'flex',
@@ -5661,7 +5787,7 @@ function App() {
             </div>
           )}
           <div className={`card container-card${(activeStep === 'measure' || showManuals || showAiSettings || showLearning || showPackageHub || showCurriculum) ? ' container-card-wide' : ''}`}>
-            {canGoBackView && (
+            {canGoBackView && !activeTool && (
               <div className="page-back-bar" style={{
                 display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap',
                 marginBottom: '0.85rem', paddingBottom: '0.75rem',

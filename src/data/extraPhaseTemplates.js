@@ -85,6 +85,14 @@ export const TEAM_TEMPLATES = [
     timelineMonths: 3
   },
   {
+    id: 'fin_team', industry: 'service_office', name: '가계·재테크 팀', desc: '본인·배우자',
+    team: [
+      { name: '', role: '본인' },
+      { name: '', role: '배우자' }
+    ],
+    timelineMonths: 12
+  },
+  {
     id: 'it_team', industry: 'it_ops', name: 'SRE/배포 개선팀', desc: 'DevOps·SRE·개발',
     team: [
       { name: '', role: 'Champion' },
@@ -420,6 +428,32 @@ export const SELECTION_TEMPLATES = [
     projectPool: [
       { name: '리드타임 단축', currentLevel: '72%', goal: '90%', urgency: 5, impact: 5, total: 10, selected: true },
       { name: '재작업 감소', currentLevel: '12%', goal: '5%', urgency: 4, impact: 4, total: 8, selected: false }
+    ]
+  },
+  {
+    id: 'fin_sel', industry: 'service_office', name: '가계·재테크 과제 샘플', desc: '경제적 자립 · 자산 확대',
+    opportunity: {
+      customerType: 'internal',
+      customerDefinition: '본인·배우자·자녀 — 가계의 실제 고객은 미래의 우리 집',
+      customerNeeds: '생활비 자립, 교육비 대출 의존 축소, 은퇴 후 인출 가능한 자산',
+      businessOpportunity: '월 순저축 산포와 고정비 누수를 줄여 순자산 목표 속도에 맞춘다',
+      analysis3C: {
+        customer: '가족 VOC는 막연한 부자보다 불안을 숫자로 줄이는 것',
+        competitor: '같은 연차라도 자동적립·규칙 투자가 있으면 순자산 속도가 다르다',
+        company: '소득은 안정이나 측정·선저축·투자 원칙이 없다'
+      },
+      analysisFAW: {
+        field: '개인 재무 / 가계 현금흐름',
+        application: '급여 → 고정·변동비 → 부채 → 선저축·투자 → 월 결산',
+        whatsNew: '자동이체 선저축 + 월 결산 루틴'
+      }
+    },
+    megaY: '경제적 자립',
+    bigY: '월 순저축 200만원 · 5년 순자산 10억',
+    projectPool: [
+      { name: '경제적 자립을 위한 자산 확대', currentLevel: '월 100만원', goal: '월 200만원', urgency: 5, impact: 5, total: 10, selected: true },
+      { name: '부채비율 축소', currentLevel: '약 30%', goal: '20%', urgency: 4, impact: 4, total: 8, selected: false },
+      { name: '비상금 6개월분', currentLevel: '약 1개월', goal: '6개월', urgency: 3, impact: 4, total: 7, selected: false }
     ]
   },
   {

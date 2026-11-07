@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { X, LogIn, UserPlus, FolderOpen, Save, Trash2, LogOut, User, Download, Upload } from 'lucide-react';
+import { X, LogIn, UserPlus, FolderOpen, Folder, Save, Trash2, LogOut, User, Download, Upload } from 'lucide-react';
 import { loginUser, registerUser } from '../utils/authStore';
 import {
   deleteUserProject,
@@ -8,9 +8,23 @@ import {
   readBackupFile,
   renameUserProject,
   restoreUserBackup,
-  mergeRemoteProjects
+  mergeRemoteProjects,
+  setProjectFolderFileName,
+  upsertImportedProject
 } from '../utils/projectStore';
 import { getSyncStatus, isCloudEnabled, pushProjects, pullProjects } from '../utils/syncApi';
+import {
+  canUseFolderPicker,
+  canUseOpenPicker,
+  clearStoredFolder,
+  getFolderStatus,
+  pickAndReadProjectFile,
+  pickLocalFolder,
+  readProjectTextFile,
+  requestFolderPermission,
+  saveProjectToFolder,
+  suggestFileStem
+} from '../utils/localFolderStore';
 
 
 const overlay = {
@@ -189,10 +203,27 @@ export const MyProjectsModal = ({ userId, session, currentProjectId, onClose, on
   const [editingId, setEditingId] = useState(null);
   const [editTitle, setEditTitle] = useState('');
   const [busy, setBusy] = useState(false);
+  const [folderStatus, setFolderStatus] = useState(null);
   const fileRef = useRef(null);
+  const sigmaFileRef = useRef(null);
+
+  const refreshFolder = async () => {
+    try {
+      const status = await getFolderStatus();
+      if (status.connected && !status.granted && status.handle) {
+        await requestFolderPermission(status.handle);
+        setFolderStatus(await getFolderStatus());
+        return;
+      }
+      setFolderStatus(status);
+    } catch {
+      setFolderStatus(null);
+    }
+  };
 
   useEffect(() => {
     setProjects(listProjects(userId));
+    refreshFolder();
   }, [userId]);
 
   const refresh = () => setProjects(listProjects(userId));
@@ -248,6 +279,105 @@ export const MyProjectsModal = ({ userId, session, currentProjectId, onClose, on
     }
   };
 
+  const handlePickFolder = async () => {
+    setBusy(true);
+    try {
+      const picked = await pickLocalFolder();
+      await refreshFolder();
+      alert(`폴더 「${picked.name}」을 지정했습니다.\n프로젝트마다 이름을 정해 .sigma 파일로 저장하세요.`);
+    } catch (err) {
+      if (err?.name !== 'AbortError') alert(err.message || '폴더 지정에 실패했습니다.');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleSaveProjectToFolder = async (project) => {
+    if (!folderStatus?.connected) {
+      alert('먼저 PC 폴더를 지정하세요.');
+      return;
+    }
+    const suggested = suggestFileStem(project.folderFileName || project.title);
+    const typed = window.prompt('이 프로젝트의 파일 이름입니다. 확장자 .sigma는 자동으로 붙습니다.', suggested);
+    if (typed == null) return;
+    const stem = typed.trim();
+    if (!stem) {
+      alert('파일 이름을 입력하세요.');
+      return;
+    }
+    setBusy(true);
+    try {
+      const result = await saveProjectToFolder(project, stem);
+      setProjectFolderFileName(userId, project.id, result.fileName);
+      refresh();
+      await refreshFolder();
+      alert(`「${result.fileName}」으로 저장했습니다.\n폴더: ${result.folderName}`);
+    } catch (err) {
+      if (err?.name !== 'AbortError') alert(err.message || '폴더 저장에 실패했습니다.');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const openParsedProject = (parsed) => {
+    if (parsed.type === 'many') {
+      const result = restoreUserBackup(userId, parsed.backup, 'merge');
+      refresh();
+      alert(`여러 프로젝트를 가져왔습니다. 총 ${result.count}개입니다. 목록에서 열어 이어서 하세요.`);
+      return;
+    }
+    const project = upsertImportedProject(userId, parsed.project, parsed.fileName?.endsWith('.sigma') ? parsed.fileName : parsed.project?.folderFileName);
+    refresh();
+    onOpen?.(project);
+  };
+
+  const handleOpenSigmaFile = async () => {
+    setBusy(true);
+    try {
+      if (canUseOpenPicker()) {
+        const parsed = await pickAndReadProjectFile();
+        openParsedProject(parsed);
+      } else {
+        sigmaFileRef.current?.click();
+      }
+    } catch (err) {
+      if (err?.message === 'FILE_INPUT') {
+        sigmaFileRef.current?.click();
+      } else if (err?.name !== 'AbortError') {
+        alert(err.message || '파일을 열지 못했습니다.');
+      }
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleSigmaFileInput = async (file) => {
+    if (!file) return;
+    setBusy(true);
+    try {
+      const parsed = await readProjectTextFile(file);
+      openParsedProject(parsed);
+    } catch (err) {
+      alert(err.message || '파일을 열지 못했습니다.');
+    } finally {
+      setBusy(false);
+      if (sigmaFileRef.current) sigmaFileRef.current.value = '';
+    }
+  };
+
+  const handleClearFolder = async () => {
+    if (!window.confirm('지정 폴더만 해제합니다. PC에 저장된 파일은 지우지 않습니다.')) return;
+    setBusy(true);
+    try {
+      await clearStoredFolder();
+      await refreshFolder();
+    } catch (err) {
+      alert(err.message || '지정 해제에 실패했습니다.');
+    } finally {
+      setBusy(false);
+    }
+  };
+
   const handleCloudPull = async () => {
     if (!isCloudEnabled()) {
       alert('클라우드 API가 없습니다.\n.env에 VITE_API_URL을 넣고 npm run server 를 실행하세요.');
@@ -277,8 +407,51 @@ export const MyProjectsModal = ({ userId, session, currentProjectId, onClose, on
         </div>
         <div style={body}>
           <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: '0.85rem' }}>
-            이름으로 저장된 진행 중 프로젝트입니다. 브라우저 데이터가 지워져도 백업으로 되살릴 수 있습니다.
+            프로젝트마다 이름을 정해 PC에 .sigma 파일로 저장할 수 있습니다. 그 파일을 열면 이어서 진행합니다.
           </p>
+
+          <div style={{
+            marginBottom: '0.85rem', padding: '0.75rem 0.85rem', borderRadius: 10,
+            background: '#f6f6f3',
+            border: '1px solid #d8d8d1',
+            fontSize: '0.82rem',
+            color: '#1a1a17',
+            lineHeight: 1.5
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 600, marginBottom: 6 }}>
+              <Folder size={15} /> PC 폴더 저장
+            </div>
+            <p style={{ margin: '0 0 0.7rem', color: '#5f5f58' }}>
+              {folderStatus?.message
+                || (canUseFolderPicker()
+                  ? '내 PC 폴더를 지정하면, 저장할 때마다 그 폴더에 파일이 남습니다. 서버로는 가지 않습니다.'
+                  : '이 브라우저는 폴더 지정을 지원하지 않습니다. Safari·Firefox는 파일을 받아 두었다가 「파일 열기」로 이어서 하세요.')}
+              {folderStatus?.lastSyncedAt ? ` 마지막 저장: ${new Date(folderStatus.lastSyncedAt).toLocaleString('ko-KR')}` : ''}
+            </p>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              <button type="button" className="btn-primary" style={{ padding: '0.4rem 0.75rem' }}
+                onClick={handlePickFolder} disabled={busy || !canUseFolderPicker()}>
+                폴더 지정
+              </button>
+              <button type="button" className="btn-text" style={{ padding: '0.4rem 0.75rem', border: '1px solid #cbd5e1', borderRadius: 8 }}
+                onClick={handleOpenSigmaFile} disabled={busy}>
+                파일 열기
+              </button>
+              {folderStatus?.connected && (
+                <button type="button" className="btn-text" style={{ padding: '0.4rem 0.75rem', color: '#9b2c2c' }}
+                  onClick={handleClearFolder} disabled={busy}>
+                  지정 해제
+                </button>
+              )}
+              <input
+                ref={sigmaFileRef}
+                type="file"
+                accept=".sigma,.sigma-backup,.json,application/json"
+                style={{ display: 'none' }}
+                onChange={(e) => handleSigmaFileInput(e.target.files?.[0])}
+              />
+            </div>
+          </div>
 
           <div style={{
             marginBottom: '0.85rem', padding: '0.7rem 0.85rem', borderRadius: 10,
@@ -354,12 +527,18 @@ export const MyProjectsModal = ({ userId, session, currentProjectId, onClose, on
                         {(p.methodology || '-').toUpperCase()} · 단계: {p.activeStep || '-'}
                         <br />
                         저장일: {p.updatedAt ? new Date(p.updatedAt).toLocaleString('ko-KR') : '-'}
+                        {p.folderFileName ? ` · 파일: ${p.folderFileName}` : ''}
                         {p.id === currentProjectId ? ' · 현재 작업 중' : ''}
                       </div>
                     </div>
                     <div style={{ display: 'flex', gap: 6, alignItems: 'flex-start', flexWrap: 'wrap' }}>
                       <button type="button" className="btn-primary" style={{ padding: '0.4rem 0.75rem' }}
                         onClick={() => onOpen(p)}>열기</button>
+                      <button type="button" className="btn-text" style={{ padding: '0.4rem 0.5rem' }}
+                        onClick={() => handleSaveProjectToFolder(p)}
+                        disabled={busy || !folderStatus?.connected}
+                        title={folderStatus?.connected ? '이 프로젝트를 PC 폴더에 이름.sigma로 저장' : '먼저 폴더를 지정하세요'}
+                      >PC에 저장</button>
                       <button type="button" className="btn-text" style={{ padding: '0.4rem 0.5rem' }}
                         onClick={() => {
                           setEditingId(p.id);

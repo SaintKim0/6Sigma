@@ -1,0 +1,1526 @@
+{
+  "meta": {
+    "name": "경제적 자립을 위한 자산 확대",
+    "industry": "service_office",
+    "methodology": "dmaic",
+    "activeStep": "define",
+    "inspiredBy": "개인 가계 DMAIC 교육 사례. 시중 재테크 서적의 과제 발상만 참고(인물·수치는 창작)."
+  },
+  "diagnosticResponses": {
+    "q1_problem_type": [
+      "accuracy_errors",
+      "quality_defects"
+    ],
+    "q2_data_type": "continuous",
+    "q3_sample_size": "lt30",
+    "q4_process_maturity": "partial",
+    "q5_scope": "cross_function",
+    "q6_project_nature": "existing_improve",
+    "q7_problem_clarity": "problem_clear",
+    "q8_baseline_data": "data_exists",
+    "q9_goal_type": [
+      "cost_reduction"
+    ]
+  },
+  "completedTools": [
+    "cashflow",
+    "project_charter",
+    "voc_ctq",
+    "sipoc",
+    "process_map",
+    "swimlane_map",
+    "msa_grr",
+    "capability_analysis",
+    "spc_control_chart",
+    "pareto",
+    "fishbone",
+    "5whys",
+    "hypothesis_test",
+    "regression",
+    "fmea",
+    "doe",
+    "piloting",
+    "poka_yoke",
+    "control_plan",
+    "standard_work",
+    "solutions",
+    "monitoring",
+    "result",
+    "design_spec",
+    "complete",
+    "team",
+    "normality",
+    "capability",
+    "anova",
+    "chi_square",
+    "correlation",
+    "multi_regression",
+    "doe_effects",
+    "histogram",
+    "control",
+    "dpmo",
+    "sample_size",
+    "proportion_test",
+    "levene",
+    "nonparametric",
+    "residual_diag",
+    "weibull",
+    "ce_matrix",
+    "hypothesis_log",
+    "before_after"
+  ],
+  "projectData": {
+    "selection": {
+      "opportunity": {
+        "customerType": "internal",
+        "customerDefinition": "본인·배우자·자녀. 가계의 실제 고객은 미래의 우리 집이다.",
+        "customerNeeds": "1) 고용 불안과 상관없이 생활이 유지될 것\n2) 자녀 교육비를 대출로 메우지 않을 것\n3) 은퇴 후 월 생활비를 자산 수익으로 감당할 것\n4) 부부 사이에 돈 이야기가 싸움이 되지 않을 것",
+        "businessOpportunity": "세후 부부합산 월급은 대략 800만원인데, 월 순저축은 평균 100만원 안팎에 머문다. 순자산은 약 7억, 부채비율은 30%대. 이 속도면 5년 뒤에도 자립 목표(순자산 10억)에 못 미친다. 고정비·이자 누수를 줄이면 월 200만원 저축이 가능하다.",
+        "attachments": {
+          "customer": [],
+          "businessOpp": [],
+          "analysis3C": {
+            "customer": [],
+            "competitor": [],
+            "company": []
+          },
+          "analysisFAW": {
+            "field": [],
+            "application": [],
+            "whatsNew": []
+          }
+        },
+        "analysis3C": {
+          "customer": "가족 VOC의 핵심은 ‘불안을 숫자로 줄여 달라’이다. 막연한 부자보다 생활비 커버와 교육비 자립이 우선이다.",
+          "competitor": "같은 연차 동료 중 일부는 자동적립·인덱스 중심으로 순자산이 더 빠르다. 비교 대상은 이웃이 아니라 우리 집 목표선이다.",
+          "company": "본인은 성실하고 월급은 안정적이다. 약점은 가계를 대략만 보고 있고, 투자 원칙이 없으며, 신용·할부 이자를 습관으로 둔 점이다."
+        },
+        "analysisFAW": {
+          "field": "개인 재무 / 가계 현금흐름",
+          "application": "월급 입금 → 고정비·변동비 → 부채상환 → 저축·투자 → 월말 순자산 집계",
+          "whatsNew": "월 결산  rituals + 자동이체 우선 + 투자 규칙(리밸런싱)으로 저축 산포를 줄인다"
+        }
+      },
+      "megaY": "경제적 자립 — 노동소득이 끊여도 생활이 유지되는 상태",
+      "bigY": "5년 내 순자산 10억 · 월 순저축 200만원",
+      "logicTree": {
+        "id": "root",
+        "type": "mega-y",
+        "content": "경제적 자립",
+        "children": [
+          {
+            "id": "bigy-1",
+            "type": "big-y",
+            "content": "순자산 확대 (5년 10억)",
+            "children": [
+              {
+                "id": "proj-1",
+                "type": "project",
+                "content": "경제적 자립을 위한 자산 확대",
+                "isSelected": true,
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "bigy-2",
+            "type": "big-y",
+            "content": "현금흐름 안정 (월 순저축 200만원)",
+            "children": [
+              {
+                "id": "proj-2",
+                "type": "project",
+                "content": "가계 누수 제거",
+                "isSelected": false,
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      "projectPool": [
+        {
+          "name": "경제적 자립을 위한 자산 확대",
+          "currentLevel": "순자산 약 7억 / 월저축 100만원",
+          "goal": "5년 10억 / 월 200만원",
+          "urgency": 5,
+          "impact": 5,
+          "total": 10,
+          "selected": true
+        },
+        {
+          "name": "부채비율 축소",
+          "currentLevel": "약 30%",
+          "goal": "20% 이하",
+          "urgency": 4,
+          "impact": 4,
+          "total": 8,
+          "selected": false
+        },
+        {
+          "name": "비상금 6개월분 확보",
+          "currentLevel": "약 1개월",
+          "goal": "6개월",
+          "urgency": 4,
+          "impact": 3,
+          "total": 7,
+          "selected": false
+        }
+      ]
+    },
+    "define": {
+      "projectTitle": "경제적 자립을 위한 자산 확대 프로젝트",
+      "businessCase": "40대 초반 맞벌이 부부(직장 12년차)는 고용 불안과 교육비·은퇴를 동시에 안고 있다. 순자산 약 7억, 월 순저축 평균 100만원. 이론상 여력은 대략 200만원인데 고정비 중복, 빈번 매매, 이자 누수로 빠져나간다. 월 순저축을 200만원으로 올리고 투자 규칙을 고정하면 5년 뒤 순자산 10억 선에 도달할 수 있다. 이 과제는 공장 불량이 아니라 가계 프로세스를 DMAIC로 다룬다.",
+      "problemStatement": "세후 부부합산 소득은 월 약 800만원, 지출 항목 합은 약 600만원으로 이론 여력은 약 200만원이다. 최근 24개월 월 순저축액 평균 약 100만원(목표 200만원), 월별 들쑥날쑥함이 크다(대략 ±20~30만원). 24개월 중 약 4개월은 최소선 80만원 미만. 부채비율 약 30%, 비상금은 생활비 1개월분 수준. 원인 후보는 고정비 과다, 투자 원칙 부재, 신용·할부 이자, 부부 합의 부재이다.",
+      "goal": "12개월 내(2026-01-15 ~ 2027-01-15) 월 순저축 평균을 100만원에서 200만원 이상으로 올리고, 월별 들쑥날쑥함을 줄이며, 부채비율을 30%대에서 20% 이하로 낮춘다. 5년 순자산 목표는 10억(별도 장기 Y).",
+      "scopeIn": "부부 합산 현금흐름, 예·적금·IRP, 국내외 ETF/주식, 신용·할부 부채, 월 결산 장부, 보험 점검",
+      "scopeOut": "신규 사업 창업, 투기성 개별 종목 단타, 거주 주택 매각·이주, 자녀 진로 결정, 회사 인사·이직 그 자체",
+      "financialBenefits": "월 순저축 +100만원(연 약 1,200만원) + 이자 절감 추정 연 200만원. 5년 누적 저축 증가 약 6,000만원(투자수익 제외). 무형 효과: 부부 갈등 감소, 은퇴 시나리오가 대략의 숫자가 됨.",
+      "team": [
+        {
+          "name": "본인",
+          "role": "본인"
+        },
+        {
+          "name": "배우자",
+          "role": "배우자"
+        }
+      ],
+      "timeline": {
+        "start": "2026-01-15",
+        "end": "2027-01-15"
+      },
+      "sipoc": {
+        "supplier": "회사(급여),\n금융기관(계좌·대출),\n보험사, 증권사,\n가족(의사결정)",
+        "input": "세후 급여, 고정·변동 청구서,\n대출 상환 스케줄, 투자 계좌,\n가계부 기록, 가족 VOC",
+        "process": "입금 → 고정비 이체 →\n변동비 지출 → 부채상환 →\n선저축/투자 → 월말 결산 →\n리밸런싱",
+        "output": "월 순저축액, 순자산 스냅샷,\n부채잔액, 비상금 월수,\n부부 합의 메모",
+        "customer": "미래의 우리 집,\n배우자·자녀,\n은퇴 시점의 나"
+      },
+      "vocCtq": {
+        "templateId": "svc_voc",
+        "templateName": "가계 VOC→CTQ",
+        "vocItems": [
+          {
+            "voice": "월급은 들어오는데 통장이 안 는다",
+            "customer": "본인",
+            "priority": "상"
+          },
+          {
+            "voice": "학원비 때문에 매년 허덕인다",
+            "customer": "배우자",
+            "priority": "상"
+          },
+          {
+            "voice": "주식이 오르면 사고 내리면 판다",
+            "customer": "본인",
+            "priority": "상"
+          },
+          {
+            "voice": "갑자기 실직하면 몇 달이나 버틸지 모르겠다",
+            "customer": "가족",
+            "priority": "중"
+          },
+          {
+            "voice": "통신비가 왜 이렇게 나가지",
+            "customer": "본인",
+            "priority": "중"
+          },
+          {
+            "voice": "공과금 연체 문자가 또 왔다",
+            "customer": "배우자",
+            "priority": "중"
+          }
+        ],
+        "ctqItems": [
+          {
+            "ctq": "월 순저축액",
+            "spec": "평균 ≥ 200만원, 하한 80만원",
+            "weight": 45
+          },
+          {
+            "ctq": "월 저축 들쑥날쑥함",
+            "spec": "큰 출렁임 줄이기 (대략 ±10~20만원대)",
+            "weight": 25
+          },
+          {
+            "ctq": "부채비율",
+            "spec": "총부채/총자산 ≤ 20%",
+            "weight": 20
+          },
+          {
+            "ctq": "비상금 커버리지",
+            "spec": "생활비 6개월분",
+            "weight": 10
+          }
+        ]
+      },
+      "processMap": {
+        "lanes": [
+          {
+            "id": "f1-1-demo",
+            "title": "수입",
+            "cards": [
+              {
+                "id": "c-1-demo",
+                "text": "급여 입금",
+                "type": "process"
+              },
+              {
+                "id": "c-2-demo",
+                "text": "기타소득 확인",
+                "type": "process"
+              }
+            ]
+          },
+          {
+            "id": "f1-2-demo",
+            "title": "지출·부채",
+            "cards": [
+              {
+                "id": "c-3-demo",
+                "text": "고정비 자동이체",
+                "type": "process"
+              },
+              {
+                "id": "c-4-demo",
+                "text": "변동비 / 충동지출",
+                "type": "process"
+              },
+              {
+                "id": "c-5-demo",
+                "text": "부채 상환",
+                "type": "process"
+              }
+            ]
+          },
+          {
+            "id": "f1-3-demo",
+            "title": "저축·관리",
+            "cards": [
+              {
+                "id": "c-6-demo",
+                "text": "선저축·투자",
+                "type": "process"
+              },
+              {
+                "id": "c-7-demo",
+                "text": "월말 결산",
+                "type": "decision"
+              }
+            ]
+          }
+        ]
+      },
+      "swimlaneMap": {
+        "lanes": [
+          {
+            "id": "f1-1-demo",
+            "title": "본인",
+            "cards": [
+              {
+                "id": "c-1-demo",
+                "text": "급여 확인 / 투자 실행",
+                "type": "process"
+              },
+              {
+                "id": "c-2-demo",
+                "text": "월말 순자산 집계",
+                "type": "process"
+              }
+            ]
+          },
+          {
+            "id": "f1-2-demo",
+            "title": "배우자",
+            "cards": [
+              {
+                "id": "c-3-demo",
+                "text": "생활비·교육비 집행",
+                "type": "process"
+              },
+              {
+                "id": "c-4-demo",
+                "text": "고정비·보험 점검",
+                "type": "process"
+              },
+              {
+                "id": "c-5-demo",
+                "text": "부부 월 결산",
+                "type": "decision"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "measure": {
+      "unitCount": 24,
+      "defectCount": 4,
+      "opportunityPerUnit": 1,
+      "ctq": "1. 월 순저축액 (가중치 45%): 평균 ≥ 200만원, 하한 80만원\n2. 월 저축 들쑥날쑥함 (25%): 출렁임 축소\n3. 부채비율 (20%): ≤ 20%\n4. 비상금 커버리지 (10%): 생활비 6개월분\n\n【생활 낭비 측정 — 퀵윈 후보】\n· 통신비: 월 약 20만원 (요금제·부가·가족회선 중복) → 목표 월 10만원대\n· 공과금 연체: 최근 12개월 중 약 3회 연체, 연체·가산금 연 약 10만원\n· 방치 구독: 월 약 10만원 (OTT·클라우드·멤버십 미사용)\n· 배달·외식 충동: 월 약 40만원 중 줄일 여지 약 10만원",
+      "chartData": {
+        "controlChart": {
+          "type": "xbar",
+          "samples": [
+            {
+              "id": "sg-0",
+              "values": [
+                90,
+                110,
+                80,
+                130
+              ]
+            },
+            {
+              "id": "sg-1",
+              "values": [
+                90,
+                60,
+                140,
+                100
+              ]
+            },
+            {
+              "id": "sg-2",
+              "values": [
+                110,
+                70,
+                120,
+                80
+              ]
+            },
+            {
+              "id": "sg-3",
+              "values": [
+                100,
+                150,
+                70,
+                120
+              ]
+            },
+            {
+              "id": "sg-4",
+              "values": [
+                90,
+                80,
+                140,
+                100
+              ]
+            },
+            {
+              "id": "sg-5",
+              "values": [
+                90,
+                120,
+                70,
+                90
+              ]
+            }
+          ]
+        },
+        "histogram": {
+          "rawData": [
+            90,
+            110,
+            80,
+            130,
+            90,
+            60,
+            140,
+            100,
+            110,
+            70,
+            120,
+            80,
+            100,
+            150,
+            70,
+            120,
+            90,
+            80,
+            140,
+            100,
+            90,
+            120,
+            70,
+            90
+          ],
+          "lsl": 80,
+          "usl": 200,
+          "binCount": 10
+        },
+        "scatterPlot": {
+          "data": [
+            {
+              "x": 1,
+              "y": 90
+            },
+            {
+              "x": 2,
+              "y": 110
+            },
+            {
+              "x": 3,
+              "y": 80
+            },
+            {
+              "x": 4,
+              "y": 130
+            },
+            {
+              "x": 5,
+              "y": 90
+            },
+            {
+              "x": 6,
+              "y": 60
+            },
+            {
+              "x": 7,
+              "y": 140
+            },
+            {
+              "x": 8,
+              "y": 100
+            },
+            {
+              "x": 9,
+              "y": 110
+            },
+            {
+              "x": 10,
+              "y": 70
+            },
+            {
+              "x": 11,
+              "y": 120
+            },
+            {
+              "x": 12,
+              "y": 80
+            },
+            {
+              "x": 13,
+              "y": 100
+            },
+            {
+              "x": 14,
+              "y": 150
+            },
+            {
+              "x": 15,
+              "y": 70
+            },
+            {
+              "x": 16,
+              "y": 120
+            },
+            {
+              "x": 17,
+              "y": 90
+            },
+            {
+              "x": 18,
+              "y": 80
+            },
+            {
+              "x": 19,
+              "y": 140
+            },
+            {
+              "x": 20,
+              "y": 100
+            },
+            {
+              "x": 21,
+              "y": 90
+            },
+            {
+              "x": 22,
+              "y": 120
+            },
+            {
+              "x": 23,
+              "y": 70
+            },
+            {
+              "x": 24,
+              "y": 90
+            }
+          ],
+          "xLabel": "월 순서",
+          "yLabel": "월 순저축액(만원)"
+        },
+        "boxPlot": {
+          "groups": [
+            {
+              "id": "all",
+              "name": "월 순저축액",
+              "data": [
+                90,
+                110,
+                80,
+                130,
+                90,
+                60,
+                140,
+                100,
+                110,
+                70,
+                120,
+                80,
+                100,
+                150,
+                70,
+                120,
+                90,
+                80,
+                140,
+                100,
+                90,
+                120,
+                70,
+                90
+              ]
+            }
+          ]
+        },
+        "runChart": {
+          "data": [
+            {
+              "label": "1월",
+              "day": 1,
+              "value": 90
+            },
+            {
+              "label": "2월",
+              "day": 2,
+              "value": 110
+            },
+            {
+              "label": "3월",
+              "day": 3,
+              "value": 80
+            },
+            {
+              "label": "4월",
+              "day": 4,
+              "value": 130
+            },
+            {
+              "label": "5월",
+              "day": 5,
+              "value": 90
+            },
+            {
+              "label": "6월",
+              "day": 6,
+              "value": 60
+            },
+            {
+              "label": "7월",
+              "day": 7,
+              "value": 140
+            },
+            {
+              "label": "8월",
+              "day": 8,
+              "value": 100
+            },
+            {
+              "label": "9월",
+              "day": 9,
+              "value": 110
+            },
+            {
+              "label": "10월",
+              "day": 10,
+              "value": 70
+            },
+            {
+              "label": "11월",
+              "day": 11,
+              "value": 120
+            },
+            {
+              "label": "12월",
+              "day": 12,
+              "value": 80
+            },
+            {
+              "label": "13월",
+              "day": 13,
+              "value": 100
+            },
+            {
+              "label": "14월",
+              "day": 14,
+              "value": 150
+            },
+            {
+              "label": "15월",
+              "day": 15,
+              "value": 70
+            },
+            {
+              "label": "16월",
+              "day": 16,
+              "value": 120
+            },
+            {
+              "label": "17월",
+              "day": 17,
+              "value": 90
+            },
+            {
+              "label": "18월",
+              "day": 18,
+              "value": 80
+            },
+            {
+              "label": "19월",
+              "day": 19,
+              "value": 140
+            },
+            {
+              "label": "20월",
+              "day": 20,
+              "value": 100
+            },
+            {
+              "label": "21월",
+              "day": 21,
+              "value": 90
+            },
+            {
+              "label": "22월",
+              "day": 22,
+              "value": 120
+            },
+            {
+              "label": "23월",
+              "day": 23,
+              "value": 70
+            },
+            {
+              "label": "24월",
+              "day": 24,
+              "value": 90
+            }
+          ]
+        }
+      },
+      "analysisSummary": {
+        "n": 24,
+        "mean": 100,
+        "stdDev": 24.7,
+        "cp": 0.81,
+        "cpk": 0.27,
+        "sigmaLevel": 0.8,
+        "dpmo": 170000,
+        "defectCount": 4,
+        "pp": 0.8,
+        "ppk": 0.3,
+        "zBench": 0.7,
+        "pctOosObserved": 16.7,
+        "pctOosExpected": 17,
+        "normalityP": 0.4,
+        "isNormal": true
+      },
+      "msa": {
+        "templateId": "svc_msa",
+        "templateName": "가계 측정 시스템 점검",
+        "method": "정의·분류 일치도 (가계부 vs 통장)",
+        "parts": 12,
+        "operators": 2,
+        "replicates": 2,
+        "acceptance": "부부 간 분류 일치 ≥ 90%, 통장-장부 차이 ≤ 5만원/월",
+        "checklist": [
+          "순저축 정의: 입금 − 생활·부채 지출 후 남는 금액 (투자 이체는 저축으로 본다)",
+          "고정비/변동비/부채 계정 코드 통일",
+          "통신비·공과금·구독을 고정비로 분리 집계",
+          "공과금 연체·가산금 발생 월을 표시",
+          "부부 각자 한 달치를 독립 집계 후 대조",
+          "카드 결제일과 사용월을 맞출 것",
+          "현금·배달앱 지출 누락 여부 확인"
+        ],
+        "result": "부부 분류 일치 약 80%. 낭비 측정 결과(대략): 통신비 월 20만원, 공과금 연체 연 3회(가산금 약 10만원), 방치 구독 월 10만원, 배달·외식 중 줄일 여지 월 약 10만원. 이 네 가지는 분석 전에 퀵윈으로 먼저 손볼 후보."
+      },
+      "cashflow": {
+        "templateId": "fin_cashflow",
+        "templateName": "가계 월 소득·지출",
+        "periodLabel": "최근 24개월 평균(만원)",
+        "income": [
+          {
+            "item": "본인 급여(세후)",
+            "amount": 450
+          },
+          {
+            "item": "배우자 급여(세후)",
+            "amount": 350
+          },
+          {
+            "item": "기타소득",
+            "amount": 0
+          }
+        ],
+        "expenses": [
+          {
+            "item": "주거(대출이자·관리비)",
+            "amount": 150,
+            "type": "고정"
+          },
+          {
+            "item": "식비·생필품",
+            "amount": 100,
+            "type": "변동"
+          },
+          {
+            "item": "교육·학원",
+            "amount": 80,
+            "type": "고정"
+          },
+          {
+            "item": "교통·차량",
+            "amount": 40,
+            "type": "고정"
+          },
+          {
+            "item": "통신",
+            "amount": 20,
+            "type": "고정"
+          },
+          {
+            "item": "공과금(전기·가스·수도)",
+            "amount": 20,
+            "type": "고정"
+          },
+          {
+            "item": "보험",
+            "amount": 40,
+            "type": "고정"
+          },
+          {
+            "item": "구독·멤버십",
+            "amount": 10,
+            "type": "고정"
+          },
+          {
+            "item": "배달·외식",
+            "amount": 40,
+            "type": "변동"
+          },
+          {
+            "item": "부채 상환(원금·이자)",
+            "amount": 80,
+            "type": "고정"
+          },
+          {
+            "item": "경조사·기타",
+            "amount": 20,
+            "type": "변동"
+          }
+        ],
+        "note": "소득 합 약 800만원 − 지출 합 약 600만원 = 이론 여력 약 200만원. 실제 월 순저축 평균 100만원 → 갭 약 100만원은 들쑥날쑥함·미분류 지출·연체·충동 등으로 새는 부분. 통신·구독·공과금 연체·배달은 퀵윈 후보."
+      }
+    },
+    "analyze": {
+      "causes": [
+        "통신비·구독 등 고정비 과다",
+        "공과금 연체·가산금",
+        "선저축 없이 남은 돈만 투자",
+        "신용·할부 이자 누수",
+        "투자 원칙 없이 빈번 매매",
+        "부부 합의·월결산 부재"
+      ],
+      "alternatives": "【퀵윈 — 1~2주】\n1) 통신 요금제·부가서비스·미사용 회선 정리 (월 약 10만원)\n2) 공과금·카드 자동이체 등록, 연체 제로 (가산금 제거)\n3) 방치 구독 해지 (월 약 10만원)\n4) 배달앱 결제수단 한도·알림 제한 (월 약 10만원)\n\n【본개선】\n5) 급여일 선저축 200만원 자동이체\n6) 신용대출 우선 상환, 신규 할부 금지\n7) 자산배분 규칙(주식형 30% 상한, 연 1회 리밸런싱)\n8) 매월 마지막 일요일 30분 부부 결산",
+      "paretoItems": [
+        {
+          "category": "통신·구독 등 고정비",
+          "count": 30
+        },
+        {
+          "category": "선저축 실패",
+          "count": 25
+        },
+        {
+          "category": "부채 이자",
+          "count": 20
+        },
+        {
+          "category": "공과금 연체·가산금",
+          "count": 10
+        },
+        {
+          "category": "배달·외식 충동",
+          "count": 10
+        },
+        {
+          "category": "빈번 매매",
+          "count": 5
+        }
+      ],
+      "fishbone": {
+        "man": [
+          "의지 기복",
+          "부부 역할 불명확",
+          "돈 대화 회피"
+        ],
+        "machine": [
+          "가계부 앱 미사용",
+          "자동이체 미설정",
+          "카드 알림 끄기"
+        ],
+        "material": [
+          "비상금 부족",
+          "중복 보험·구독",
+          "고가 통신 요금제"
+        ],
+        "method": [
+          "예산 없음",
+          "선저축 없음",
+          "공과금 수동 납부",
+          "요금제 방치"
+        ],
+        "measurement": [
+          "순자산 미집계",
+          "수익률 미추적",
+          "계정 정의 불일치"
+        ],
+        "environment": [
+          "금리·물가",
+          "직장 고용 불안",
+          "주변 소비 압력"
+        ]
+      },
+      "fmea": [
+        {
+          "id": 1,
+          "process": "월 현금흐름",
+          "failureMode": "선저축 실패",
+          "effect": "순저축 목표 미달, 산포 확대",
+          "cause": "생활비 먼저 쓰고 남은 돈만 저축",
+          "s": 8,
+          "o": 8,
+          "d": 3,
+          "rpn": 192,
+          "action": "급여일 D+1 자동이체 200만원 (급여 계좌에서 저축 계좌)"
+        },
+        {
+          "id": 2,
+          "process": "고정비",
+          "failureMode": "중복 보험·구독",
+          "effect": "월 22만원 영구 누수",
+          "cause": "가입 이력 미점검",
+          "s": 6,
+          "o": 7,
+          "d": 4,
+          "rpn": 168,
+          "action": "보험 증권 전부 펼쳐 보장 중복 제거, 구독 목록화 후 분기 리뷰"
+        },
+        {
+          "id": 3,
+          "process": "부채",
+          "failureMode": "고금리 잔액 방치",
+          "effect": "연 이자 약 200만원",
+          "cause": "최소상환만 반복",
+          "s": 7,
+          "o": 6,
+          "d": 2,
+          "rpn": 84,
+          "action": "신용대출 우선 상환 스케줄, 신규 할부 금지 규칙"
+        },
+        {
+          "id": 4,
+          "process": "투자",
+          "failureMode": "감정 매매",
+          "effect": "비용·기회손실, 원칙 붕괴",
+          "cause": "배분 상한·리밸런싱 규칙 없음",
+          "s": 7,
+          "o": 5,
+          "d": 5,
+          "rpn": 175,
+          "action": "주식형 30% 상한, 연 1회 리밸런싱, 개별 단타 금지"
+        },
+        {
+          "id": 5,
+          "process": "고정비",
+          "failureMode": "통신비·부가서비스 방치",
+          "effect": "월 약 10만원 불필요 지출",
+          "cause": "요금제 점검 루틴 없음",
+          "s": 5,
+          "o": 8,
+          "d": 3,
+          "rpn": 120,
+          "action": "퀵윈: 이번 달 요금제·부가·미사용 회선 정리, 분기 1회 재점검"
+        },
+        {
+          "id": 6,
+          "process": "공과금",
+          "failureMode": "납부 연체",
+          "effect": "가산금·신용점수 영향, 연 약 10만원",
+          "cause": "수동 납부·일정 잊음",
+          "s": 6,
+          "o": 5,
+          "d": 2,
+          "rpn": 60,
+          "action": "퀵윈: 전기·가스·수도·관리비 자동이체, 납부일 캘린더 알림"
+        }
+      ],
+      "why5": [
+        {
+          "question": "왜 순자산이 목표 속도로 늘지 않는가?",
+          "answer": "월 순저축이 100만원 안팎에 머물고 들쑥날쑥하다."
+        },
+        {
+          "question": "왜 순저축이 낮은가?",
+          "answer": "이론 여력 약 200만원 중 절반 가까이가 고정비·이자·충동으로 새어 나간다."
+        },
+        {
+          "question": "왜 여력이 새는가?",
+          "answer": "생활비를 먼저 쓰고, 저축은 ‘남은 돈’에 맡긴다."
+        },
+        {
+          "question": "왜 남은 돈에 맡기는가?",
+          "answer": "자동이체·예산·부부 결산이 없다."
+        },
+        {
+          "question": "왜 관리 루틴이 없는가?",
+          "answer": "가계를 프로세스로 본 적이 없고, 측정 정의부터 합의되지 않았다."
+        }
+      ],
+      "hypothesis": {
+        "sample1": "90, 90, 80, 80, 90, 90, 80, 70, 70, 70",
+        "sample2": "160, 180, 190, 180, 170, 190, 180, 180, 170, 190",
+        "testType": "t-test",
+        "result": "분석 결과 (2-Sample T-Test):\n--------------------------------\nGroup A(선저축 없음): Mean≈80, N=10\nGroup B(급여일 자동이체): Mean≈180, N=10\n--------------------------------\n결론: 선저축 유무에 따라 월 순저축 평균 차이가 크다. (α=0.05)"
+      },
+      "regression": {
+        "xData": "10, 20, 20, 30, 30, 40, 40, 50, 50, 60",
+        "yData": "150, 140, 130, 120, 120, 110, 100, 90, 90, 80",
+        "result": "분석 결과 (Regression):\n--------------------------------\n고정비가 늘수록 순저축이 줄어드는 경향이 뚜렷하다. (대략적인 음의 상관)"
+      },
+      "ceMatrix": {
+        "ys": [
+          {
+            "name": "월 순저축",
+            "weight": 10
+          },
+          {
+            "name": "산포(σ)",
+            "weight": 7
+          },
+          {
+            "name": "부채비율",
+            "weight": 5
+          }
+        ],
+        "xs": [
+          {
+            "name": "선저축 자동이체",
+            "scores": [
+              9,
+              9,
+              1
+            ]
+          },
+          {
+            "name": "고정비 삭감",
+            "scores": [
+              9,
+              3,
+              3
+            ]
+          },
+          {
+            "name": "고금리 상환",
+            "scores": [
+              3,
+              1,
+              9
+            ]
+          },
+          {
+            "name": "투자 규칙",
+            "scores": [
+              3,
+              9,
+              1
+            ]
+          },
+          {
+            "name": "월 결산 루틴",
+            "scores": [
+              9,
+              9,
+              3
+            ]
+          }
+        ]
+      },
+      "hypothesisLog": [
+        {
+          "id": 1,
+          "y": "월 순저축",
+          "x": "선저축 자동이체",
+          "hypothesis": "급여일 자동이체 → 순저축 평균 상승",
+          "method": "2-sample t",
+          "status": "채택",
+          "evidence": "전후 평균 차이 뚜렷"
+        },
+        {
+          "id": 2,
+          "y": "월 순저축",
+          "x": "고정비",
+          "hypothesis": "고정비 ↑ → 순저축 ↓",
+          "method": "회귀",
+          "status": "채택",
+          "evidence": "고정비↑ → 저축↓ 경향"
+        },
+        {
+          "id": 3,
+          "y": "산포",
+          "x": "월 결산",
+          "hypothesis": "결산 루틴 → σ 감소",
+          "method": "Levene / 전후 비교",
+          "status": "검증중",
+          "evidence": "파일럿 3개월 출렁임 축소"
+        }
+      ],
+      "proportionTest": {
+        "result": "하한(80만원) 미달 월: 약 17% → 파일럿 후 거의 0"
+      },
+      "levene": {
+        "conclusion": "Levene W=4.02, p=0.041 → 선저축 전후 분산 차이 있음 (산포 감소)"
+      },
+      "nonparametric": {
+        "conclusion": "Mann-Whitney U=3, p<0.001 → 중앙값 차이 유의"
+      },
+      "anova": {
+        "conclusion": "F=11.8, p=0.002 → 결산 유무 그룹 간 평균 차이 유의"
+      },
+      "chiSquare": {
+        "conclusion": "χ²=9.4, p=0.009 → 목표 미달 월 × 선저축 여부 연관 유의"
+      },
+      "correlation": {
+        "conclusion": "Pearson r=-0.90 (고정비 vs 순저축), p<0.001"
+      },
+      "multiRegression": {
+        "equation": "Ŷ = 198 − 1.21·고정비 − 0.62·이자 + 48·선저축(0/1)",
+        "r2": 0.79,
+        "adjR2": 0.74,
+        "conclusion": "R²=79%, Adj.R²=74%. 선저축 더미가 가장 큰 효과."
+      },
+      "residualDiag": {
+        "conclusion": "잔차 정규성 p=0.44 OK · 잔차 등분산 p=0.29 OK"
+      },
+      "weibull": {
+        "shape": 1.4,
+        "scale": 9.5,
+        "B10": 2.1,
+        "MTTF": 8.6,
+        "conclusion": "‘목표 미달 월’ 간격 Weibull β=1.4 — 랜덤에 가깝고 예방(자동이체)이 유효"
+      }
+    },
+    "improve": {
+      "solutions": [
+        {
+          "cause": "통신비 과다",
+          "solution": "요금제 다운그레이드·부가서비스·미사용 회선 해지 (월 약 10만원)",
+          "type": "퀵윈",
+          "cost": "없음",
+          "period": "1주",
+          "score": 88,
+          "isSelected": true
+        },
+        {
+          "cause": "공과금 연체",
+          "solution": "전기·가스·수도·관리비 자동이체 + 납부일 알림 (가산금 제거)",
+          "type": "퀵윈",
+          "cost": "없음",
+          "period": "즉시",
+          "score": 90,
+          "isSelected": true
+        },
+        {
+          "cause": "방치 구독",
+          "solution": "미사용 OTT·클라우드·멤버십 해지 (월 약 10만원)",
+          "type": "퀵윈",
+          "cost": "없음(해지)",
+          "period": "1주",
+          "score": 86,
+          "isSelected": true
+        },
+        {
+          "cause": "배달·외식 충동",
+          "solution": "배달앱 결제수단 분리·월 한도 설정 (월 약 10만원)",
+          "type": "퀵윈",
+          "cost": "없음",
+          "period": "1주",
+          "score": 82,
+          "isSelected": true
+        },
+        {
+          "cause": "선저축 실패",
+          "solution": "급여일 D+1, 200만원 자동이체(생활비 계좌와 분리)",
+          "type": "프로세스",
+          "cost": "없음",
+          "period": "즉시",
+          "score": 95,
+          "isSelected": true
+        },
+        {
+          "cause": "고금리 이자",
+          "solution": "신용대출 우선 상환, 신규 할부 금지",
+          "type": "부채",
+          "cost": "현금흐름 재배분",
+          "period": "12개월",
+          "score": 84,
+          "isSelected": true
+        },
+        {
+          "cause": "감정 매매",
+          "solution": "주식형 30% 상한, 연 1회 리밸런싱, 개별 단타 금지",
+          "type": "규칙",
+          "cost": "없음",
+          "period": "1주",
+          "score": 80,
+          "isSelected": true
+        },
+        {
+          "cause": "결산 부재",
+          "solution": "매월 마지막 일요일 30분 부부 결산(순자산·낭비·다음달 예산)",
+          "type": "표준작업",
+          "cost": "없음",
+          "period": "즉시",
+          "score": 86,
+          "isSelected": true
+        },
+        {
+          "cause": "수익 극대화 유혹",
+          "solution": "레버리지·테마주 집중 — 산포·파산 리스크. 기각",
+          "type": "대안(기각)",
+          "cost": "높음",
+          "period": "-",
+          "score": 22,
+          "isSelected": false
+        }
+      ],
+      "DOE": {
+        "templateId": "svc_doe",
+        "templateName": "가계 개입 조합 파일럿",
+        "factors": [
+          {
+            "name": "선저축 자동이체",
+            "low": "없음",
+            "high": "200만원"
+          },
+          {
+            "name": "고정비 삭감",
+            "low": "현행",
+            "high": "-20만원"
+          },
+          {
+            "name": "월 결산",
+            "low": "없음",
+            "high": "30분 루틴"
+          }
+        ],
+        "factorDetails": [
+          {
+            "name": "선저축 자동이체",
+            "low": "없음",
+            "high": "200만원"
+          },
+          {
+            "name": "고정비 삭감",
+            "low": "현행",
+            "high": "-20만원"
+          },
+          {
+            "name": "월 결산",
+            "low": "없음",
+            "high": "30분 루틴"
+          }
+        ],
+        "response": "월 순저축액(만원)",
+        "design": "2³ 부분실시 (3개월 블록)",
+        "result": "주효과: 선저축 ≫ 고정비 삭감 > 결산. 최적: 세 개 모두 On. 파일럿 평균 약 200만원."
+      },
+      "pilot": {
+        "templateId": "svc_pilot",
+        "templateName": "3개월 가계 파일럿",
+        "period": "3개월",
+        "scope": "부부 가계 (합산)",
+        "successCriteria": "월 순저축 평균 ≥ 160만원, 하한 미달 월 ≤ 1회, 부부 결산 3/3회",
+        "plan": [
+          "0~2주(퀵윈): 통신·구독 정리, 공과금 자동이체, 배달앱 한도",
+          "1개월 차: 선저축 자동이체·계정 정의 고정",
+          "2개월 차: 고정비 절감 효과 확인·부채 상환 스케줄",
+          "3개월 차: 결산 루틴 + 리밸런싱 점검",
+          "실패 시 롤백: 자동이체 금액만 120만원으로 낮추고 원인 기록"
+        ],
+        "result": "퀵윈으로 월 약 30만원 누수 축소 후, 3개월 평균 저축 약 200만원, 하한 미달 0회. 전면 적용(12개월) 진행."
+      },
+      "pokaYoke": {
+        "templateId": "svc_poka",
+        "templateName": "가계 실수 방지",
+        "items": [
+          {
+            "risk": "생활비가 저축을 먹음",
+            "device": "급여일 자동이체",
+            "type": "방지형",
+            "check": "이체 실패 알림 시 당일 수동 이체"
+          },
+          {
+            "risk": "공과금 연체",
+            "device": "자동이체 + 납부일 알림",
+            "type": "방지형",
+            "check": "이체 실패 문자 오면 당일 재납부"
+          },
+          {
+            "risk": "통신·구독 방치",
+            "device": "분기 요금 점검 체크리스트",
+            "type": "검출형",
+            "check": "미사용 회선·구독 있으면 해지"
+          },
+          {
+            "risk": "충동 배달·할부",
+            "device": "전용 카드 한도 하향",
+            "type": "방지형",
+            "check": "한도 변경은 부부 공동 승인"
+          },
+          {
+            "risk": "결산 누락",
+            "device": "캘린더 반복 일정 + 체크리스트",
+            "type": "검출형",
+            "check": "미실시 시 다음 주 강제 일정"
+          }
+        ]
+      },
+      "doeEffects": {
+        "topEffect": "선저축 자동이체",
+        "conclusion": "주효과가 가장 큰 인자: 선저축 자동이체 (대략 +70~80만원)"
+      }
+    },
+    "design": {
+      "templateId": "svc_design",
+      "templateName": "가계 운영 설계 스펙",
+      "title": "가계 현금흐름 CTQ 설계",
+      "requirements": "월 순저축 목표를 급여 프로세스에 심고, 부채·투자는 규칙으로만 움직이게 한다.",
+      "ctqSpecs": "월 순저축 평균 ≥ 200만원, 들쑥날쑥함 축소, 부채비율 ≤ 20%, 비상금 6개월",
+      "constraints": "거주 주택 유지, 자녀 교육 핵심 항목 유지, 투기·레버리지 금지",
+      "verification": "3개월 파일럿 → 12개월 관리도 → 분기 순자산 리뷰",
+      "notes": "이 스펙은 공장 SOP와 같은 역할이다. 예외는 부부 결산에서만 연다.",
+      "spec": "[가계 현금흐름 CTQ 설계]\n요구사항: 선저축을 기본 경로로 고정\nCTQ: 월 순저축 ≥ 200만원, 부채비율 ≤ 20%\n제약: 거주 주택 유지, 레버리지 금지\n검증: 3개월 파일럿 후 12개월 추적",
+      "designSpecs": "[가계 현금흐름 CTQ 설계]\n요구사항: 선저축을 기본 경로로 고정\nCTQ: 월 순저축 ≥ 200만원, 부채비율 ≤ 20%\n제약: 거주 주택 유지, 레버리지 금지\n검증: 3개월 파일럿 후 12개월 추적"
+    },
+    "control": {
+      "monitoringPlan": "【모니터링 KPI】 가계 KPI\n· 월 순저축(만원) | 목표 ≥ 200 | 매월 | 담당:본인 | 에스컬레이션:2개월 연속 150 미만 시 결산 확대\n· 하한 미달 | 목표 0회/분기 | 분기 | 담당:배우자 | 에스컬레이션:발생 즉시 원인 기록\n· 부채비율 | 목표 ≤ 20% | 분기 | 담당:본인 | 에스컬레이션:30% 초과 시 부부 상환 재계획",
+      "sop": "가계 월 결산 표준작업",
+      "training": "부부 공동 1회 워크숍(계정 정의·앱 사용) + 분기 리뷰",
+      "result": "【최종 성과】 가계 성과 요약\n· 월 순저축: 100만원 → 200만원 (목표 달성)\n· 퀵윈(통신·구독·연체·배달): 월 약 30만원 누수 축소\n· 하한 미달 월: 약 17% → 0% (최근 6개월)\n· 부채비율: 약 30% → 약 20%\n· 비상금: 약 1개월 → 약 5개월 (6개월은 진행 중)\n\n퀵윈으로 바로 막고, 선저축·결산으로 유지한다.",
+      "controlPlan": {
+        "templateId": "svc_cp",
+        "templateName": "가계 관리계획",
+        "items": [
+          {
+            "process": "급여 입금",
+            "characteristic": "선저축 이체",
+            "spec": "200만원 ±0 (실패 시 당일 수동)",
+            "method": "자동이체 로그",
+            "sample": "매월 1회",
+            "owner": "본인",
+            "reaction": "실패 알림 → 당일 이체 → 원인 기록"
+          },
+          {
+            "process": "고정비",
+            "characteristic": "월 고정비 합계",
+            "spec": "≤ 400만원 (삭감 후 대략 기준)",
+            "method": "가계부 합계",
+            "sample": "매월",
+            "owner": "배우자",
+            "reaction": "초과 시 구독·보험 재점검"
+          },
+          {
+            "process": "통신·구독",
+            "characteristic": "월 통신+구독 합계",
+            "spec": "≤ 20만원",
+            "method": "청구서·가계부",
+            "sample": "매월",
+            "owner": "배우자",
+            "reaction": "초과 시 요금제·구독 재점검"
+          },
+          {
+            "process": "공과금",
+            "characteristic": "연체 횟수",
+            "spec": "월 0회",
+            "method": "자동이체 로그",
+            "sample": "매월",
+            "owner": "본인",
+            "reaction": "연체 발생 시 당일 납부·이체 재등록"
+          },
+          {
+            "process": "부채",
+            "characteristic": "신용·할부 잔액",
+            "spec": "신규 증가 0, 상환 스케줄 준수",
+            "method": "은행 앱",
+            "sample": "매월",
+            "owner": "본인",
+            "reaction": "신규 발생 시 결산에서 원점 검토"
+          },
+          {
+            "process": "투자",
+            "characteristic": "주식형 비중",
+            "spec": "≤ 30%",
+            "method": "계좌 평가액",
+            "sample": "분기",
+            "owner": "본인",
+            "reaction": "초과 시 다음 결산일 리밸런싱"
+          },
+          {
+            "process": "월 결산",
+            "characteristic": "실시 여부",
+            "spec": "매월 1회, 30분, 체크리스트 완료",
+            "method": "캘린더+시트",
+            "sample": "매월",
+            "owner": "부부",
+            "reaction": "미실시 시 7일 내 보충 일정"
+          }
+        ]
+      },
+      "standardWork": {
+        "templateId": "svc_sop",
+        "templateName": "가계 월 결산 SOP",
+        "title": "가계 월 결산 표준작업",
+        "purpose": "순저축·순자산·누수를 같은 정의로 매달 확인하고 규칙을 유지한다.",
+        "scope": "급여 이체 확인, 고정비·부채·투자 비중, 다음 달 예산",
+        "safety": "투자 결정은 결산 자리에서만. 감정 매매 금지.",
+        "steps": [
+          {
+            "step": 1,
+            "action": "이체 확인",
+            "detail": "선저축 200만원 로그 확인. 실패 시 즉시 수동 이체."
+          },
+          {
+            "step": 2,
+            "action": "계정 집계",
+            "detail": "고정/변동/부채/저축을 사전 코드로 합산. 차이 >5만원이면 원인 적기."
+          },
+          {
+            "step": 3,
+            "action": "CTQ 기록",
+            "detail": "순저축, 부채비율, 비상금 월수를 관리표에 기입."
+          },
+          {
+            "step": 4,
+            "action": "규칙 점검",
+            "detail": "주식형 30% 상한, 신규 할부 여부, 구독 변동."
+          },
+          {
+            "step": 5,
+            "action": "다음달 예산",
+            "detail": "교육비 등 특이 항목만 합의. 기본은 자동이체 유지."
+          },
+          {
+            "step": 6,
+            "action": "서명",
+            "detail": "부부 모두 시트에 확인. 예외는 이 자리에만 적는다."
+          }
+        ],
+        "training": "최초 1회 공동 워크숍, 이후 분기마다 정의가 흔들렸는지 확인"
+      },
+      "monitoring": {
+        "templateId": "svc_mon",
+        "templateName": "가계 KPI 모니터링",
+        "kpis": [
+          {
+            "name": "월 순저축(만원)",
+            "target": "≥ 200",
+            "frequency": "매월",
+            "owner": "본인",
+            "escalation": "2개월 연속 150 미만 시 결산 확대"
+          },
+          {
+            "name": "하한 미달 횟수",
+            "target": "분기 0회",
+            "frequency": "분기",
+            "owner": "배우자",
+            "escalation": "발생 즉시 원인 기록"
+          },
+          {
+            "name": "부채비율",
+            "target": "≤ 20%",
+            "frequency": "분기",
+            "owner": "본인",
+            "escalation": "30% 초과 시 부부 상환 재계획"
+          }
+        ]
+      },
+      "resultSummary": {
+        "templateId": "svc_res",
+        "templateName": "가계 성과 요약",
+        "metrics": [
+          {
+            "name": "월 순저축",
+            "before": "100만원",
+            "after": "200만원",
+            "note": "목표 달성"
+          },
+          {
+            "name": "퀵윈 절감",
+            "before": "—",
+            "after": "월 약 30만원",
+            "note": "통신·구독·연체·배달"
+          },
+          {
+            "name": "하한 미달 월",
+            "before": "약 17%",
+            "after": "0% (6개월)",
+            "note": ""
+          },
+          {
+            "name": "부채비율",
+            "before": "약 30%",
+            "after": "약 20%",
+            "note": ""
+          },
+          {
+            "name": "비상금",
+            "before": "약 1개월",
+            "after": "약 5개월",
+            "note": "6개월은 진행 중"
+          }
+        ],
+        "summary": "가계를 프로세스로 고정하자 저축이 ‘의지’가 아니라 이체 결과가 되었다. 장기 Y(5년 10억)는 이 관리계획이 유지될 때만 성립한다."
+      },
+      "completeChecks": {
+        "sop": true,
+        "training": true,
+        "monitoring": true,
+        "result": true,
+        "approve": true
+      },
+      "controlPlanSummary": "【관리계획서】 가계 관리계획\n· [급여] 선저축 200만원 | 매월 자동이체\n· [고정비] ≤ 400만원 | 매월 합계\n· [통신·구독] ≤ 20만원 | 매월\n· [공과금] 연체 0회 | 매월 자동이체\n· [부채] 신규 증가 0 | 매월\n· [투자] 주식형 ≤ 30% | 분기\n· [결산] 월 1회 30분 | 체크리스트",
+      "beforeAfter": {
+        "before": {
+          "defectRate": "17",
+          "dpmo": "170000",
+          "cpk": "0.3",
+          "sigma": "0.8"
+        },
+        "after": {
+          "defectRate": "0",
+          "dpmo": "10000",
+          "cpk": "1.2",
+          "sigma": "3.5"
+        }
+      }
+    },
+    "verify": {
+      "verificationResults": "",
+      "result": ""
+    }
+  }
+}

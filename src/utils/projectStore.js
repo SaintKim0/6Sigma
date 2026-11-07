@@ -94,6 +94,7 @@ export function saveUserProject(userId, payload, projectId = null) {
         methodology: payload.methodology || list[idx].methodology,
         industry: payload.industry || list[idx].industry,
         activeStep: payload.activeStep || list[idx].activeStep,
+        folderFileName: payload.folderFileName || list[idx].folderFileName,
         updatedAt: now,
         snapshot: payload
       };
@@ -112,6 +113,7 @@ export function saveUserProject(userId, payload, projectId = null) {
     activeStep: payload.activeStep || 'define',
     createdAt: now,
     updatedAt: now,
+    folderFileName: payload.folderFileName || null,
     snapshot: payload
   };
   list.unshift(project);
@@ -129,6 +131,43 @@ export function deleteUserProject(userId, projectId) {
   writeProjects(userId, next);
   if (getCurrentProjectId() === projectId) setCurrentProjectId(null);
   return next;
+}
+
+export function setProjectFolderFileName(userId, projectId, fileName) {
+  const list = listProjects(userId);
+  const idx = list.findIndex(p => p.id === projectId);
+  if (idx < 0) return null;
+  list[idx] = { ...list[idx], folderFileName: fileName, updatedAt: new Date().toISOString() };
+  writeProjects(userId, list);
+  return list[idx];
+}
+
+export function upsertImportedProject(userId, incoming, folderFileName = null) {
+  if (!userId) throw new Error('로그인이 필요합니다.');
+  if (!incoming?.snapshot) throw new Error('프로젝트 데이터가 없습니다.');
+  const list = listProjects(userId);
+  const now = new Date().toISOString();
+  const id = incoming.id || `p_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+  const project = {
+    id,
+    title: incoming.title || incoming.snapshot?.title || incoming.snapshot?.data?.define?.projectTitle || '가져온 프로젝트',
+    status: incoming.status || 'in_progress',
+    methodology: incoming.methodology || incoming.snapshot?.methodology || null,
+    industry: incoming.industry || incoming.snapshot?.industry || null,
+    activeStep: incoming.activeStep || incoming.snapshot?.activeStep || 'define',
+    createdAt: incoming.createdAt || now,
+    updatedAt: now,
+    folderFileName: folderFileName || incoming.folderFileName || null,
+    snapshot: incoming.snapshot
+  };
+  const idx = list.findIndex(p => p.id === id);
+  if (idx >= 0) {
+    list[idx] = { ...list[idx], ...project, createdAt: list[idx].createdAt || project.createdAt };
+  } else {
+    list.unshift(project);
+  }
+  writeProjects(userId, list);
+  return idx >= 0 ? list[idx] : project;
 }
 
 export function renameUserProject(userId, projectId, title) {

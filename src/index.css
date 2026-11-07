@@ -1,23 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap');
 
 :root {
-  --primary: #2563eb;
-  --primary-dark: #1e40af;
-  --primary-glow: rgba(37, 99, 235, 0.15);
-  --secondary: #64748b;
-  --accent: #fbbf24;
-  --success: #10b981;
-  --danger: #ef4444;
-  --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  --surface: #ffffff;
-  --text-main: #0f172a;
-  --text-muted: #64748b;
-  --border: #e2e8f0;
-  --glass: rgba(255, 255, 255, 0.8);
-  --glass-border: rgba(255, 255, 255, 0.5);
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --paper: #f6f6f3;
+  --ink: #1a1a17;
+  --muted: #5f5f58;
+  --line: #d8d8d1;
+  --soft: #efefea;
+  --accent: #1f4a42;
+  --primary: #1a1a17;
+  --primary-dark: #111110;
+  --primary-glow: rgba(26, 26, 23, 0.08);
+  --secondary: #5f5f58;
+  --success: #2f6f4e;
+  --danger: #9b2c2c;
+  --bg-gradient: #f6f6f3;
+  --surface: #fbfbf8;
+  --text-main: #1a1a17;
+  --text-muted: #5f5f58;
+  --border: #d8d8d1;
+  --glass: #fbfbf8;
+  --glass-border: #d8d8d1;
+  --shadow-sm: none;
+  --shadow: none;
+  --shadow-lg: none;
+  --radius: 6px;
 }
 
 * {
@@ -32,8 +38,8 @@ html {
 }
 
 body {
-  font-family: 'Inter', 'Noto Sans KR', sans-serif;
-  background: var(--bg-gradient);
+  font-family: 'Noto Sans KR', system-ui, 'Apple SD Gothic Neo', sans-serif;
+  background: var(--paper);
   color: var(--text-main);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -67,7 +73,7 @@ select {
 button {
   font-family: inherit;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
 input,
@@ -76,22 +82,25 @@ textarea {
 }
 
 .fade-in {
-  animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: fadeIn 0.35s ease forwards;
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
-/* Scrollbar support */
+@media (prefers-reduced-motion: reduce) {
+  .fade-in {
+    animation: none;
+  }
+}
+
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -101,10 +110,10 @@ textarea {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 10px;
+  background: #c8c8c0;
+  border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #a8a8a0;
 }

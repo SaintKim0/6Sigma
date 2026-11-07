@@ -6,7 +6,6 @@ import {
   Check,
   GraduationCap,
   Minus,
-  Sparkles,
   Users
 } from 'lucide-react';
 import BrandLogo from './BrandLogo';
@@ -223,38 +222,12 @@ export default function PricingPage({
       </header>
 
       <section className="pricing-hero" aria-label="요금 소개">
-        <div className="landing-hero-mesh" aria-hidden="true">
-          <span className="landing-orb landing-orb-a" />
-          <span className="landing-orb landing-orb-b" />
-          <div className="landing-grid-fade" />
-        </div>
         <div className="pricing-hero-content">
-          <motion.p
-            className="landing-pill"
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35 }}
-          >
-            <Sparkles size={14} />
-            Plans · Free → Pro → Edu → Team
-          </motion.p>
-          <motion.h1
-            className="landing-title pricing-title"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, delay: 0.05 }}
-          >
-            프로젝트에 맞는 플랜을 고르세요
-          </motion.h1>
-          <motion.p
-            className="landing-lead"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, delay: 0.1 }}
-          >
+          <h1 className="pricing-title">프로젝트에 맞는 플랜을 고르세요</h1>
+          <p className="pricing-lead">
             개인 실무는 Pro, 수업은 Edu, 팀 협업은 Team.
             지금은 Free로 바로 시작할 수 있고, 유료 결제는 곧 연결됩니다.
-          </motion.p>
+          </p>
 
           <div className="pricing-billing" role="group" aria-label="결제 주기">
             <button

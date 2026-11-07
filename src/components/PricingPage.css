@@ -18,9 +18,8 @@
   position: sticky;
   top: 0;
   z-index: 20;
-  background: rgba(255, 251, 247, 0.88);
-  border-bottom: 1px solid rgba(251, 146, 60, 0.16);
-  backdrop-filter: blur(12px);
+  background: var(--lp-paper, #fbfbf8);
+  border-bottom: 1px solid var(--lp-line, #d8d8d1);
 }
 
 .pricing-topbar-inner {
@@ -38,20 +37,19 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  border: 1px solid rgba(251, 146, 60, 0.28);
-  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--lp-line, #d8d8d1);
+  background: var(--lp-paper, #fbfbf8);
   color: var(--lp-ink);
   font-family: inherit;
-  font-weight: 700;
+  font-weight: 500;
   font-size: 0.9rem;
   padding: 0.5rem 0.9rem;
-  border-radius: 999px;
+  border-radius: 6px;
   cursor: pointer;
 }
 
 .pricing-back:hover {
-  border-color: rgba(251, 113, 133, 0.45);
-  background: #fff;
+  background: #efefea;
 }
 
 .pricing-top-brand .landing-brand-name {
@@ -73,9 +71,6 @@
 }
 
 .pricing-hero {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
   padding: clamp(2rem, 5vw, 3.5rem) clamp(1.25rem, 4vw, 3.5rem) 0.5rem;
 }
 
@@ -88,15 +83,27 @@
 
 .pricing-title {
   max-width: 16em;
+  margin: 0;
+  font-size: clamp(1.85rem, 4vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.25;
+}
+
+.pricing-lead {
+  margin: 0.85rem 0 1.25rem;
+  max-width: 36em;
+  color: var(--lp-muted);
+  line-height: 1.65;
 }
 
 .pricing-billing {
   display: inline-flex;
-  padding: 0.3rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(251, 146, 60, 0.22);
-  gap: 0.25rem;
+  padding: 0.2rem;
+  border-radius: 6px;
+  background: var(--lp-paper, #fbfbf8);
+  border: 1px solid var(--lp-line, #d8d8d1);
+  gap: 0.2rem;
   margin-bottom: 0.5rem;
 }
 
@@ -104,11 +111,11 @@
   border: none;
   background: transparent;
   font-family: inherit;
-  font-weight: 800;
+  font-weight: 500;
   font-size: 0.92rem;
   color: var(--lp-muted);
-  padding: 0.55rem 1rem;
-  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  border-radius: 4px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -116,21 +123,21 @@
 }
 
 .pricing-billing button.is-active {
-  background: linear-gradient(120deg, #fb7185 0%, #fb923c 100%);
-  color: #fff;
+  background: var(--lp-ink);
+  color: #f6f6f3;
 }
 
 .pricing-billing-save {
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 500;
   padding: 0.15rem 0.45rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.28);
+  border-radius: 4px;
+  background: rgba(246, 246, 243, 0.16);
 }
 
 .pricing-billing button:not(.is-active) .pricing-billing-save {
-  background: #fff7ed;
-  color: #c2410c;
+  background: #efefea;
+  color: var(--lp-muted);
 }
 
 .pricing-cards-section {
@@ -148,17 +155,15 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  background: #fff;
-  border: 1px solid rgba(251, 146, 60, 0.18);
-  border-radius: 18px;
+  background: var(--lp-paper, #fbfbf8);
+  border: 1px solid var(--lp-line, #d8d8d1);
+  border-radius: 8px;
   padding: 1.25rem 1.15rem 1.35rem;
   box-sizing: border-box;
 }
 
 .pricing-card.is-featured {
-  border-color: rgba(251, 113, 133, 0.55);
-  box-shadow: 0 18px 40px -24px rgba(251, 113, 133, 0.55);
-  background: linear-gradient(165deg, #fff 0%, #fff7ed 100%);
+  border-color: var(--lp-ink);
 }
 
 .pricing-card-name-row {
@@ -170,26 +175,25 @@
 
 .pricing-card-name-row h3 {
   margin: 0;
-  font-family: 'Outfit', 'Noto Sans KR', sans-serif;
-  font-size: 1.35rem;
-  font-weight: 800;
+  font-size: 1.2rem;
+  font-weight: 600;
   letter-spacing: -0.02em;
 }
 
 .pricing-badge {
   font-size: 0.72rem;
-  font-weight: 800;
-  color: #fff;
-  background: linear-gradient(120deg, #fb7185, #fb923c);
-  border-radius: 999px;
-  padding: 0.2rem 0.55rem;
+  font-weight: 500;
+  color: #f6f6f3;
+  background: var(--lp-ink);
+  border-radius: 4px;
+  padding: 0.2rem 0.45rem;
 }
 
 .pricing-card-audience {
   margin: 0.35rem 0 0;
   font-size: 0.78rem;
-  font-weight: 700;
-  color: #be123c;
+  font-weight: 500;
+  color: var(--lp-accent, #1f4a42);
 }
 
 .pricing-card-blurb {
@@ -206,9 +210,8 @@
 }
 
 .pricing-card-price strong {
-  font-family: 'Outfit', 'Noto Sans KR', sans-serif;
-  font-size: clamp(1.65rem, 2.2vw, 2rem);
-  font-weight: 800;
+  font-size: clamp(1.5rem, 2.2vw, 1.85rem);
+  font-weight: 600;
   letter-spacing: -0.03em;
   color: var(--lp-ink);
 }
@@ -222,8 +225,8 @@
 .pricing-card-note {
   margin: -0.35rem 0 0;
   font-size: 0.78rem;
-  font-weight: 700;
-  color: #c2410c;
+  font-weight: 500;
+  color: var(--lp-muted);
 }
 
 .pricing-feature-list {
@@ -249,7 +252,7 @@
 .pricing-feature-list li svg {
   flex-shrink: 0;
   margin-top: 0.12rem;
-  color: #e11d48;
+  color: var(--lp-accent, #1f4a42);
 }
 
 .pricing-card-cta {
@@ -267,15 +270,15 @@
 }
 
 .pricing-compare-section {
-  background: #fff;
-  border-top: 1px solid rgba(251, 146, 60, 0.16);
+  background: var(--lp-paper, #fbfbf8);
+  border-top: 1px solid var(--lp-line, #d8d8d1);
 }
 
 .pricing-table-wrap {
   overflow-x: auto;
-  border: 1px solid rgba(251, 146, 60, 0.18);
-  border-radius: 14px;
-  background: #fffbf7;
+  border: 1px solid var(--lp-line, #d8d8d1);
+  border-radius: 8px;
+  background: var(--lp-surface, #f6f6f3);
 }
 
 .pricing-table {
@@ -294,10 +297,9 @@
 }
 
 .pricing-table thead th {
-  font-family: 'Outfit', 'Noto Sans KR', sans-serif;
-  font-weight: 800;
+  font-weight: 600;
   font-size: 0.88rem;
-  background: #fff7ed;
+  background: #efefea;
   color: var(--lp-ink);
 }
 
@@ -322,7 +324,7 @@
 }
 
 .pricing-faq-section {
-  border-top: 1px solid rgba(251, 146, 60, 0.12);
+  border-top: 1px solid var(--lp-line, #d8d8d1);
 }
 
 .pricing-faq-list {
@@ -333,16 +335,16 @@
 }
 
 .pricing-faq-item {
-  border: 1px solid rgba(251, 146, 60, 0.18);
-  border-radius: 12px;
-  background: #fff;
+  border: 1px solid var(--lp-line, #d8d8d1);
+  border-radius: 6px;
+  background: var(--lp-paper, #fbfbf8);
   padding: 0.15rem 0;
 }
 
 .pricing-faq-item summary {
   cursor: pointer;
   list-style: none;
-  font-weight: 800;
+  font-weight: 600;
   font-size: 0.98rem;
   padding: 0.9rem 1.1rem;
   color: var(--lp-ink);

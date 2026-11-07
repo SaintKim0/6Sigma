@@ -482,15 +482,23 @@ export const CURRICULUM_MODULES = [
     order: 4,
     title: '종합 실습: 데모 프로젝트',
     minutes: 40,
-    outcome: '데모 데이터를 불러와 Define~Control 산출물을 한 바퀴 돌아볼 수 있다.',
+    outcome: '제조 또는 재테크 데모를 불러와 Define~Control 산출물을 한 바퀴 돌아볼 수 있다.',
     items: [
       {
-        id: 'gb_04_demo',
+        id: 'gb_04_demo_mfg',
         type: 'guide',
-        title: '헤더 「데모 불러오기」로 전체 흐름 체험',
+        title: '제조 데모: 사출 불량률 감소',
         required: true,
-        body: '교육 실습 모드에서 제조(사출 불량) 데모가 로드됩니다. 본 프로젝트는 그대로 보존됩니다. 체험 후 「본 프로젝트로」또는 「교육과정으로」돌아가세요.',
-        action: { kind: 'demo' }
+        body: '교육 실습 모드에서 스마트폰 케이스 사출 과제가 로드됩니다. 본 프로젝트는 그대로 보존됩니다. 체험 후 「본 프로젝트로」또는 「교육과정으로」돌아가세요.',
+        action: { kind: 'demo', id: 'manufacturing' }
+      },
+      {
+        id: 'gb_04_demo_fin',
+        type: 'guide',
+        title: '재테크 데모: 자산 확대',
+        required: false,
+        body: '가계 현금흐름을 CTQ로 잡은 개인 DMAIC 과제입니다. 팀원은 본인·배우자입니다. 실습 모드에서 열리며 본 프로젝트는 보존됩니다.',
+        action: { kind: 'demo', id: 'finance' }
       },
       {
         id: 'gb_04_story',

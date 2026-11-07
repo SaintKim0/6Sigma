@@ -197,7 +197,7 @@ const A3Report = ({ data, methodology = 'dmaic' }) => {
             <h1 style={styles.title}>{safeText(data.define?.projectTitle, 'Untitled Project')}</h1>
           </div>
           <div style={styles.subtitle}>
-            Team Leader: {data.define?.team?.find(m => /Belt|Champion/i.test(m.role))?.name
+            Team Leader: {data.define?.team?.find(m => /Belt|Champion|본인/i.test(m.role || ''))?.name
               || data.define?.team?.[0]?.name || 'N/A'}
           </div>
         </div>
